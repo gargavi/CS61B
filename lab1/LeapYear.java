@@ -1,7 +1,7 @@
 public class LeapYear {
-	static int year = 1900;
 
-	public static void main (String[] args) { 
+	public static void main (String[] args) {
+		int year = 1900;
 		if (isLeapYear(year)) {
 			System.out.println(year + " is a leap year."); 
 		}
