@@ -1,19 +1,19 @@
 public class LeapYear {
-	int year = 2000; 
+	static int year = 2000; 
 
 	public static void main (String[] args) { 
 		if (isLeapYear(year)) {
-			System.out.println(year + "is a leap year.")
+			System.out.println(year + " is a leap year."); 
 		}
 
 
 
 	}
-	public static boolean isLeapYear(Int giv_year){ 
-		if (year % 400 == 0 ){ 
-			return true }
-		if (year % 4 == 0 && year % 100 != 0 ) { 
-			return true }
+	public static boolean isLeapYear(int giv_year){ 
+		if (giv_year % 400 == 0 ){ 
+			return true; }
+		if (giv_year % 4 == 0 && giv_year % 100 != 0 ) { 
+			return true; }
 		return false; 
 	}
 
