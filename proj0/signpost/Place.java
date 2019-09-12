@@ -85,6 +85,7 @@ class Place {
         return DY[dir];
     }
 
+
     /** Return an array, M, such that M[x][y][dir] is a list of Places that are
      *  one queen move away from square (x, y) in direction dir on a
      *  WIDTH x HEIGHT board.  Additionally, M[x][y][0] is a list of all Places
@@ -93,7 +94,23 @@ class Place {
     static PlaceList[][][] successorCells(int width, int height) {
         PlaceList[][][] M = new PlaceList[width][height][9];
         int lim = Math.max(width, height);
-        // FIXME
+
+        for(int i = 0; i < width; i+=1){
+            for(int j = 0; j< height; j+=1){
+                for(int k = 0; k < 10; k+=1){
+                    Place[] temp = new Place[lim];
+                    int i = 0;
+                    for(int x = 0; x < width; x+=1){
+                        for(int y = 0; y < width; y+=1){
+                            int a = 1;
+
+                        }
+                    }
+                }
+            }
+        }
+
+
         return M;
     }
 

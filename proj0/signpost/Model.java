@@ -93,6 +93,14 @@ class Model implements Iterable<Model.Sq> {
             }
         }
         // END DUMMY SETUP
+        _board = new Sq[_width][_height];
+        for(int i = 0; i < _width; i+= 1){
+            for(int j=0; j < _height; j+=1){
+                _board[i][j] = new Sq(i, j , 0, false, 0, -1);
+            }
+
+        }
+
 
         // FIXME: Initialize _board so that _board[x][y] contains the Sq object
         //        representing the contents at cell (x, y), _allSquares
@@ -101,6 +109,7 @@ class Model implements Iterable<Model.Sq> {
         //        contains sequence number k.  Check that all numbers from
         //        1 - last appear; else throw IllegalArgumentException (see
         //        badArgs utility).
+
 
         // FIXME: For each Sq object on the board, set its _successors and
         //        _predecessor lists to the lists of locations of all cells
