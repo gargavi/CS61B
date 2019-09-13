@@ -143,13 +143,18 @@ public class IntDList {
     public String toString() {
         String output = "[";
         DNode current = _front;
-        while(current._next != null){
-            output += current._val; 
+        if (current == null){
+            return "[]";
         }
-
+        while(current._next != null){
+            output += Integer.toString(current._val);
+            output += ", ";
+            current = current._next;
+        }
+        output += Integer.toString(current._val);
         output += "]";
+        return output;
 
-        // Your code here
     }
 
     /**
