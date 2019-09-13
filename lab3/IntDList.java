@@ -46,7 +46,18 @@ public class IntDList {
      * @return The number of elements in this list.
      */
     public int size() {
-        return 0;   // Your code here
+        if (_front == null){
+            return 0;
+        }
+        else {
+            int i = 1;
+            DNode current = _front;
+            while (current._next != null) {
+                current = current._next;
+                i++;
+            }
+            return i;
+        }
     }
 
     /**
@@ -60,21 +71,48 @@ public class IntDList {
      * @return The integer value at index i
      */
     public int get(int i) {
-        return 0;   // Your code here
+        DNode current = _front;
+        if(i < 0){
+            i += size();
+        }
+        while(i != 0){
+            current = current._next;
+            i -= 1;
+        }
+        return current._val;
     }
 
     /**
      * @param d value to be inserted in the front
      */
     public void insertFront(int d) {
-        // Your code here
+        if (_front != null) {
+            DNode temp = new DNode(null, d, _front);
+            _front._prev = temp;
+            _front = temp;
+        }else {
+            DNode temp = new DNode(d);
+            _front = temp;
+            _back = temp;
+        }
     }
 
     /**
      * @param d value to be inserted in the back
      */
     public void insertBack(int d) {
-        // Your code here
+        if (_back != null) {
+            DNode temp = new DNode(_back, d, null);
+            _back._next = temp;
+            _back = temp;
+        } else{
+            DNode temp = new DNode(null, d, null );
+            _front = temp;
+            _back = temp;
+
+        }
+
+
     }
 
     /**
@@ -83,8 +121,15 @@ public class IntDList {
      * @return the item that was deleted
      */
     public int deleteBack() {
-        return 0;   // Your code here
-
+         int a = _back._val;
+         if (_back._prev == null){
+             _front = null;
+             _back = null;
+         } else{
+             _back = _back._prev;
+             _back._next = null;
+         }
+         return a;
     }
 
     /**
@@ -96,7 +141,15 @@ public class IntDList {
      * System.out.println(a); //prints ab
      */
     public String toString() {
-        return null;   // Your code here
+        String output = "[";
+        DNode current = _front;
+        while(current._next != null){
+            output += current._val; 
+        }
+
+        output += "]";
+
+        // Your code here
     }
 
     /**
