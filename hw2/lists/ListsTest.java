@@ -3,14 +3,22 @@ package lists;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/** FIXME
+/** Lists Testing
  *
- *  @author FIXME
+ *  @author Avi Garg
  */
 
 public class ListsTest {
-    /** FIXME
-     */
+
+
+    @Test
+    public void testNaturalRuns(){
+        IntList a = IntList.list(1,2,3,4,3,4,1,2);
+        assertEquals(Lists.naturalRuns(a), IntListList.list(new int[][]{{1,2,3,4}, {3,4}, {1,2}}));
+
+
+    }
+
 
     // It might initially seem daunting to try to set up
     // IntListList expected.

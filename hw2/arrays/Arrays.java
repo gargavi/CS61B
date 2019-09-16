@@ -6,32 +6,74 @@ package arrays;
 /** HW #2 */
 
 /** Array utilities.
- *  @author
+ *  @author Avi Garg
  */
 class Arrays {
     /* C. */
-    /** Returns a new array consisting of the elements of A followed by the
-     *  the elements of B. */
+
+    /**
+     * Returns a new array consisting of the elements of A followed by the
+     * the elements of B.
+     */
     static int[] catenate(int[] A, int[] B) {
         /* *Replace this body with the solution. */
-        return null;
+        int[] total = new int[A.length + B.length];
+        System.arraycopy(A, 0, total, 0, A.length);
+        System.arraycopy(B, 0, total, A.length, B.length);
+        return total;
     }
 
-    /** Returns the array formed by removing LEN items from A,
-     *  beginning with item #START. */
+    /**
+     * Returns the array formed by removing LEN items from A,
+     * beginning with item #START.
+     */
     static int[] remove(int[] A, int start, int len) {
         /* *Replace this body with the solution. */
-        return null;
+        int[] B = new int[A.length - len];
+        int k = 0;
+        while (k < start) {
+            B[k] = A[k];
+            k++;
+        }
+        while (k < B.length) {
+            B[k] = A[k + len];
+            k++;
+        }
+        return B;
+
     }
 
     /* E. */
-    /** Returns the array of arrays formed by breaking up A into
-     *  maximal ascending lists, without reordering.
-     *  For example, if A is {1, 3, 7, 5, 4, 6, 9, 10}, then
-     *  returns the three-element array
-     *  {{1, 3, 7}, {5}, {4, 6, 9, 10}}. */
+
+    /**
+     * Returns the array of arrays formed by breaking up A into
+     * maximal ascending lists, without reordering.
+     * For example, if A is {1, 3, 7, 5, 4, 6, 9, 10}, then
+     * returns the three-element array
+     * {{1, 3, 7}, {5}, {4, 6, 9, 10}}.
+     */
+    
+
+
     static int[][] naturalRuns(int[] A) {
         /* *Replace this body with the solution. */
-        return null;
+        int k = 0;
+        int[][] total = new int[0][0];
+        int high = 0;
+        int i = 0;
+        while(A.length != 0){
+            if(A[k] > high){
+                high = A[k];
+                k += 1;
+            } else {
+                total[i] = Utils.subarray(A, 0, k+1);
+                A = Utils.subarray(A,k, A.length -k );
+                i += 1;
+                high = A[0];
+            }
+
+        }
+        return total;
     }
 }
+

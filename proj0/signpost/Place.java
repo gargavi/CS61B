@@ -94,25 +94,36 @@ class Place {
     static PlaceList[][][] successorCells(int width, int height) {
         PlaceList[][][] M = new PlaceList[width][height][9];
         int lim = Math.max(width, height);
-
-        for(int i = 0; i < width; i+=1){
-            for(int j = 0; j< height; j+=1){
-                for(int k = 0; k < 10; k+=1){
-                    Place[] temp = new Place[lim];
-                    int i = 0;
-                    for(int x = 0; x < width; x+=1){
-                        for(int y = 0; y < width; y+=1){
-                            int a = 1;
-
+        Place[] all = new Place[width*height];
+        int k = 0;
+        for (int i = 0; i < width; i++){
+            for(int j = 0; j < height; j++ ){
+                all[k] = new Place(i,j);
+            }
+        }
+        for(int i = 0; i < width; i++ ){
+            for(int j = 0; j < height; j++){
+                Place temp  = new Place(i,j);
+                PlaceList total = new PlaceList();
+                for(k = 1; k < 10; k ++){
+                    PlaceList direc = new PlaceList();
+                    for (Place he: all){
+                        if (temp.dirOf(he)==k){
+                            total.add(he);
+                            direc.add(he);
                         }
                     }
+                    M[i][j][k] = direc;
                 }
+                M[i][j][0] = total;
             }
         }
 
-
         return M;
+        // Need to somehow iterate through all i,j in width and height respectively and collect the directions
     }
+
+
 
     @Override
     public boolean equals(Object obj) {

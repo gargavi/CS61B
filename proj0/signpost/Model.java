@@ -77,28 +77,16 @@ class Model implements Iterable<Model.Sq> {
 
         // DUMMY SETUP
         // FIXME: Remove everything down "// END DUMMY SETUP".
-        _board = new Sq[][] {
-            { new Sq(0, 0, 0, false, 2, -1), new Sq(0, 1, 0, false, 2, -1),
-              new Sq(0, 2, 0, false, 4, -1), new Sq(0, 3, 1, true, 2, 0) },
-            { new Sq(1, 0, 0, false, 2, -1), new Sq(1, 1, 0, false, 2, -1),
-              new Sq(1, 2, 0, false, 6, -1), new Sq(1, 3, 0, false, 2, -1) },
-            { new Sq(2, 0, 0, false, 6, -1), new Sq(2, 1, 0, false, 2, -1),
-              new Sq(2, 2, 0, false, 6, -1), new Sq(2, 3, 0, false, 2, -1) },
-            { new Sq(3, 0, 16, true, 0, 0), new Sq(3, 1, 0, false, 5, -1),
-              new Sq(3, 2, 0, false, 6, -1), new Sq(3, 3, 0, false, 4, -1) }
-        };
-        for (Sq[] col: _board) {
-            for (Sq sq : col) {
-                _allSquares.add(sq);
-            }
-        }
+
         // END DUMMY SETUP
         _board = new Sq[_width][_height];
         for(int i = 0; i < _width; i+= 1){
             for(int j=0; j < _height; j+=1){
-                _board[i][j] = new Sq(i, j , 0, false, 0, -1);
+                int a = solution[i][j];
+                _board[i][j] = new Sq(i, j , a, false, 0, -1);
+                _allSquares.add(_board[i][j]);
+                _solnNumToPlace[a] = Place.pl(i,j);
             }
-
         }
 
 
@@ -110,7 +98,10 @@ class Model implements Iterable<Model.Sq> {
         //        1 - last appear; else throw IllegalArgumentException (see
         //        badArgs utility).
 
-
+        for(Sq a: _allSquares){
+            a._successors = allSuccessors(a.pl, a._dir);
+            a._predecessors = allSuccessors(a.pl, 0);
+        }
         // FIXME: For each Sq object on the board, set its _successors and
         //        _predecessor lists to the lists of locations of all cells
         //        that it might connect to (i.e., all cells that are a queen
@@ -515,8 +506,17 @@ class Model implements Iterable<Model.Sq> {
          *    of the same connected sequence.
          */
         boolean connectable(Sq s1) {
-            // FIXME
-            return true;
+            if ((pl.dirOf(s1.pl)==_dir )&& (s1._predecessor == null) && (_successor == null)){
+                if((s1._sequenceNum == 0) && (_sequenceNum == 0)){
+                    return true;
+                } else {
+                    return (s1._sequenceNum - 1 == _sequenceNum);
+                }
+
+
+            }
+
+            return false;
         }
 
         /** Connect me to S1, if we are connectable; otherwise do nothing.
@@ -529,6 +529,24 @@ class Model implements Iterable<Model.Sq> {
             int sgroup = s1.group();
 
             _unconnected -= 1;
+
+            _successor = s1;
+            s1._predecessor = this;
+
+            Sq current = s1._successor;
+            int temp = _sequenceNum;
+
+
+            while(current != null){
+                if(temp != 0){
+                    temp += 1;
+                    current._successor._sequenceNum = temp;
+                }
+                current._head = _head;
+                current = current._successor;
+                current._group = 0;
+            }
+
 
             // FIXME: Connect me to my successor:
             //        + Set my _successor field and S1's _predecessor field.
