@@ -99,13 +99,14 @@ class Place {
         for (int i = 0; i < width; i++){
             for(int j = 0; j < height; j++ ){
                 all[k] = new Place(i,j);
+                k += 1;
             }
         }
         for(int i = 0; i < width; i++ ){
             for(int j = 0; j < height; j++){
                 Place temp  = new Place(i,j);
                 PlaceList total = new PlaceList();
-                for(k = 1; k < 10; k ++){
+                for(k = 1; k < 9; k ++){
                     PlaceList direc = new PlaceList();
                     for (Place he: all){
                         if (temp.dirOf(he)==k){

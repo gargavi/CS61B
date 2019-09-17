@@ -70,27 +70,49 @@ class Model implements Iterable<Model.Sq> {
         _width = solution.length; _height = solution[0].length;
         int last = _width * _height;
         BitSet allNums = new BitSet();
-
+        _solnNumToPlace = new Place[last + 1];
         _allSuccessors = Place.successorCells(_width, _height);
         _solution = new int[_width][_height];
         deepCopy(solution, _solution);
 
         // DUMMY SETUP
-        // FIXME: Remove everything down "// END DUMMY SETUP".
+        // FIXED: Remove everything down "// END DUMMY SETUP".
 
         // END DUMMY SETUP
         _board = new Sq[_width][_height];
+
+        for(int i = 0; i < _width; i+=1){
+            for(int j=0; j <_height; j+=1){
+                int a = solution[i][j];
+                _solnNumToPlace[a] = Place.pl(i,j);
+
+            }
+        }
+        boolean yuh = true;
+        for(Place a: _solnNumToPlace){
+            if (a == null){
+                yuh = !yuh;
+            }
+        }
+        if(yuh){
+            throw badArgs("must have all numbers inside");
+        }
+
         for(int i = 0; i < _width; i+= 1){
             for(int j=0; j < _height; j+=1){
                 int a = solution[i][j];
-                _board[i][j] = new Sq(i, j , a, false, 0, -1);
+                if(a == 1 || a == last){
+                    _board[i][j] = new Sq(i, j , a, true, arrowDirection(i,j), -1);
+                } else{
+                    _board[i][j] = new Sq(i, j, 0, false, arrowDirection(i,j), -1);
+                }
                 _allSquares.add(_board[i][j]);
-                _solnNumToPlace[a] = Place.pl(i,j);
             }
         }
 
 
-        // FIXME: Initialize _board so that _board[x][y] contains the Sq object
+
+        // FIXED: Initialize _board so that _board[x][y] contains the Sq object
         //        representing the contents at cell (x, y), _allSquares
         //        contains the list of all Sq objects on the board, and
         //        _solnNumToPlace[k] contains the Place in _solution that
@@ -102,7 +124,7 @@ class Model implements Iterable<Model.Sq> {
             a._successors = allSuccessors(a.pl, a._dir);
             a._predecessors = allSuccessors(a.pl, 0);
         }
-        // FIXME: For each Sq object on the board, set its _successors and
+        // FIXED: For each Sq object on the board, set its _successors and
         //        _predecessor lists to the lists of locations of all cells
         //        that it might connect to (i.e., all cells that are a queen
         //        move away in the direction of its arrow, and of all cells
@@ -136,12 +158,12 @@ class Model implements Iterable<Model.Sq> {
         }
 
 
-        // FIXME: Initialize _board and _allSquares to contain copies of the
+        // FIXED: Initialize _board and _allSquares to contain copies of the
         //        the Sq objects in MODEL other than their _successor,
         //        _predecessor, and _head fields (which can't necessarily be
         //        set until all the necessary Sq objects are first created.)
 
-        // FIXME: Fill in the _successor, _predecessor, and _head fields of the
+        // FIXED: Fill in the _successor, _predecessor, and _head fields of the
         //        copied Sq objects.
     }
 
@@ -206,10 +228,10 @@ class Model implements Iterable<Model.Sq> {
             }
         }
 
-        // FIXME: Initialize _board to contain nulls and clear all objects from
+        // FIXED: Initialize _board to contain nulls and clear all objects from
         //        _allSquares.
 
-        // FIXME: Initialize _allSuccSquares so that _allSuccSquares[x][y][dir]
+        // FIXED: Initialize _allSuccSquares so that _allSuccSquares[x][y][dir]
         //        is a list of all the Places on the board that are a queen
         //        move in direction DIR from (x, y) and _allSuccSquares[x][y][0]
         //        is a list of all Places that are one queen move from in
@@ -247,9 +269,7 @@ class Model implements Iterable<Model.Sq> {
     }
 
     /** Return the cell at (X, Y). */
-    final Sq get(int x, int y) {
-        return _board[x][y];
-    }
+    final Sq get(int x, int y) { return _board[x][y]; }
 
     /** Return the cell at P. */
     final Sq get(Place p) {
@@ -267,14 +287,22 @@ class Model implements Iterable<Model.Sq> {
      *  any changes were made. */
     boolean autoconnect() {
 
+        boolean happ = false;
         for(Sq x: _allSquares){
+            if(x._sequenceNum != 0 && x._successor == null){
+                for(Place y: allSuccessors(x.pl, 0)){
+                    if (get(y)._sequenceNum == x._sequenceNum + 1){
+                        x.connect(get(y));
+                        happ = true;
 
-
+                    }
+                }
+            }
 
         }
 
 
-        return false; // FIXME
+        return happ; // FIXME
     }
 
 
@@ -282,7 +310,10 @@ class Model implements Iterable<Model.Sq> {
     /** Sets the numbers in my squares to the solution from which I was
      *  last initialized by the constructor. */
     void solve() {
-        // FIXME
+        for(int i = 1; i < _width*_height; i ++){
+            get(solnNumToPlace(i))._sequenceNum = i;
+        }
+
         _unconnected = 0;
     }
 
@@ -290,10 +321,14 @@ class Model implements Iterable<Model.Sq> {
      *  successor, or 0 if it has none. */
     private int arrowDirection(int x, int y) {
         int seq0 = _solution[x][y];
+        int seq1 = seq0 + 1;
+        if(seq1 >= _solnNumToPlace.length){
+            return 0;
+        } else{
+            Place temp = _solnNumToPlace[seq1];
+            return Place.pl(x,y).dirOf(temp);
+        }
 
-
-        // FIXME
-        return 0;
     }
 
     /** Return a new, currently unused group number > 0.  Selects the
@@ -549,11 +584,10 @@ class Model implements Iterable<Model.Sq> {
         boolean connectable(Sq s1) {
             if ((pl.dirOf(s1.pl)==_dir )&& (s1._predecessor == null) && (_successor == null)){
                 if((s1._sequenceNum == 0) && (_sequenceNum == 0)){
-                    return true;
+                    return !(_head == s1._head);
                 } else {
                     return (s1._sequenceNum - 1 == _sequenceNum);
                 }
-
 
             }
 
@@ -574,14 +608,18 @@ class Model implements Iterable<Model.Sq> {
             _successor = s1;
             s1._predecessor = this;
 
-            Sq current = s1._successor;
+            Sq current = s1;
             int temp = _sequenceNum;
+            int temp2 = s1._sequenceNum;
 
 
             while(current != null){
                 if(temp != 0){
                     temp += 1;
                     current._successor._sequenceNum = temp;
+                }else if(temp2 != 0){
+
+
                 }
                 current._head = _head;
                 current = current._successor;
