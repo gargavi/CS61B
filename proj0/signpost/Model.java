@@ -120,6 +120,22 @@ class Model implements Iterable<Model.Sq> {
         _usedGroups.addAll(model._usedGroups);
         _allSuccessors = model._allSuccessors;
 
+        _board = new Sq[_width][_height];
+        for(int i = 0; i < _width; i+= 1){
+            for(int j=0; j < _height; j+=1){
+                Sq a = model._board[i][j];
+                _board[i][j] = new Sq(a);
+                _allSquares.add(_board[i][j]);
+            }
+        }
+        for (Sq a: _allSquares){
+            Sq b = model.get(a);
+            a._successor = b.successor();
+            a._predecessor = b.predecessor();
+            a._head = b.head();
+        }
+
+
         // FIXME: Initialize _board and _allSquares to contain copies of the
         //        the Sq objects in MODEL other than their _successor,
         //        _predecessor, and _head fields (which can't necessarily be
@@ -177,6 +193,19 @@ class Model implements Iterable<Model.Sq> {
         _unconnected = _width * _height - 1;
         _solution = null;
         _usedGroups.clear();
+
+        _board = new Sq[width][height];
+        _allSquares.clear();
+        PlaceList[][][] _allSuccSquares = new PlaceList[width][height][9];
+
+        for(int i =0; i <width; i++){
+            for(int j=0; j < height; j++){
+                for(int k=0; k< 10; k++){
+                    _allSuccSquares[i][j][k] = allSuccessors(i, j, k);
+                }
+            }
+        }
+
         // FIXME: Initialize _board to contain nulls and clear all objects from
         //        _allSquares.
 
@@ -237,8 +266,18 @@ class Model implements Iterable<Model.Sq> {
      *  unconnected and are separated by a queen move.  Returns true iff
      *  any changes were made. */
     boolean autoconnect() {
+
+        for(Sq x: _allSquares){
+
+
+
+        }
+
+
         return false; // FIXME
     }
+
+
 
     /** Sets the numbers in my squares to the solution from which I was
      *  last initialized by the constructor. */
@@ -251,6 +290,8 @@ class Model implements Iterable<Model.Sq> {
      *  successor, or 0 if it has none. */
     private int arrowDirection(int x, int y) {
         int seq0 = _solution[x][y];
+
+
         // FIXME
         return 0;
     }

@@ -52,7 +52,7 @@ class Arrays {
      * returns the three-element array
      * {{1, 3, 7}, {5}, {4, 6, 9, 10}}.
      */
-    
+
 
 
     static int[][] naturalRuns(int[] A) {
