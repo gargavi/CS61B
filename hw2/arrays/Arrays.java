@@ -56,24 +56,30 @@ class Arrays {
 
 
     static int[][] naturalRuns(int[] A) {
-        /* *Replace this body with the solution. */
-        int k = 0;
-        int[][] total = new int[0][0];
-        int high = 0;
-        int i = 0;
-        while(A.length != 0){
-            if(A[k] > high){
-                high = A[k];
-                k += 1;
-            } else {
-                total[i] = Utils.subarray(A, 0, k+1);
-                A = Utils.subarray(A,k, A.length -k );
-                i += 1;
-                high = A[0];
-            }
 
+        //Utils.subarray()
+        int high = 0;
+        int k = 0;
+        while(k < A.length && A[k] > high){
+            high = A[k];
+            k +=1;
         }
-        return total;
+        int[] first = Utils.subarray(A, 0, k);
+        int[] remain = Utils.subarray(A, k, A.length - k );
+
+        if (remain.length != 0){
+            int[][] partial = naturalRuns(remain);
+            int[][] total = new int[partial.length +1][];
+            total[0] = first;
+            System.arraycopy(partial, 0, total, 1, partial.length);
+            return total;
+        } else {
+            int[][] partial = new int[1][];
+            partial[0] = first;
+            return partial;
+        }
+
+
     }
 }
 

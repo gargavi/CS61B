@@ -29,9 +29,7 @@ public class ArraysTest {
     public void testNaturalRuns(){
         int[] A =  new int[]{1, 3, 7, 5, 4, 6, 9, 10};
         int[][] B = new int[][]{{1,3,7}, {5}, {4,6,9,10}};
-        assertArrayEquals(Arrays.naturalRuns(A)[0], B[0]);
-        assertArrayEquals(Arrays.naturalRuns(A)[1], B[1]);
-        assertArrayEquals(Arrays.naturalRuns(A)[2], B[2]);
+        assertArrayEquals(Arrays.naturalRuns(A), B);
 
     }
 
