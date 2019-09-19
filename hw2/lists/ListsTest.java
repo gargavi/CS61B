@@ -15,7 +15,8 @@ public class ListsTest {
     public void testNaturalRuns(){
         IntList a = IntList.list(1,2,3,4,3,4,1,2);
         assertEquals(Lists.naturalRuns(a), IntListList.list(new int[][]{{1,2,3,4}, {3,4}, {1,2}}));
-
+        a = IntList.list(7, 9, 12, 12, 12, 10, 10, 4, 5 );
+        assertEquals(Lists.naturalRuns(a), IntListList.list(new int[][]{{ 7, 9, 12}, {12}, {12}, {10}, {10}, {4,5}}));
 
     }
 

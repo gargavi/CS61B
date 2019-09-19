@@ -30,6 +30,12 @@ public class ArraysTest {
         int[] A =  new int[]{1, 3, 7, 5, 4, 6, 9, 10};
         int[][] B = new int[][]{{1,3,7}, {5}, {4,6,9,10}};
         assertArrayEquals(Arrays.naturalRuns(A), B);
+        A = new int[]{1};
+        B = new int[][]{{1}};
+        assertArrayEquals(Arrays.naturalRuns(A), B);
+        A = new int[]{1,3,5,2,4,6,6};
+        B = new int[][] {{1,3,5}, {2,4,6}, {6}};
+        assertArrayEquals(Arrays.naturalRuns(A), B);
 
     }
 

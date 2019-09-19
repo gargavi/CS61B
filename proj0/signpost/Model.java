@@ -152,11 +152,24 @@ class Model implements Iterable<Model.Sq> {
         }
         for (Sq a: _allSquares){
             Sq b = model.get(a);
-            a._successor = b.successor();
-            a._predecessor = b.predecessor();
-            a._head = b.head();
-        }
 
+            if(b.successor() == null){
+                a._successor = null;
+            } else{
+                a._successor = get(b.successor().pl);
+            }
+            if(b.predecessor() == null){
+                a._predecessor = null;
+            } else{
+                a._predecessor = get(b.predecessor().pl);
+            }
+            if (b.head() == null){
+                a._head = null;
+            } else{
+                a._head = get(b.head().pl);
+            }
+
+        }
 
         // FIXED: Initialize _board and _allSquares to contain copies of the
         //        the Sq objects in MODEL other than their _successor,
@@ -218,15 +231,9 @@ class Model implements Iterable<Model.Sq> {
 
         _board = new Sq[width][height];
         _allSquares.clear();
-        PlaceList[][][] _allSuccSquares = new PlaceList[width][height][9];
+        //PlaceList[][][] _allSuccSquares = new PlaceList[width][height][9];
 
-        for(int i =0; i <width; i++){
-            for(int j=0; j < height; j++){
-                for(int k=0; k< 10; k++){
-                    _allSuccSquares[i][j][k] = allSuccessors(i, j, k);
-                }
-            }
-        }
+        _allSuccessors = Place.successorCells(width, height);
 
         // FIXED: Initialize _board to contain nulls and clear all objects from
         //        _allSquares.
@@ -584,19 +591,19 @@ class Model implements Iterable<Model.Sq> {
         boolean connectable(Sq s1) {
             if ((pl.dirOf(s1.pl)==_dir )&& (s1._predecessor == null) && (_successor == null)){
                 if((s1._sequenceNum == 0) && (_sequenceNum == 0)){
-                    return !(_head == s1._head);
-                } else {
+                    return !(s1.group() == _group);
+                } else if(s1._sequenceNum !=0 && _sequenceNum != 0){
                     return (s1._sequenceNum - 1 == _sequenceNum);
                 }
-
             }
-
             return false;
         }
 
         /** Connect me to S1, if we are connectable; otherwise do nothing.
          *  Returns true iff we were connectable.  Assumes S1 is in the proper
-         *  arrow direction from me. */
+         *  arrow direction from me.
+         *  Return the group number of my group.  It is 0 if I am numbered, and
+         *          *  -1 if I am alone in my group. */
         boolean connect(Sq s1) {
             if (!connectable(s1)) {
                 return false;
@@ -608,36 +615,52 @@ class Model implements Iterable<Model.Sq> {
             _successor = s1;
             s1._predecessor = this;
 
-            Sq current = s1;
-            int temp = _sequenceNum;
-            int temp2 = s1._sequenceNum;
-
+            Sq current = this;
+            int cur = _sequenceNum;
 
             while(current != null){
-                if(temp != 0){
-                    temp += 1;
-                    current._successor._sequenceNum = temp;
-                }else if(temp2 != 0){
-
-
-                }
-                current._head = _head;
+                current._head = this._head;
                 current = current._successor;
-                current._group = 0;
+            }
+            current = s1;
+
+            if(_group == 0){
+                while(current != null) {
+                    cur += 1;
+                    current._sequenceNum = cur;
+                    current = current._successor;
+                }
+            } else if(sgroup == 0){
+                int a = s1._sequenceNum;
+                _sequenceNum = a - 1;
+                current = s1._successor;
+                while(current != null){
+                    a = a+1;
+                    current._sequenceNum = a;
+                    current = current._successor;
+                }
+            } else {
+                _head._group = joinGroups(_group, s1.group());
+            }
+            if(sgroup == 0 && _group != 0){
+                releaseGroup(_group);
+            }else if(_group == 0 && sgroup!=0){
+                releaseGroup(sgroup);
             }
 
 
+
             // FIXME: Connect me to my successor:
-            //        + Set my _successor field and S1's _predecessor field.
-            //        + If I have a number, number all my successors
+            //        + DONE // Set my _successor field and S1's _predecessor field.
+            //        + DONE // If I have a number, number all my successors
             //          accordingly (if needed).
-            //        + If S1 is numbered, number me and my predecessors
+            //        + DONE // If S1 is numbered, number me and my predecessors
             //          accordingly (if needed).
-            //        + Set the _head fields of my successors to my _head.
-            //        + If either of this or S1 used to be unnumbered and is
+            //        + DONE// Set the _head fields of my successors to my _head.
+            //        + DONE // If either of this or S1 used to be unnumbered and is
             //          now numbered, release its group of whichever was
             //          unnumbered, so that it can be reused.
-            //        + If both this and S1 are unnumbered, set the group of
+            //        + DONE // If both this and S1 are unnumbered, set the group of
             //          my head to the result of joining the two groups.
 
             return true;
@@ -652,6 +675,21 @@ class Model implements Iterable<Model.Sq> {
             _unconnected += 1;
             next._predecessor = _successor = null;
             if (_sequenceNum == 0) {
+                if(_predecessor == null && next._successor == null){
+                    releaseGroup(group());
+                    _group = -1;
+                    next._group = -1;
+
+                } else if (_predecessor == null){
+                        _group = -1;
+
+                } else if(next._successor == null){
+                    next._group = -1;
+                } else{
+                    next._group = newGroup();
+                }
+
+
                 // FIXME: If both this and next are now one-element groups,
                 //        release their former group and set both group
                 //        numbers to -1.
@@ -661,18 +699,67 @@ class Model implements Iterable<Model.Sq> {
                 //        Otherwise, the group has been split into two multi-
                 //        element groups.  Create a new group for next.
             } else {
-                // FIXME: If neither this nor any square in its group that
+                if(predecessor() == null){
+                    _group = 0;
+                } else {
+                    Sq current = this;
+                    boolean fix = false;
+                    while(current != null){
+                        if(current._hasFixedNum){
+                            fix = true;
+                        }
+                        current = current._predecessor;
+                    }
+                    if(!fix){
+                        current = this;
+                        while(current != null){
+                            current._sequenceNum = 0;
+                            current = current._predecessor; ;;
+
+                        }
+                    }
+
+                    current = next;
+                    fix = false;
+                    while(current != null){
+                        if(current.hasFixedNum()){
+                            fix = true;
+                        }
+                        current = current._successor;
+                    }
+                    if(next.successor() == null){
+                        next._group = -1;
+                    } else if(!fix){
+                        int a = newGroup();
+                        current = next;
+                        while(current != null){
+                            current._sequenceNum = 0;
+                            current._group = a;
+                            current = current.successor();
+                        }
+                    }
+                }
+
+
+                // FIXME: //DONE If neither this nor any square in its group that
                 //        precedes it has a fixed sequence number, set all
                 //        their sequence numbers to 0 and create a new group
                 //        for them if this has a current predecessor (other
                 //        set group to -1).
-                // FIXME: If neither next nor any square in its group that
+                // FIXME: //DONE If neither next nor any square in its group that
                 //        follows it has a fixed sequence number, set all
                 //        their sequence numbers to 0 and create a new
                 //        group for them if next has a current successor
                 //        (otherwise set next's group to -1.)
             }
-            // FIXME: Set the _head of next and all squares in its group to
+
+            Sq current = next;
+
+            while(current != null){
+                current._head = next;
+                current = current._successor;
+            }
+            // FIXME: //DONE Set the _head of next and all squares in its group to
             //        next.
         }
 

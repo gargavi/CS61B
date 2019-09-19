@@ -127,12 +127,22 @@ class PuzzleGenerator implements PuzzleSource {
             int nFound;
             nFound = 0;
             if (sq.successor() == null && sq.direction() != 0) {
-                for(Place a: model.allSuccessors(sq.x, sq.y, sq.direction())){
-
-
+                PlaceList a = sq.successors();
+                for(Place b: a){
+                    if(sq.connectable(model.get(b))){
+                        nFound += 1;
+                        found = model.get(b);
+                    }
+                }
+                if(sq.sequenceNum() != 0){
+                    for(Place b: a){
+                        if(sq.connectable(model.get(b)) && model.get(b).sequenceNum() != 0){
+                            nFound = 1;
+                            found = model.get(b);
+                        }
+                    }
 
                 }
-
                 // FIXME: Set nFound to the number of squares in the
                 //        direction sq.direction() from sq that can
                 //        be connected to it and set found to one of those
@@ -164,6 +174,25 @@ class PuzzleGenerator implements PuzzleSource {
             found = null;
             nFound = 0;
             if (sq.predecessor() == null && sq.sequenceNum() != 1) {
+
+                PlaceList a = sq.predecessors();
+                for(Place b: a) {
+                    if(model.get(b).connectable(sq)){
+                        nFound += 1;
+                        found = model.get(b);
+                    }
+
+                }
+                if(sq.sequenceNum() != 0) {
+                    for(Place b: a){
+                        if(model.get(b).connectable(sq) && model.get(b).sequenceNum() != 0 ){
+                            nFound = 1;
+                            found = model.get(b);
+                        }
+                    }
+
+                }
+
                 // FIXME: Set nFound to the number of squares that are
                 //        possible predecessors of sq and connectable to it,
                 //        and set found to one of those squares.  If sq is

@@ -27,9 +27,10 @@ class Lists {
         b.head = L;
 
         while(current.tail != null){
-            if(current.tail.head > high){
-                high = current.head;
+            int test = current.tail.head;
+            if(test > high){
                 current = current.tail;
+                high = current.head;
 
             } else{
                 b.tail = new IntListList(current.tail, null);

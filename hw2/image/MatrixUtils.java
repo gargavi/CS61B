@@ -122,10 +122,10 @@ public class MatrixUtils {
     public static double[][] accumulate(double[][] m, Orientation orientation) {
 
         if(orientation == Orientation.HORIZONTAL){
-            return accumulateVertical(m);
+            return accumulateVertical(transpose(m));
         }
         else{
-            return accumulateVertical(transpose(m));
+            return accumulateVertical(m);
         }
     }
 
