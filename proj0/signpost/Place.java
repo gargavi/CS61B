@@ -106,15 +106,15 @@ class Place {
             for(int j = 0; j < height; j++){
                 Place temp  = new Place(i,j);
                 PlaceList total = new PlaceList();
-                for(k = 1; k < 9; k ++){
+                for(int m = 1; m < 9; m ++){
                     PlaceList direc = new PlaceList();
                     for (Place he: all){
-                        if (temp.dirOf(he)==k){
+                        if (temp.dirOf(he)==m){
                             total.add(he);
                             direc.add(he);
                         }
                     }
-                    M[i][j][k] = direc;
+                    M[i][j][m] = direc;
                 }
                 M[i][j][0] = total;
             }

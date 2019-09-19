@@ -591,9 +591,11 @@ class Model implements Iterable<Model.Sq> {
         boolean connectable(Sq s1) {
             if ((pl.dirOf(s1.pl)==_dir )&& (s1._predecessor == null) && (_successor == null)){
                 if((s1._sequenceNum == 0) && (_sequenceNum == 0)){
-                    return !(s1.group() == _group);
+                    return !(s1._head == _head);
                 } else if(s1._sequenceNum !=0 && _sequenceNum != 0){
                     return (s1._sequenceNum - 1 == _sequenceNum);
+                } else {
+                    return true;
                 }
             }
             return false;
@@ -601,15 +603,15 @@ class Model implements Iterable<Model.Sq> {
 
         /** Connect me to S1, if we are connectable; otherwise do nothing.
          *  Returns true iff we were connectable.  Assumes S1 is in the proper
-         *  arrow direction from me.
-         *  Return the group number of my group.  It is 0 if I am numbered, and
-         *          *  -1 if I am alone in my group. */
+         *  arrow direction from me. */
+
         boolean connect(Sq s1) {
             if (!connectable(s1)) {
                 return false;
             }
             int sgroup = s1.group();
-
+            int one = _sequenceNum;
+            int two = s1.sequenceNum();
             _unconnected -= 1;
 
             _successor = s1;
@@ -624,13 +626,13 @@ class Model implements Iterable<Model.Sq> {
             }
             current = s1;
 
-            if(_group == 0){
+            if(_sequenceNum !=0){
                 while(current != null) {
                     cur += 1;
                     current._sequenceNum = cur;
                     current = current._successor;
                 }
-            } else if(sgroup == 0){
+            } else if(s1.sequenceNum() != 0){
                 int a = s1._sequenceNum;
                 _sequenceNum = a - 1;
                 current = s1._successor;
@@ -639,13 +641,14 @@ class Model implements Iterable<Model.Sq> {
                     current._sequenceNum = a;
                     current = current._successor;
                 }
-            } else {
-                _head._group = joinGroups(_group, s1.group());
             }
-            if(sgroup == 0 && _group != 0){
-                releaseGroup(_group);
-            }else if(_group == 0 && sgroup!=0){
+            if(one == 0 && _sequenceNum != 0){
+                releaseGroup(group());
+            }else if (two == 0 && s1.sequenceNum() != 0){
                 releaseGroup(sgroup);
+            }
+            if(s1.sequenceNum() == 0 && sequenceNum() == 0){
+                _head._group = joinGroups(s1.group(), group());
             }
 
 

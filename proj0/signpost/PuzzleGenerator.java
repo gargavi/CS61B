@@ -190,9 +190,7 @@ class PuzzleGenerator implements PuzzleSource {
                             found = model.get(b);
                         }
                     }
-
                 }
-
                 // FIXME: Set nFound to the number of squares that are
                 //        possible predecessors of sq and connectable to it,
                 //        and set found to one of those squares.  If sq is
