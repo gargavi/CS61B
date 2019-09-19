@@ -58,7 +58,7 @@ class Arrays {
     static int[][] naturalRuns(int[] A) {
 
         //Utils.subarray()
-        int high = 0;
+        int high = -1;
         int k = 0;
         while(k < A.length && A[k] > high){
             high = A[k];
