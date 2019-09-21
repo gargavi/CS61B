@@ -185,7 +185,7 @@ DEFAULT_PARAMS = {
          'file_size_limit' : 2000,  # 512-byte blocks
          'heap_size_limit' : 500000, # KB
          'report_limit' : None,
-         'report_char_limit' : 1000,
+         'report_char_limit' : 1000
 }        
 
 class Tester:
@@ -349,13 +349,9 @@ class Tester:
         return " <" + self.standard_input_file(testid) + " "
 
     def _command_line(self, id):
-        return "ulimit -St {timeout}; ulimit -f {filesize}; \
-                ulimit -d {memsize}; \
-                {command} {args}" \
-             .format(command=self.tested_program,
-                     args=self.command_args(id),
-                     timeout=self.time_limit, filesize=self.file_size_limit,
-                     memsize=self.heap_size_limit)
+        return "{command} {args}".format(command=self.tested_program, args = self.command_args(id))
+
+
 
     def output_compare(self, testid):
         """The default comparison procedure to use with test TESTID.  Sets

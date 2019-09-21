@@ -140,6 +140,25 @@ public class ModelTests {
         assertTrue("Model should be solved.", model.solved());
         checkNumbers(tr(SOLN1), model, asList(1, 16));
     }
+    @Test
+    public void extratest() {
+        int[][] sol1 = {
+                {1, 8, 13, 5},
+                {11, 12, 7, 6},
+                {3, 4, 2, 15},
+                {10, 9, 14, 16}};
+        sol1 = tr(sol1);
+        Model yah = new Model(sol1);
+        yah.get(0, 3).connect(yah.get(1, 2));
+        yah.get(1, 2).connect(yah.get(2, 3));
+        yah.get(1, 3).connect(yah.get(1, 1));
+        yah.get(1, 1).connect(yah.get(3, 3));
+        yah.get(3, 3).connect(yah.get(3, 2));
+        yah.get(0, 0).connect(yah.get(0, 1));
+
+
+    }
+
 
     @Test
     public void autoConnectTest1() {

@@ -8,7 +8,7 @@ import static signpost.Place.PlaceList;
 import static signpost.Utils.*;
 
 /** A creator of random Signpost puzzles.
- *  @author
+ *  @author Avi Garg and CS61B staff
  */
 class PuzzleGenerator implements PuzzleSource {
 
@@ -22,7 +22,7 @@ class PuzzleGenerator implements PuzzleSource {
     public Model getPuzzle(int width, int height, boolean allowFreeEnds) {
         Model model =
             new Model(makePuzzleSolution(width, height, allowFreeEnds));
-        // FIXME: Remove the "//" on the following two lines.
+
         makeSolutionUnique(model);
         model.autoconnect();
         return model;
@@ -52,8 +52,6 @@ class PuzzleGenerator implements PuzzleSource {
         }
         _vals[x0][y0] = 1;
         _vals[x1][y1] = last;
-        // FIXME: Remove the following return statement and uncomment the
-        //        next three lines. (Done)
 
         boolean ok = findSolutionPathFrom(x0, y0);
         assert ok;
@@ -128,27 +126,23 @@ class PuzzleGenerator implements PuzzleSource {
             nFound = 0;
             if (sq.successor() == null && sq.direction() != 0) {
                 PlaceList a = sq.successors();
-                for(Place b: a){
-                    if(sq.connectable(model.get(b))){
+                for (Place b: a) {
+                    if (sq.connectable(model.get(b))) {
                         nFound += 1;
                         found = model.get(b);
                     }
                 }
-                if(sq.sequenceNum() != 0){
-                    for(Place b: a){
-                        if(sq.connectable(model.get(b)) && model.get(b).sequenceNum() != 0){
+                if (sq.sequenceNum() != 0) {
+                    for (Place b: a) {
+                        Sq dup = model.get(b);
+                        if (sq.connectable(dup) && dup.sequenceNum() != 0) {
                             nFound = 1;
-                            found = model.get(b);
+                            found = dup;
                         }
                     }
 
                 }
-                // FIXME: Set nFound to the number of squares in the
-                //        direction sq.direction() from sq that can
-                //        be connected to it and set found to one of those
-                //        squares.  If sq is numbered and can be connected to
-                //        a numbered square, then set nFound to 1 and found
-                //        to that numbered square.
+
                 if (nFound == 0) {
                     return 0;
                 } else if (nFound == 1) {
@@ -176,27 +170,23 @@ class PuzzleGenerator implements PuzzleSource {
             if (sq.predecessor() == null && sq.sequenceNum() != 1) {
 
                 PlaceList a = sq.predecessors();
-                for(Place b: a) {
-                    if(model.get(b).connectable(sq)){
+                for (Place b: a) {
+                    if (model.get(b).connectable(sq)) {
                         nFound += 1;
                         found = model.get(b);
                     }
 
                 }
-                if(sq.sequenceNum() != 0) {
-                    for(Place b: a){
-                        if(model.get(b).connectable(sq) && model.get(b).sequenceNum() != 0 ){
+                if (sq.sequenceNum() != 0) {
+                    for (Place b: a) {
+                        Sq dup = model.get(b);
+                        if (dup.connectable(sq) && dup.sequenceNum() != 0) {
                             nFound = 1;
                             found = model.get(b);
                         }
                     }
                 }
-                // FIXME: Set nFound to the number of squares that are
-                //        possible predecessors of sq and connectable to it,
-                //        and set found to one of those squares.  If sq is
-                //        numbered and one of these connectable predecessors
-                //        is numbered, then set nFound to 1 and found
-                //        to that numbered predecessor.
+
                 if (nFound == 0) {
                     return 0;
                 } else if (nFound == 1) {

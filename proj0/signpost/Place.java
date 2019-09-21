@@ -8,7 +8,7 @@ import static java.lang.Math.max;
 /** An (X, Y) position on a Signpost puzzle board.  We require that
  *  X, Y >= 0.  Each Place object is unique; no other has the same x and y
  *  values.  As a result, "==" may be used for comparisons.
- *  @author
+ *  @author Avi Garg, CS 61B Staff
  */
 class Place {
 
@@ -94,22 +94,22 @@ class Place {
     static PlaceList[][][] successorCells(int width, int height) {
         PlaceList[][][] M = new PlaceList[width][height][9];
         int lim = Math.max(width, height);
-        Place[] all = new Place[width*height];
+        Place[] all = new Place[width * height];
         int k = 0;
-        for (int i = 0; i < width; i++){
-            for(int j = 0; j < height; j++ ){
-                all[k] = new Place(i,j);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                all[k] = new Place(i, j);
                 k += 1;
             }
         }
-        for(int i = 0; i < width; i++ ){
-            for(int j = 0; j < height; j++){
-                Place temp  = new Place(i,j);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                Place temp  = new Place(i, j);
                 PlaceList total = new PlaceList();
-                for(int m = 1; m < 9; m ++){
+                for (int m = 1; m < 9; m++) {
                     PlaceList direc = new PlaceList();
-                    for (Place he: all){
-                        if (temp.dirOf(he)==m){
+                    for (Place he: all) {
+                        if (temp.dirOf(he) == m) {
                             total.add(he);
                             direc.add(he);
                         }
@@ -121,7 +121,7 @@ class Place {
         }
 
         return M;
-        // Need to somehow iterate through all i,j in width and height respectively and collect the directions
+
     }
 
 
