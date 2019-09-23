@@ -142,7 +142,6 @@ class PuzzleGenerator implements PuzzleSource {
                     }
 
                 }
-
                 if (nFound == 0) {
                     return 0;
                 } else if (nFound == 1) {

@@ -635,7 +635,9 @@ class Model implements Iterable<Model.Sq> {
             return true;
         }
 
-        /** Helps reduce the length of disconect.*/
+        /** Helps reduce the length of disconect.
+         * @param s0 A square that might have its group  released
+         * @param s1 A square that might have tis group released */
         void helperrelease(Sq s0, Sq s1) {
             if (s0.predecessor() == null && s1._successor == null) {
                 releaseGroup(s1.group());
@@ -649,7 +651,8 @@ class Model implements Iterable<Model.Sq> {
                 s1._group = newGroup();
             }
         }
-        /** Resets the sequence num's in a group.*/
+        /** Resets the sequence num's in a group.
+         * @param s0 A square to reset */
         void reset(Sq s0) {
             while (s0 != null) {
                 s0._sequenceNum = 0;
