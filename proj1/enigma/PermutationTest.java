@@ -50,5 +50,10 @@ public class PermutationTest {
         perm = new Permutation("", UPPER);
         checkPerm("identity", UPPER_STRING, UPPER_STRING);
     }
+    @Test
+    public void checkcyceles(){
+        perm = new Permutation("(aaaa) (bbbb) (cccc)", new Alphabet());
+        perm.print();
+    }
 
 }
