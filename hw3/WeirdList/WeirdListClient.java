@@ -3,12 +3,15 @@ class WeirdListClient {
 
     /** Return the result of adding N to each element of L. */
     static WeirdList add(WeirdList L, int n) {
-        return null; // TODO: REPLACE THIS LINE
+
+        return L.map(new addN(n)); // TODO: REPLACE THIS LINE
     }
 
     /** Return the sum of all the elements in L. */
     static int sum(WeirdList L) {
-        return 0; // TODO: REPLACE THIS LINE
+        sum a = new sum();
+        L.map(new sum());
+        return a.total();// TODO: REPLACE THIS LINE
     }
 
     /* IMPORTANT: YOU ARE NOT ALLOWED TO USE RECURSION IN ADD AND SUM
