@@ -11,14 +11,16 @@ class AlternatingFilter<Value> extends Filter<Value> {
      *  value. */
     AlternatingFilter(Iterator<Value> input) {
         super(input); //FIXME?
-        // FIXME: REPLACE THIS LINE WITH YOUR CODE
+        returned = true;
     }
 
     @Override
     protected boolean keep() {
-        return false;  // FIXME: REPLACE THIS LINE WITH YOUR CODE
+        returned = !(returned);
+        return !(returned);
+         // FIXME: REPLACE THIS LINE WITH YOUR CODE
     }
 
-    // FIXME: REPLACE THIS LINE WITH YOUR CODE
+    boolean returned;
 
 }

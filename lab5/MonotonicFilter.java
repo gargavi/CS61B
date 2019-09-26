@@ -13,14 +13,23 @@ class MonotonicFilter<Value extends Comparable<Value>> extends Filter<Value> {
      *  subsequence.  */
     MonotonicFilter(Iterator<Value> input) {
         super(input); //FIXME?
-        // FIXME: REPLACE THIS LINE WITH YOUR CODE
+        first = true;
     }
 
     @Override
     protected boolean keep() {
-        return false;  // FIXME: REPLACE THIS LINE WITH YOUR CODE
+        if(first){
+            high = _next;
+            first = false;
+            return true;
+        } else if (_next.compareTo(high) > 0) {
+            high = _next;
+            return true;
+        }else{
+            return false;
+        }
     }
-    
-    // FIXME: ADD ANY ADDITIONAL FIELDS REQUIRED HERE
+    Value high;
+    boolean first;
 
 }
