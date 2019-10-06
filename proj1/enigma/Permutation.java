@@ -19,7 +19,10 @@ class Permutation {
         _alphabet = alphabet;
         String[] cyclic = cycles.split(" ", 0);
         for(String cycle: cyclic){
-            addCycle(cycle.substring(1, cycle.length()-1));
+            //System.out.println(cycle);
+            if(cycle != ""){
+                addCycle(cycle.substring(1, cycle.length()-1));
+            }
         }
 
     }
@@ -49,7 +52,7 @@ class Permutation {
     int permute(int p) {
         p = wrap(p);
         char ch = alphabet().toChar(p);
-        return alphabet().toInt(permute(ch));  // FIXME
+        return wrap(alphabet().toInt(permute(ch)));  // FIXME
     }
 
     /** Return the result of applying the inverse of this permutation
@@ -57,7 +60,7 @@ class Permutation {
     int invert(int c) {
         c = wrap(c);
         char ch = alphabet().toChar(c);
-        return alphabet().toInt(invert(ch));// FIXME
+        return wrap(alphabet().toInt(invert(ch)));// FIXME
     }
 
     /** Return the result of applying this permutation to the index of P

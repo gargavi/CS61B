@@ -55,5 +55,12 @@ public class PermutationTest {
         perm = new Permutation("(aaaa) (bbbb) (cccc)", new Alphabet());
         perm.print();
     }
+    @Test
+    public void permuting(){
+        alpha = "abcdefghij";
+        perm = new Permutation("(abc) (def) (hij)", new Alphabet(alpha));
+        checkPerm("simple", "adhbeicfjg", "beicfjadhg");
+
+    }
 
 }

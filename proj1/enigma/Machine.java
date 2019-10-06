@@ -16,17 +16,19 @@ class Machine {
     Machine(Alphabet alpha, int numRotors, int pawls,
             Collection<Rotor> allRotors) {
         _alphabet = alpha;
-        // FIXME
+        _numrotors = numRotors;
+        _pawls = pawls;
+        _allRotors = allRotors;
     }
 
     /** Return the number of rotor slots I have. */
     int numRotors() {
-        return 0; // FIXME
+         return _numrotors; // FIXME
     }
 
     /** Return the number pawls (and thus rotating rotors) I have. */
     int numPawls() {
-        return 0; // FIXME
+        return _pawls; // FIXME
     }
 
     /** Set my rotor slots to the rotors named ROTORS from my set of
@@ -64,6 +66,9 @@ class Machine {
 
     /** Common alphabet of my rotors. */
     private final Alphabet _alphabet;
+    private int _numrotors;
+    private int _pawls;
+    private Collection<Rotor> _allRotors;
 
     // FIXME: ADDITIONAL FIELDS HERE, IF NEEDED.
 }
