@@ -51,7 +51,7 @@ unit: default
 	java -ea -cp $(CPATH) enigma.UnitTest
 
 integration:
-	$(MAKE) -C ../testing check
+	"$(MAKE)" -C ../testing check
 
 # 'make clean' will clean up stuff you can reconstruct.
 clean:

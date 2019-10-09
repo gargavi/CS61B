@@ -17,14 +17,9 @@ class MovingRotor extends Rotor {
         _perm = perm;
         _notches = notches;
         //_notch_array = notches.split("");
-        // FIXME
+
     }
 
-    // FIXME?
-
-    public String getnotches(){
-        return _notches;
-    }
 
     @Override
     boolean rotates(){

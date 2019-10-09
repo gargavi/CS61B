@@ -32,9 +32,6 @@ for f in "$@"; do
                    else
                       echo "ERROR (bad exit code: $? instead of 0)";
                    fi;;
-
-
-             *)    
         esac
 	code=1; echo 
     fi;
