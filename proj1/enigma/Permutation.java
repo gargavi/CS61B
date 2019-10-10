@@ -1,6 +1,7 @@
 package enigma;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static enigma.EnigmaException.*;
 
@@ -17,19 +18,39 @@ class Permutation {
      *  Whitespace is ignored. */
     Permutation(String cycles, Alphabet alphabet) {
         _alphabet = alphabet;
-        String[] cyclic = cycles.split(" ", 0);
-        for(String cycle: cyclic){
-            //System.out.println(cycle);
-            if(cycle != ""){
-                addCycle(cycle.substring(1, cycle.length()-1));
+        //String[] cyclic = cycles.split(" ", 0);
+        //for(String cycle: cyclic){
+        //    if(cycle != ""){
+         //       addCycle(cycle.substring(1, cycle.length()-1));
+          //  }
+        //}
+        Scanner cycler = new Scanner(cycles);
+        while(cycler.hasNext()){
+            String cycle = cycler.next();
+            cycle = cycle.substring(1, cycle.length()-1);
+            for (int i = 0; i < cycle.length(); i++){
+                if (!_alphabet.contains(cycle.charAt(i))){
+                    throw new EnigmaException("cycle contains values that the alphabet does not");
+                }
+
             }
+            addCycle(cycle);
         }
+
 
     }
 
     /** Add the cycle c0->c1->...->cm->c0 to the permutation, where CYCLE is
      *  c0c1...cm. */
     private void addCycle(String cycle) {
+        for(char a: cycle.toCharArray()){
+            if (gathered.indexOf(a) != -1){
+                throw new EnigmaException("cycle contains repeated values");
+            }
+            else{
+                gathered = gathered + a;
+            }
+        }
         cycles.add(cycle);
     }
 
@@ -129,5 +150,6 @@ class Permutation {
         }
     }
     private ArrayList<String> cycles = new ArrayList<String>();
+    private String gathered = "";
     // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
 }

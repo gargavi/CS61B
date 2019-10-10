@@ -10,6 +10,14 @@ class Alphabet {
      *  K (numbering from 0). No character may be duplicated. */
     Alphabet(String chars) {
         this.alpha = chars;
+        for (int i =0; i < chars.length(); i ++){
+            for (int j = 0; j < chars.length(); j ++){
+                if (i != j && chars.charAt(i)==chars.charAt(j)){
+                    throw new EnigmaException("can't have duplicates");
+                }
+            }
+        }
+
 
     }
 

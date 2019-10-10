@@ -35,33 +35,78 @@ class Machine {
      *  available rotors (ROTORS[0] names the reflector).
      *  Initially, all rotors are set at their 0 setting. */
     void insertRotors(String[] rotors) {
-        // FIXME
+        int i = 0;
+        boolean duplicate = false;
+        for (String temp: rotors){
+            for (Rotor total: _allRotors){
+                if (total.name() == temp){
+                    if (duplicate == true){
+                        throw new EnigmaException("can't have multiple rotors with same name");
+                    } else {
+                        ROTORS[i] = total;
+                        i += 1;
+                        duplicate = true;
+                    }
+                }
+
+            }
+            if (duplicate == false){
+                throw new EnigmaException("invalid configuration (passed rotor not defined)");
+            } else{
+                duplicate = false;
+            }
+        }
     }
 
     /** Set my rotors according to SETTING, which must be a string of
      *  numRotors()-1 characters in my alphabet. The first letter refers
      *  to the leftmost rotor setting (not counting the reflector).  */
     void setRotors(String setting) {
-        // FIXME
+        if (setting.length() != _numrotors - 1){
+            throw new EnigmaException("need setting to be the right length");
+        }
+        for (int i = 0; i < setting.length(); i++ ){
+            ROTORS[i+1].set(setting.charAt(i));
+        }
     }
 
     /** Set the plugboard to PLUGBOARD. */
     void setPlugboard(Permutation plugboard) {
-        // FIXME
+        _plugboard = plugboard;
     }
 
     /** Returns the result of converting the input character C (as an
      *  index in the range 0..alphabet size - 1), after first advancing
-
      *  the machine. */
     int convert(int c) {
-        return 0; // FIXME
+        int i = ROTORS.length - 1;
+        while(ROTORS[i].rotates()){
+            if(i == ROTORS.length - 1){
+                ROTORS[i].advance();
+            }else if(ROTORS[i+1].atNotch()){
+                ROTORS[i].advance();
+                ROTORS[i+1].advance();
+            }
+            i --;
+        }
+        c = _plugboard.permute(c);
+        for (int j = ROTORS.length; j > 0; j --){
+            c = ROTORS[j-1].convertForward(c);
+        }
+        for (int j = 0; j < ROTORS.length; j--){
+            c = ROTORS[j].convertBackward(c);
+        }
+        return _plugboard.invert(c);
     }
 
     /** Returns the encoding/decoding of MSG, updating the state of
      *  the rotors accordingly. */
     String convert(String msg) {
-        return ""; // FIXME
+        String perm = "";
+        for(int i = 0; i < msg.length(); i ++){
+            perm = perm + convert(_alphabet.toInt(msg.charAt(i)));
+        }
+        return perm;
     }
 
     /** Common alphabet of my rotors. */
@@ -69,6 +114,7 @@ class Machine {
     private int _numrotors;
     private int _pawls;
     private Collection<Rotor> _allRotors;
-
+    private Rotor[] ROTORS = new Rotor[_numrotors];
+    private Permutation _plugboard;
     // FIXME: ADDITIONAL FIELDS HERE, IF NEEDED.
 }

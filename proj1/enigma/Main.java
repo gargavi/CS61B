@@ -77,16 +77,28 @@ public final class Main {
      *  file _config and apply it to the messages in _input, sending the
      *  results to _output. */
     private void process() {
-        // FIXME
+        Machine M = readConfig();
+        setUp(M, _input.nextLine());
+        while (_input.hasNext()){
+            _output.append(M.convert(_input.next()));
+        }
+
     }
 
     /** Return an Enigma machine configured from the contents of configuration
      *  file _config. */
     private Machine readConfig() {
         try {
-            // FIXME
-            _alphabet = new Alphabet();
-            return new Machine(_alphabet, 2, 1, null);
+            String alpha = _config.next();
+            _alphabet = new Alphabet(alpha);
+            int num_rotors = Integer.parseInt(_config.next());
+            int num_pawls = Integer.parseInt(_config.next());
+            ArrayList<Rotor> allRotors = new ArrayList<Rotor>();
+            while (_config.hasNext()){
+                allRotors.add(readRotor());
+            }
+            return new Machine(_alphabet, num_rotors, num_pawls, allRotors);
+
         } catch (NoSuchElementException excp) {
             throw error("configuration file truncated");
         }
@@ -95,7 +107,37 @@ public final class Main {
     /** Return a rotor, reading its description from _config. */
     private Rotor readRotor() {
         try {
-            return null; // FIXME
+            String name = _config.next();
+            String configurer = _config.next();
+            String cycles = "";
+            int total_letters = 0;
+            while (total_letters != _alphabet.size()){
+                String a = _config.next();
+                if (!a.contains("(") || !a.contains(")")){
+                    throw new EnigmaException("You need to add all letters to the cycle configuration");
+                }
+                String b = a.substring(1, a.length()-2);
+                for (char character: b.toCharArray()){
+                    if (_alphabet.contains(character)){
+                        total_letters += 1;
+                    }
+                    else{
+                        throw new EnigmaException("bad configuration");
+                    }
+                }
+
+                cycles = cycles + " " + a;
+            }
+
+            if (configurer.charAt(0) == "M".charAt(0)){
+                return new MovingRotor(name, new Permutation(cycles, _alphabet), configurer.substring(1));
+            }else if (configurer.charAt(0) == "N".charAt(0)){
+                return new FixedRotor(name, new Permutation(cycles, _alphabet));
+            }else if (configurer.charAt(0) == "R".charAt(0)){
+                return new Reflector(name, new Permutation(cycles, _alphabet));
+            }else{
+                throw new EnigmaException("Not a valid configuration");
+            }
         } catch (NoSuchElementException excp) {
             throw error("bad rotor description");
         }
@@ -104,15 +146,35 @@ public final class Main {
     /** Set M according to the specification given on SETTINGS,
      *  which must have the format specified in the assignment. */
     private void setUp(Machine M, String settings) {
-        // FIXME
+        Scanner setter = new Scanner(settings);
+        int rotors = 0;
+        String[] names = new String[M.numRotors()];
+        while(rotors < M.numRotors()){
+            names[rotors] = setter.next();
+        }
+        M.insertRotors(names);
+        M.setRotors(setter.next());
+        String perm = "";
+        while (setter.hasNext()){
+            perm = perm + " " + setter.next();
+        }
+        M.setPlugboard(new Permutation(perm, _alphabet));
     }
 
     /** Print MSG in groups of five (except that the last group may
      *  have fewer letters). */
     private void printMessageLine(String msg) {
-        // FIXME
+        while(msg.length() > 0 ){
+            if (msg.length() < 5){
+                System.out.println((msg));
+                msg = "";
+            }else{
+                String sub = msg.substring(0, 4);
+                System.out.println(sub);
+                msg = msg.substring(5);
+            }
+        }
     }
-
     /** Alphabet used in this machine. */
     private Alphabet _alphabet;
 
