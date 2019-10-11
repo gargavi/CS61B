@@ -16,20 +16,18 @@ class MovingRotor extends Rotor {
         super(name, perm);
         _perm = perm;
         _notches = notches;
-        //_notch_array = notches.split("");
-
     }
 
 
     @Override
-    boolean rotates(){
+    boolean rotates() {
         return true;
     }
 
     @Override
-    boolean atNotch(){
-        for (int i = 0; i < _notches.length(); i ++){
-            if(alphabet().toInt(_notches.charAt(i)) == this.setting()) {
+    boolean atNotch() {
+        for (int i = 0; i < _notches.length(); i++) {
+            if (alphabet().toInt(_notches.charAt(i)) == this.setting()) {
                 return true;
             }
         }
@@ -41,9 +39,8 @@ class MovingRotor extends Rotor {
         this.set(this.setting() + 1);
     }
 
-    // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
-
+    /** A string to contain the notches. */
     private String _notches;
+    /** The permutation. */
     private Permutation _perm;
-    private char[] _notch_array;
 }

@@ -52,7 +52,7 @@ public class PermutationTest {
     }
 
     @Test
-    public void permuting(){
+    public void permuting() {
         alpha = "abcdefghij";
         perm = new Permutation("(abc) (def) (hij)", new Alphabet(alpha));
         checkPerm("simple", "adhbeicfjg", "beicfjadhg");
@@ -64,9 +64,9 @@ public class PermutationTest {
     }
 
     @Test
-    public void testduplicates(){
+    public void testduplicates() {
         alpha = "aa";
-        try{
+        try {
             Alphabet a = new Alphabet(alpha);
             System.out.println("Didn't catch #1");
         } catch (EnigmaException excp) {
@@ -74,7 +74,7 @@ public class PermutationTest {
 
         }
         alpha = "aabb";
-        try{
+        try {
             Alphabet a = new Alphabet(alpha);
             System.out.println("Didn't catch #2");
         } catch (EnigmaException excp) {
@@ -84,19 +84,19 @@ public class PermutationTest {
 
     }
     @Test
-    public void testMismatch(){
+    public void testMismatch() {
         alpha = "abcde";
         try {
             perm = new Permutation("(ab) (cde) (f)", new Alphabet(alpha));
             assertEquals(0, 1);
-        } catch (EnigmaException excp){
-            assertEquals(excp.getMessage(), "cycle contains values that the alphabet does not");
+        } catch (EnigmaException excp) {
+            assertEquals(excp.getMessage(), "contains values not in alphabet");
         }
     }
 
 
     @Test
-    public void testpermute(){
+    public void testpermute() {
         alpha = "mynakeis";
         perm = new Permutation("(my) (nake) (is)", new Alphabet(alpha));
         assertEquals(perm.permute(0), 1);
@@ -114,7 +114,7 @@ public class PermutationTest {
 
     }
     @Test
-    public void testinvert(){
+    public void testinvert() {
         alpha = "uncopyrightable";
         perm = new Permutation("(copy) (unright) (bal)", new Alphabet(alpha));
         assertEquals(perm.invert('y'), 'p');
@@ -124,7 +124,7 @@ public class PermutationTest {
 
     }
     @Test
-    public void testDerange(){
+    public void testDerange() {
         alpha = "uncopyrightable";
         perm = new Permutation("(copy) (unright) (bal)", new Alphabet(alpha));
         assertEquals(perm.derangement(), false);

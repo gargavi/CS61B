@@ -11,7 +11,7 @@ import java.util.Scanner;
 import static enigma.EnigmaException.*;
 
 /** Enigma simulator.
- *  @author
+ *  @author Avi Garg & CS61b Staff
  */
 public final class Main {
 
@@ -78,9 +78,25 @@ public final class Main {
      *  results to _output. */
     private void process() {
         Machine M = readConfig();
+        String temp = _input.next();
+        if (!temp.equals("*")) {
+            throw new EnigmaException("Doesn't start with a setting");
+        }
         setUp(M, _input.nextLine());
-        while (_input.hasNext()){
-            _output.append(M.convert(_input.next()));
+
+        while (_input.hasNext()) {
+            String a = _input.nextLine();
+            if (a.indexOf("*") != -1) {
+                setUp(M, a.substring(1));
+            } else {
+                Scanner unusual = new Scanner(a);
+                String here = "";
+                while (unusual.hasNext()) {
+                    here = here + unusual.next();
+                }
+                printMessageLine(M.convert(here));
+            }
+
         }
 
     }
@@ -91,13 +107,14 @@ public final class Main {
         try {
             String alpha = _config.next();
             _alphabet = new Alphabet(alpha);
-            int num_rotors = Integer.parseInt(_config.next());
-            int num_pawls = Integer.parseInt(_config.next());
+            int numrotors = Integer.parseInt(_config.next());
+            int numpawls = Integer.parseInt(_config.next());
             ArrayList<Rotor> allRotors = new ArrayList<Rotor>();
-            while (_config.hasNext()){
-                allRotors.add(readRotor());
+            while (_config.hasNext()) {
+                Rotor temp = readRotor();
+                allRotors.add(temp);
             }
-            return new Machine(_alphabet, num_rotors, num_pawls, allRotors);
+            return new Machine(_alphabet, numrotors, numpawls, allRotors);
 
         } catch (NoSuchElementException excp) {
             throw error("configuration file truncated");
@@ -110,32 +127,32 @@ public final class Main {
             String name = _config.next();
             String configurer = _config.next();
             String cycles = "";
-            int total_letters = 0;
-            while (total_letters != _alphabet.size()){
+            int totalletters = 0;
+            while (totalletters != _alphabet.size()) {
                 String a = _config.next();
-                if (!a.contains("(") || !a.contains(")")){
-                    throw new EnigmaException("You need to add all letters to the cycle configuration");
+                if (!a.contains("(") || !a.contains(")")) {
+                    throw new EnigmaException("Needs all letters to in cycles");
                 }
-                String b = a.substring(1, a.length()-2);
-                for (char character: b.toCharArray()){
-                    if (_alphabet.contains(character)){
-                        total_letters += 1;
-                    }
-                    else{
+                String b = a.substring(1, a.length() - 1);
+
+                for (char character: b.toCharArray()) {
+                    if (_alphabet.contains(character)) {
+                        totalletters += 1;
+                    } else {
                         throw new EnigmaException("bad configuration");
                     }
                 }
 
                 cycles = cycles + " " + a;
             }
-
-            if (configurer.charAt(0) == "M".charAt(0)){
-                return new MovingRotor(name, new Permutation(cycles, _alphabet), configurer.substring(1));
-            }else if (configurer.charAt(0) == "N".charAt(0)){
-                return new FixedRotor(name, new Permutation(cycles, _alphabet));
-            }else if (configurer.charAt(0) == "R".charAt(0)){
-                return new Reflector(name, new Permutation(cycles, _alphabet));
-            }else{
+            Permutation perm = new Permutation(cycles, _alphabet);
+            if (configurer.charAt(0) == "M".charAt(0)) {
+                return new MovingRotor(name, perm, configurer.substring(1));
+            } else if (configurer.charAt(0) == "N".charAt(0)) {
+                return new FixedRotor(name, perm);
+            } else if (configurer.charAt(0) == "R".charAt(0)) {
+                return new Reflector(name, perm);
+            } else {
                 throw new EnigmaException("Not a valid configuration");
             }
         } catch (NoSuchElementException excp) {
@@ -149,13 +166,22 @@ public final class Main {
         Scanner setter = new Scanner(settings);
         int rotors = 0;
         String[] names = new String[M.numRotors()];
-        while(rotors < M.numRotors()){
-            names[rotors] = setter.next();
+        while (rotors < M.numRotors()) {
+            if (!setter.hasNext()) {
+                throw new EnigmaException("Not enough arguments");
+            }
+            String a = setter.next();
+            names[rotors] = a;
+            rotors++;
         }
         M.insertRotors(names);
-        M.setRotors(setter.next());
+        if (setter.hasNext()) {
+            M.setRotors(setter.next());
+        } else {
+            throw new EnigmaException("Not enough arguments");
+        }
         String perm = "";
-        while (setter.hasNext()){
+        while (setter.hasNext()) {
             perm = perm + " " + setter.next();
         }
         M.setPlugboard(new Permutation(perm, _alphabet));
@@ -164,16 +190,15 @@ public final class Main {
     /** Print MSG in groups of five (except that the last group may
      *  have fewer letters). */
     private void printMessageLine(String msg) {
-        while(msg.length() > 0 ){
-            if (msg.length() < 5){
-                System.out.println((msg));
-                msg = "";
-            }else{
-                String sub = msg.substring(0, 4);
-                System.out.println(sub);
-                msg = msg.substring(5);
-            }
+        String newmsg = "";
+        while (msg.length() > 5) {
+            String temp = msg.substring(0, 5);
+            newmsg += temp + " ";
+            msg = msg.substring(5);
         }
+        newmsg += msg;
+        _output.println(newmsg);
+
     }
     /** Alphabet used in this machine. */
     private Alphabet _alphabet;

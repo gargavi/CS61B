@@ -3,7 +3,7 @@ package enigma;
 import static enigma.EnigmaException.*;
 
 /** Superclass that represents a rotor in the enigma machine.
- *  @author Avi Garg 
+ *  @author Avi Garg
  */
 class Rotor {
 
@@ -46,7 +46,7 @@ class Rotor {
 
     /** Return my current setting. */
     int setting() {
-        return _setting; // FIXME
+        return _setting;
     }
 
     /** Set setting() to POSN.  */
@@ -62,13 +62,15 @@ class Rotor {
     /** Return the conversion of P (an integer in the range 0..size()-1)
      *  according to my permutation. */
     int convertForward(int p) {
-        return _permutation.wrap(_permutation.permute(_permutation.wrap(p + _setting))-_setting);  // FIXME
+        int a = _permutation.permute(_permutation.wrap(p + _setting));
+        return _permutation.wrap(a - _setting);
     }
 
     /** Return the conversion of E (an integer in the range 0..size()-1)
      *  according to the inverse of my permutation. */
     int convertBackward(int e) {
-        return _permutation.wrap(_permutation.invert(_permutation.wrap(e + _setting))-_setting);  // FIXME
+        int a = _permutation.invert(_permutation.wrap(e + _setting)) - _setting;
+        return _permutation.wrap(a);
     }
 
     /** Returns true iff I am positioned to allow the rotor to my left
@@ -92,8 +94,8 @@ class Rotor {
     /** The permutation implemented by this rotor in its 0 position. */
     private Permutation _permutation;
 
+    /** THe setting of the Rotor. */
     private int _setting;
 
-    // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
 
 }
