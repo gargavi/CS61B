@@ -49,9 +49,9 @@ public class RuntimeQuiz {
         return f3(array, start, mid) + f3(array, mid + 1, end);
     }
 
-    public static Runtime f4_omega_runtime = Runtime.QUADRATIC;
+    public static Runtime f4_omega_runtime = Runtime.LINEARITHMIC;
     public static Runtime f4_o_runtime = Runtime.LINEAR;
-    public static Runtime f4_theta_runtime = Runtime.LINEARITHMIC;
+    public static Runtime f4_theta_runtime = Runtime.UNDEFINED;
     /* When f4 is first called, start will be 0 and end will be the length of the array - 1 */
     public int f4(char[] array, int start, int end) {
         if (array.length <= 1 || end <= start) return 1;
@@ -63,7 +63,7 @@ public class RuntimeQuiz {
         return counter + f4(array, start, mid) + f4(array, mid + 1, end);
     }
 
-    public static Runtime f5_omega_runtime = Runtime.LINEAR;
+    public static Runtime f5_omega_runtime = Runtime.LOG_N;
     public static Runtime f5_o_runtime = Runtime.CONSTANT ;
     public static Runtime f5_theta_runtime = Runtime.LOG_N;
     public void f5(int n) {
