@@ -86,7 +86,7 @@ public class RuntimeQuiz {
         }
     }
 
-    public static Runtime f7_omega_runtime = Runtime.EXPONENTIAL;
+    public static Runtime f7_omega_runtime = Runtime.CUBIC;
     public static Runtime f7_o_runtime = Runtime.EXPONENTIAL;
     public static Runtime f7_theta_runtime = Runtime.UNDEFINED;
     /* When f7 is first called, start will be 0 and end will be the length of the array - 1 */
