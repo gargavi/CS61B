@@ -51,22 +51,29 @@ class Alphabet {
      *  the alphabet. This is the inverse of toChar(). */
     int toInt(char ch) {
         if (!contains(ch)) {
-            throw new EnigmaException("Character not in the alphabet");
+            throw new EnigmaException("Character not in the alphabet " + ch);
         }
         for (int i = 0; i < size(); i++) {
-            if (alpha.charAt(i) == ch) {
+            if (alpha.charAt((i + rotation) % size()) == ch) {
                 return i;
             }
         }
         return 0;
     }
-    /** retrives the alphabet.
+
+    /**Sets the rotation of the alphabet. */
+    void rotating(int sett){
+        rotation = sett;
+    }
+
+    /** retrieves the alphabet.
      * @return String Alpha*/
     public String getAlpha() {
         return alpha;
     }
 
-
+    /** Represents a rotation in the Alphabet ring*/
+    private int rotation = 0;
     /** Represents the alphabet character. */
     private String alpha;
 }

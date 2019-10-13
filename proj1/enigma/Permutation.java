@@ -26,12 +26,9 @@ class Permutation {
                 if (!_alphabet.contains(cycle.charAt(i))) {
                     throw new EnigmaException("values not in alphabet");
                 }
-
             }
             addCycle(cycle);
         }
-
-
     }
 
     /** Add the cycle c0->c1->...->cm->c0 to the permutation, where CYCLE is

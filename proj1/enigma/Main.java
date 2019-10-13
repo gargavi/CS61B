@@ -131,6 +131,7 @@ public final class Main {
             while (totalletters != _alphabet.size()) {
                 String a = _config.next();
                 if (!a.contains("(") || !a.contains(")")) {
+                    System.out.println(a);
                     throw new EnigmaException("Needs all letters to in cycles");
                 }
                 String b = a.substring(1, a.length() - 1);
@@ -182,7 +183,12 @@ public final class Main {
         }
         String perm = "";
         while (setter.hasNext()) {
-            perm = perm + " " + setter.next();
+            String temporary = setter.next();
+            if (temporary.indexOf("(") == -1){
+                M.setRotorRotation(temporary);
+            } else {
+                perm = perm + " " + temporary;
+            }
         }
         M.setPlugboard(new Permutation(perm, _alphabet));
     }

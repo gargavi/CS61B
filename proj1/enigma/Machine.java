@@ -80,6 +80,20 @@ class Machine {
         }
     }
 
+    void setRotorRotation(String rotatsetting){
+        if (rotatsetting.length() != _numrotors - 1) {
+            throw new EnigmaException("need setting to be the right length");
+        }
+        for (int i = 0; i < rotatsetting.length(); i++) {
+            if (_alphabet.contains(rotatsetting.charAt(i))) {
+                Alphabet hello = ROTORS[i + 1].alphabet();
+                hello.rotating(hello.toInt(rotatsetting.charAt(i)));
+            } else {
+                throw new EnigmaException("setting can't have whack letters");
+            }
+        }
+    }
+
     /** Set the plugboard to PLUGBOARD. */
     void setPlugboard(Permutation plugboard) {
         _plugboard = plugboard;
@@ -101,12 +115,14 @@ class Machine {
         }
         c = _plugboard.permute(c);
         for (int j = ROTORS.length; j > 0; j--) {
+            //System.out.print(c);
             c = ROTORS[j - 1].convertForward(c);
         }
         for (int j = 1; j < ROTORS.length; j++) {
+            //System.out.print(c);
             c = ROTORS[j].convertBackward(c);
         }
-
+        //System.out.println("***********");
         return _plugboard.invert(c);
     }
 

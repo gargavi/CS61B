@@ -16,6 +16,11 @@ class MovingRotor extends Rotor {
         super(name, perm);
         _perm = perm;
         _notches = notches;
+        _notc = new int[_notches.length()];
+        for (int i = 0; i < _notches.length(); i++){
+            _notc[i] = alphabet().toInt(_notches.charAt(i));
+        }
+
     }
 
 
@@ -26,8 +31,8 @@ class MovingRotor extends Rotor {
 
     @Override
     boolean atNotch() {
-        for (int i = 0; i < _notches.length(); i++) {
-            if (alphabet().toInt(_notches.charAt(i)) == this.setting()) {
+        for (int t: _notc){
+            if (t == this.setting()){
                 return true;
             }
         }
@@ -41,6 +46,8 @@ class MovingRotor extends Rotor {
 
     /** A string to contain the notches. */
     private String _notches;
+    /** All the notches for this rotor */
+    private int[] _notc;
     /** The permutation. */
     private Permutation _perm;
 }
