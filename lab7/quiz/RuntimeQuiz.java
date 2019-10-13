@@ -30,9 +30,9 @@ public class RuntimeQuiz {
         }
     }
 
-    public static Runtime f2_omega_runtime = Runtime.CUBIC;
+    public static Runtime f2_omega_runtime = Runtime.QUADRATIC;
     public static Runtime f2_o_runtime = Runtime.LINEAR;
-    public static Runtime f2_theta_runtime = Runtime.QUADRATIC;
+    public static Runtime f2_theta_runtime = Runtime.LINEARITHMIC;
     public int f2(int n) {
         if (n <= 1) return n;
         f1(new int[n]);
@@ -40,7 +40,7 @@ public class RuntimeQuiz {
     }
 
     public static Runtime f3_omega_runtime = Runtime.LINEAR;
-    public static Runtime f3_o_runtime = Runtime.CONSTANT;
+    public static Runtime f3_o_runtime = Runtime.LOG_N;
     public static Runtime f3_theta_runtime = Runtime.LOG_N;
     /* When f3 is first called, start will be 0 and end will be the length of the array - 1 */
     public int f3(char[] array, int start, int end) {
@@ -50,7 +50,7 @@ public class RuntimeQuiz {
     }
 
     public static Runtime f4_omega_runtime = Runtime.LINEARITHMIC;
-    public static Runtime f4_o_runtime = Runtime.LINEAR;
+    public static Runtime f4_o_runtime = Runtime.CONSTANT;
     public static Runtime f4_theta_runtime = Runtime.UNDEFINED;
     /* When f4 is first called, start will be 0 and end will be the length of the array - 1 */
     public int f4(char[] array, int start, int end) {
@@ -74,7 +74,7 @@ public class RuntimeQuiz {
         }
     }
 
-    public static Runtime f6_omega_runtime = Runtime.LINEAR;
+    public static Runtime f6_omega_runtime = Runtime.LINEARITHMIC;
     public static Runtime f6_o_runtime = Runtime.CONSTANT;
     public static Runtime f6_theta_runtime = Runtime.LOG_N;
     public void f6(int[] array) {
@@ -86,7 +86,7 @@ public class RuntimeQuiz {
         }
     }
 
-    public static Runtime f7_omega_runtime = Runtime.UNDEFINED;
+    public static Runtime f7_omega_runtime = Runtime.EXPONENTIAL;
     public static Runtime f7_o_runtime = Runtime.EXPONENTIAL;
     public static Runtime f7_theta_runtime = Runtime.UNDEFINED;
     /* When f7 is first called, start will be 0 and end will be the length of the array - 1 */
