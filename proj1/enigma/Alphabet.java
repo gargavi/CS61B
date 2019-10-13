@@ -62,7 +62,8 @@ class Alphabet {
     }
 
     /**Sets the rotation of the alphabet. */
-    void rotating(int sett){
+    /**@param sett represents rotation */
+    void rotating(int sett) {
         rotation = sett;
     }
 
@@ -72,7 +73,7 @@ class Alphabet {
         return alpha;
     }
 
-    /** Represents a rotation in the Alphabet ring*/
+    /** Represents a rotation in the Alphabet ring.*/
     private int rotation = 0;
     /** Represents the alphabet character. */
     private String alpha;

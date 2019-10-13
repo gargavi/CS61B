@@ -127,6 +127,11 @@ public final class Main {
             String name = _config.next();
             String configurer = _config.next();
             String cycles = "";
+            while (cycles.length()!= _alphabet.size()){
+
+            }
+
+            /**
             int totalletters = 0;
             while (totalletters != _alphabet.size()) {
                 String a = _config.next();
@@ -146,6 +151,7 @@ public final class Main {
 
                 cycles = cycles + " " + a;
             }
+             */
             Permutation perm = new Permutation(cycles, _alphabet);
             if (configurer.charAt(0) == "M".charAt(0)) {
                 return new MovingRotor(name, perm, configurer.substring(1));
@@ -184,7 +190,7 @@ public final class Main {
         String perm = "";
         while (setter.hasNext()) {
             String temporary = setter.next();
-            if (temporary.indexOf("(") == -1){
+            if (temporary.indexOf("(") == -1) {
                 M.setRotorRotation(temporary);
             } else {
                 perm = perm + " " + temporary;

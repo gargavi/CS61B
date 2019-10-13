@@ -79,8 +79,9 @@ class Machine {
 
         }
     }
-
-    void setRotorRotation(String rotatsetting){
+    /** sets the rotation of the rotors. */
+    /**@param rotatsetting the setting of all rotation*/
+    void setRotorRotation(String rotatsetting) {
         if (rotatsetting.length() != _numrotors - 1) {
             throw new EnigmaException("need setting to be the right length");
         }
@@ -115,14 +116,11 @@ class Machine {
         }
         c = _plugboard.permute(c);
         for (int j = ROTORS.length; j > 0; j--) {
-            //System.out.print(c);
             c = ROTORS[j - 1].convertForward(c);
         }
         for (int j = 1; j < ROTORS.length; j++) {
-            //System.out.print(c);
             c = ROTORS[j].convertBackward(c);
         }
-        //System.out.println("***********");
         return _plugboard.invert(c);
     }
 
