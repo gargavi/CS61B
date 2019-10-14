@@ -127,8 +127,32 @@ public final class Main {
             String name = _config.next();
             String configurer = _config.next();
             String cycles = "";
-            while (cycles.length()!= _alphabet.size()){
-
+            int letters = 0;
+            boolean closed = true;
+            while (letters!= _alphabet.size()){
+                String temp = _config.next();
+                for (char a: temp.toCharArray()){
+                    if (Character.toString(a).indexOf("(") != -1){
+                        if (closed){
+                            closed = false;
+                            cycles = cycles + "(";
+                        } else {
+                            throw new EnigmaException("extra paranethesis" + a );
+                        }
+                    }else if ( Character.toString(a).indexOf(")") != -1){
+                        if (closed){
+                            throw new EnigmaException("extra paranthesis" + a );
+                        } else {
+                            cycles = cycles + ") ";
+                            closed  = true;
+                        }
+                    } else if (_alphabet.contains(a)){
+                        cycles = cycles + a;
+                        letters += 1;
+                    } else {
+                        throw new EnigmaException("not in alphabet " + a);
+                    }
+                }
             }
 
             /**
