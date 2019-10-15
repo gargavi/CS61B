@@ -105,13 +105,20 @@ class Machine {
      *  the machine. */
     int convert(int c) {
         int i = ROTORS.length - 1;
+        System.out.print("*" + _alphabet.toChar(c) + "*");
         while (ROTORS[i].rotates()) {
             if (i == ROTORS.length - 1) {
+                System.out.print(ROTORS[i].name());
                 ROTORS[i].advance();
+                System.out.print(ROTORS[i].setting());
             } else if (ROTORS[i + 1].atNotch()) {
+                System.out.print(ROTORS[i].name());
                 ROTORS[i].advance();
+                System.out.print(ROTORS[i+1].name());
                 ROTORS[i + 1].advance();
+                System.out.print(ROTORS[i].setting());
             }
+            System.out.println("***");
             i--;
         }
         c = _plugboard.permute(c);

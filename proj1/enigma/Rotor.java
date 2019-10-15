@@ -51,7 +51,7 @@ class Rotor {
 
     /** Set setting() to POSN.  */
     void set(int posn) {
-        _setting = posn;
+        _setting = permutation().wrap(posn);
     }
 
     /** Set setting() to character CPOSN. */
@@ -81,6 +81,9 @@ class Rotor {
 
     /** Advance me one position, if possible. By default, does nothing. */
     void advance() {
+    }
+    String get_notches(){
+        return null;
     }
 
     @Override
