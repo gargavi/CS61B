@@ -125,7 +125,6 @@ class Machine {
         for (int j = 1; j < ROTORS.length; j++) {
             c = ROTORS[j].convertBackward(c);
         }
-        System.out.println(ROTORS.length + " " + roto_sett() + "  " + d + " " + _alphabet.toChar(c) + "** ");
         return _plugboard.invert(c);
 
     }
