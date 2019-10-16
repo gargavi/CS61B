@@ -96,9 +96,7 @@ public final class Main {
                 }
                 printMessageLine(M.convert(here));
             }
-
         }
-
     }
 
     /** Return an Enigma machine configured from the contents of configuration
@@ -154,28 +152,6 @@ public final class Main {
                     }
                 }
             }
-
-            /**
-            int totalletters = 0;
-            while (totalletters != _alphabet.size()) {
-                String a = _config.next();
-                if (!a.contains("(") || !a.contains(")")) {
-                    System.out.println(a);
-                    throw new EnigmaException("Needs all letters to in cycles");
-                }
-                String b = a.substring(1, a.length() - 1);
-
-                for (char character: b.toCharArray()) {
-                    if (_alphabet.contains(character)) {
-                        totalletters += 1;
-                    } else {
-                        throw new EnigmaException("bad configuration");
-                    }
-                }
-
-                cycles = cycles + " " + a;
-            }
-             */
             Permutation perm = new Permutation(cycles, _alphabet);
             if (configurer.charAt(0) == "M".charAt(0)) {
                 return new MovingRotor(name, perm, configurer.substring(1));

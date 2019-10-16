@@ -104,23 +104,20 @@ class Machine {
      *  index in the range 0..alphabet size - 1), after first advancing
      *  the machine. */
     int convert(int c) {
-        int i = ROTORS.length - 1;
-        System.out.print("*" + _alphabet.toChar(c) + "*");
-        while (ROTORS[i].rotates()) {
-            if (i == ROTORS.length - 1) {
-                System.out.print(ROTORS[i].name());
+        int i = numRotors()-numPawls();
+        while (i < numRotors()) {
+            if (i == numRotors() - 1){
                 ROTORS[i].advance();
-                System.out.print(ROTORS[i].setting());
-            } else if (ROTORS[i + 1].atNotch()) {
-                System.out.print(ROTORS[i].name());
+                i ++;
+            } else if (ROTORS[i + 1].atNotch()){
                 ROTORS[i].advance();
-                System.out.print(ROTORS[i+1].name());
                 ROTORS[i + 1].advance();
-                System.out.print(ROTORS[i].setting());
+                i = i + 2;
+            } else {
+                i ++;
             }
-            System.out.println("***");
-            i--;
         }
+        char d = _alphabet.toChar(c);
         c = _plugboard.permute(c);
         for (int j = ROTORS.length; j > 0; j--) {
             c = ROTORS[j - 1].convertForward(c);
@@ -128,7 +125,9 @@ class Machine {
         for (int j = 1; j < ROTORS.length; j++) {
             c = ROTORS[j].convertBackward(c);
         }
+        System.out.println(ROTORS.length + " " + roto_sett() + "  " + d + " " + _alphabet.toChar(c) + "** ");
         return _plugboard.invert(c);
+
     }
 
     /** Returns the encoding/decoding of MSG, updating the state of
@@ -142,6 +141,13 @@ class Machine {
         return perm;
     }
 
+    String roto_sett(){
+        String temp  = "";
+        for (Rotor ro: ROTORS){
+            temp = temp + " " + Integer.toString(ro.setting());
+        }
+        return temp;
+    }
     /** Common alphabet of my rotors. */
     private final Alphabet _alphabet;
     /**The number of rotors. */
