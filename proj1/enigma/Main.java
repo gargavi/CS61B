@@ -112,7 +112,8 @@ public final class Main {
                 Rotor temp = readRotor();
                 allRotors.add(temp);
             }
-            return new Machine(_alphabet, numrotors, numpawls, allRotors);
+            Alphabet temp = new Alphabet(_alphabet.getAlpha());
+            return new Machine(temp, numrotors, numpawls, allRotors);
 
         } catch (NoSuchElementException excp) {
             throw error("configuration file truncated");
@@ -127,24 +128,24 @@ public final class Main {
             String cycles = "";
             int letters = 0;
             boolean closed = true;
-            while (letters!= _alphabet.size()){
+            while (letters != _alphabet.size()) {
                 String temp = _config.next();
-                for (char a: temp.toCharArray()){
-                    if (Character.toString(a).indexOf("(") != -1){
-                        if (closed){
+                for (char a: temp.toCharArray()) {
+                    if (Character.toString(a).indexOf("(") != -1) {
+                        if (closed) {
                             closed = false;
                             cycles = cycles + "(";
                         } else {
-                            throw new EnigmaException("extra paranethesis" + a );
+                            throw new EnigmaException("extra paranethesis" + a);
                         }
-                    }else if ( Character.toString(a).indexOf(")") != -1){
-                        if (closed){
-                            throw new EnigmaException("extra paranthesis" + a );
+                    } else if (Character.toString(a).indexOf(")") != -1) {
+                        if (closed) {
+                            throw new EnigmaException("extra paranthesis" + a);
                         } else {
                             cycles = cycles + ") ";
                             closed  = true;
                         }
-                    } else if (_alphabet.contains(a)){
+                    } else if (_alphabet.contains(a)) {
                         cycles = cycles + a;
                         letters += 1;
                     } else {
@@ -152,7 +153,8 @@ public final class Main {
                     }
                 }
             }
-            Permutation perm = new Permutation(cycles, _alphabet);
+            Alphabet temp = new Alphabet(_alphabet.getAlpha());
+            Permutation perm = new Permutation(cycles, temp);
             if (configurer.charAt(0) == "M".charAt(0)) {
                 return new MovingRotor(name, perm, configurer.substring(1));
             } else if (configurer.charAt(0) == "N".charAt(0)) {
@@ -174,12 +176,16 @@ public final class Main {
         int rotors = 0;
         String[] names = new String[M.numRotors()];
         while (rotors < M.numRotors()) {
-            if (!setter.hasNext()) {
+            try {
+                String a = setter.next();
+                names[rotors] = a;
+                if (!(M.retrieve().contains(a))) {
+                    throw new EnigmaException("Rotor Name Invalid");
+                }
+                rotors++;
+            } catch (NoSuchElementException excp) {
                 throw new EnigmaException("Not enough arguments");
             }
-            String a = setter.next();
-            names[rotors] = a;
-            rotors++;
         }
         M.insertRotors(names);
         if (setter.hasNext()) {
@@ -187,6 +193,11 @@ public final class Main {
         } else {
             throw new EnigmaException("Not enough arguments");
         }
+        String a = "";
+        for (int i = 0; i < M.numRotors() - 1; i++) {
+            a += _alphabet.toChar(0);
+        }
+        M.setRotorRotation(a);
         String perm = "";
         while (setter.hasNext()) {
             String temporary = setter.next();
@@ -196,7 +207,8 @@ public final class Main {
                 perm = perm + " " + temporary;
             }
         }
-        M.setPlugboard(new Permutation(perm, _alphabet));
+        Alphabet temp = new Alphabet(_alphabet.getAlpha());
+        M.setPlugboard(new Permutation(perm, temp));
     }
 
     /** Print MSG in groups of five (except that the last group may

@@ -82,9 +82,6 @@ class Rotor {
     /** Advance me one position, if possible. By default, does nothing. */
     void advance() {
     }
-    String get_notches(){
-        return null;
-    }
 
     @Override
     public String toString() {

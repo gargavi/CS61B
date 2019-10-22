@@ -44,7 +44,7 @@ class Alphabet {
     /** Returns character number INDEX in the alphabet, where
      *  0 <= INDEX < size(). */
     char toChar(int index) {
-        return alpha.charAt(index);
+        return alpha.charAt(index % size());
     }
 
     /** Returns the index of character preprocess(CH), which must be in
@@ -54,7 +54,7 @@ class Alphabet {
             throw new EnigmaException("Character not in the alphabet " + ch);
         }
         for (int i = 0; i < size(); i++) {
-            if (alpha.charAt((i + rotation) % size()) == ch) {
+            if (alpha.charAt(i % size()) == ch) {
                 return i;
             }
         }
@@ -64,8 +64,9 @@ class Alphabet {
     /**Sets the rotation of the alphabet. */
     /**@param sett represents rotation */
     void rotating(int sett) {
-        rotation = sett;
+        alpha = alpha.substring(sett) + alpha.substring(0, sett);
     }
+
 
     /** retrieves the alphabet.
      * @return String Alpha*/

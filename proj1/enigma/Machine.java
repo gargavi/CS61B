@@ -1,6 +1,7 @@
 package enigma;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import static enigma.EnigmaException.*;
@@ -88,7 +89,8 @@ class Machine {
         for (int i = 0; i < rotatsetting.length(); i++) {
             if (_alphabet.contains(rotatsetting.charAt(i))) {
                 Alphabet hello = ROTORS[i + 1].alphabet();
-                hello.rotating(hello.toInt(rotatsetting.charAt(i)));
+                int a = hello.toInt(rotatsetting.charAt(i));
+                hello.rotating(a);
             } else {
                 throw new EnigmaException("setting can't have whack letters");
             }
@@ -104,17 +106,17 @@ class Machine {
      *  index in the range 0..alphabet size - 1), after first advancing
      *  the machine. */
     int convert(int c) {
-        int i = numRotors()-numPawls();
+        int i = numRotors() - numPawls();
         while (i < numRotors()) {
-            if (i == numRotors() - 1){
+            if (i == numRotors() - 1) {
                 ROTORS[i].advance();
-                i ++;
-            } else if (ROTORS[i + 1].atNotch()){
+                i++;
+            } else if (ROTORS[i + 1].atNotch()) {
                 ROTORS[i].advance();
                 ROTORS[i + 1].advance();
                 i = i + 2;
             } else {
-                i ++;
+                i++;
             }
         }
         char d = _alphabet.toChar(c);
@@ -139,14 +141,16 @@ class Machine {
         }
         return perm;
     }
-
-    String roto_sett(){
-        String temp  = "";
-        for (Rotor ro: ROTORS){
-            temp = temp + " " + Integer.toString(ro.setting());
+    /**Provide Access Rto Rotors.*/
+    /**@return a collection. */
+    Collection retrieve() {
+        Collection<String> temp = new ArrayList<String>();
+        for (Rotor a: _allRotors) {
+            temp.add(a.name());
         }
         return temp;
     }
+
     /** Common alphabet of my rotors. */
     private final Alphabet _alphabet;
     /**The number of rotors. */

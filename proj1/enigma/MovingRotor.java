@@ -20,14 +20,7 @@ class MovingRotor extends Rotor {
         for (int i = 0; i < _notches.length(); i++) {
             _notc[i] = alphabet().toInt(_notches.charAt(i));
         }
-
-
     }
-    @Override
-    String get_notches(){
-        return _notches;
-    }
-
     @Override
     boolean rotates() {
         return true;
