@@ -51,7 +51,7 @@ class Alphabet {
      *  the alphabet. This is the inverse of toChar(). */
     int toInt(char ch) {
         if (!contains(ch)) {
-            throw new EnigmaException("Character not in the alphabet " + ch);
+            throw new EnigmaException("Character not in the alphabet ");
         }
         for (int i = 0; i < size(); i++) {
             if (alpha.charAt(i % size()) == ch) {

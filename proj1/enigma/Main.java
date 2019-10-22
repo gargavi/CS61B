@@ -94,7 +94,12 @@ public final class Main {
                 while (unusual.hasNext()) {
                     here = here + unusual.next();
                 }
-                printMessageLine(M.convert(here));
+                if (!(a.isEmpty()) && a.charAt(a.length() - 1) == ' ') {
+                    printMessageLine(M.convert(here) + ' ');
+                } else {
+                    printMessageLine(M.convert(here));
+                }
+
             }
         }
     }
@@ -105,8 +110,18 @@ public final class Main {
         try {
             String alpha = _config.next();
             _alphabet = new Alphabet(alpha);
-            int numrotors = Integer.parseInt(_config.next());
-            int numpawls = Integer.parseInt(_config.next());
+            int numrotors;
+            int numpawls;
+            if (_config.hasNextInt()) {
+                numrotors = Integer.parseInt(_config.next());
+            } else {
+                throw new EnigmaException("incorrect format");
+            }
+            if (_config.hasNextInt()) {
+                numpawls = Integer.parseInt(_config.next());
+            } else {
+                throw new EnigmaException("incorrect format");
+            }
             ArrayList<Rotor> allRotors = new ArrayList<Rotor>();
             while (_config.hasNext()) {
                 Rotor temp = readRotor();

@@ -20,7 +20,7 @@ class Machine {
         _numrotors = numRotors;
         _pawls = pawls;
         _allRotors = allRotors;
-        ROTORS = new Rotor[_numrotors];
+        _ROTORS = new Rotor[_numrotors];
     }
 
     /** Return the number of rotor slots I have. */
@@ -46,7 +46,7 @@ class Machine {
                     if (duplicate) {
                         throw new EnigmaException("can't have equal rotors");
                     } else {
-                        ROTORS[i] = total;
+                        _ROTORS[i] = total;
                         i += 1;
                         duplicate = true;
                     }
@@ -59,7 +59,7 @@ class Machine {
                 duplicate = false;
             }
         }
-        if (!ROTORS[0].reflecting()) {
+        if (!_ROTORS[0].reflecting()) {
             throw new EnigmaException("The first rotor has to be a reflector");
         }
     }
@@ -73,7 +73,7 @@ class Machine {
         }
         for (int i = 0; i < setting.length(); i++) {
             if (_alphabet.contains(setting.charAt(i))) {
-                ROTORS[i + 1].set(setting.charAt(i));
+                _ROTORS[i + 1].set(setting.charAt(i));
             } else {
                 throw new EnigmaException("setting can't have whack letters");
             }
@@ -88,7 +88,7 @@ class Machine {
         }
         for (int i = 0; i < rotatsetting.length(); i++) {
             if (_alphabet.contains(rotatsetting.charAt(i))) {
-                Alphabet hello = ROTORS[i + 1].alphabet();
+                Alphabet hello = _ROTORS[i + 1].alphabet();
                 int a = hello.toInt(rotatsetting.charAt(i));
                 hello.rotating(a);
             } else {
@@ -109,23 +109,22 @@ class Machine {
         int i = numRotors() - numPawls();
         while (i < numRotors()) {
             if (i == numRotors() - 1) {
-                ROTORS[i].advance();
+                _ROTORS[i].advance();
                 i++;
-            } else if (ROTORS[i + 1].atNotch()) {
-                ROTORS[i].advance();
-                ROTORS[i + 1].advance();
+            } else if (_ROTORS[i + 1].atNotch()) {
+                _ROTORS[i].advance();
+                _ROTORS[i + 1].advance();
                 i = i + 2;
             } else {
                 i++;
             }
         }
-        char d = _alphabet.toChar(c);
         c = _plugboard.permute(c);
-        for (int j = ROTORS.length; j > 0; j--) {
-            c = ROTORS[j - 1].convertForward(c);
+        for (int j = _ROTORS.length; j > 0; j--) {
+            c = _ROTORS[j - 1].convertForward(c);
         }
-        for (int j = 1; j < ROTORS.length; j++) {
-            c = ROTORS[j].convertBackward(c);
+        for (int j = 1; j < _ROTORS.length; j++) {
+            c = _ROTORS[j].convertBackward(c);
         }
         return _plugboard.invert(c);
 
@@ -160,7 +159,7 @@ class Machine {
     /** THe Collection of all Rotors. */
     private Collection<Rotor> _allRotors;
     /** The rotors we use. */
-    private Rotor[] ROTORS;
+    private Rotor[] _ROTORS;
     /**The plugboard that is used in the beginning and end. */
     private Permutation _plugboard;
 }
