@@ -95,6 +95,7 @@ public final class Main {
                     here = here + unusual.next();
                 }
                 if (!(a.isEmpty()) && a.charAt(a.length() - 1) == ' ') {
+                    System.out.println("done");
                     printMessageLine(M.convert(here) + ' ');
                 } else {
                     printMessageLine(M.convert(here));
@@ -102,6 +103,7 @@ public final class Main {
 
             }
         }
+        _output.println();
     }
 
     /** Return an Enigma machine configured from the contents of configuration
