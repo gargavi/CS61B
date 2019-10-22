@@ -41,7 +41,7 @@ class Alphabet {
         return false;
     }
 
-    /** Returns character number INDEX in the alphabet, where
+    /** Returns c haracter number INDEX in the alphabet, where
      *  0 <= INDEX < size(). */
     char toChar(int index) {
         return alpha.charAt(index % size());
