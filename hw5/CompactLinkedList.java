@@ -70,7 +70,7 @@ public class CompactLinkedList<T> extends AbstractSequentialList<T> {
 
         @Override
         public T next() {
-
+            return _data[_link[nextIndex()]^_prev];
         }
 
         @Override
@@ -111,8 +111,10 @@ public class CompactLinkedList<T> extends AbstractSequentialList<T> {
                 throw new IllegalStateException();
             }
             else{
-                _link[size()] = 0;
+                //link[size()] = index of next ^ index of previous
                 _data[size()] = obj;
+                _link[size()] = _next^_prev;
+
             }
         }
 
