@@ -114,78 +114,135 @@ public class ArrayHeap<T> {
     }
 
 
-
-    /* FILL IN THE METHODS BELOW. */
-
     /* Returns the index of the left child of the node at i. */
     private int getLeftOf(int i) {
-        //TODO
-        return 0;
+        int a = 2*i;
+        if (a > size()){
+            return -1;
+        } else {
+            return a;
+        }
     }
 
     /* Returns the index of the right child of the node at i. */
     private int getRightOf(int i) {
-        //TODO
-        return 0;
+        int a = 2*i + 1;
+        if (a > size()){
+            return -1;
+        } else {
+            return a;
+        }
     }
 
     /* Returns the index of the node that is the parent of the node at i. */
     private int getParentOf(int i) {
-        //TODO
-        return 0;
+        if (i % 2 == 1){
+            return (i-1)/2;
+        } else {
+            return i /2;
+        }
+
     }
 
     /* Adds the given node as a left child of the node at the given index. */
     private void setLeft(int index, Node n) {
-        //TODO
+        setNode(getLeftOf(index), n);
     }
 
     /* Adds the given node as the right child of the node at the given index. */
     private void setRight(int index, Node n) {
-        //TODO
+        setNode(getRightOf(index), n);
     }
 
     /** Returns the index of the node with smaller priority. Precondition: not
       * both nodes are null. */
     private int min(int index1, int index2) {
-        //TODO
-        return 0;
+        Node a = getNode(index1);
+        Node b = getNode(index2);
+        if (a == null && b == null){
+            throw new Error();
+        }
+        if (a == null || a.priority() < b.priority()){
+            return index2;
+        } else if ( b == null || a.priority() > b.priority()) {
+            return index1;
+        } else {
+            return index1;
+        }
     }
 
     /* Returns the Node with the smallest priority value, but does not remove it
      * from the heap. */
     public Node peek() {
-        //TODO
-        return null;
+        return getNode(1);
     }
 
     /* Bubbles up the node currently at the given index. */
     private void bubbleUp(int index) {
-        //TODO
+        int parent = getParentOf(index);
+        while (index != 1 && getNode(index).priority() > getNode(parent).priority() ){
+            swap(index, getParentOf(index));
+            index = parent;
+            parent = getParentOf(index);
+        }
     }
 
     /* Bubbles down the node currently at the given index. */
     private void bubbleDown(int index) {
-        //TODO
+        int right = getRightOf(index);
+        int left = getLeftOf(index);
+        while ((right != -1 && getNode(index).priority() > getNode(right).priority()) || (left != -1 && getNode(index).priority() > getNode(left).priority())){
+            if (getNode(index).priority() > getNode(right).priority()){
+                swap(index, right);
+                index = right;
+
+            } else {
+                swap(index, left);
+                index = left;
+            }
+            right = getRightOf(index);
+            left = getLeftOf(index);
+        }
     }
 
     /* Inserts an item with the given priority value. Same as enqueue, or offer. */
     public void insert(T item, double priority) {
-        //TODO
+        if (size() > 1) {
+            setNode(size() + 1, new Node(item, priority));
+            swap(1, size());
+            bubbleDown(1);
+            bubbleUp(size());
+        } else{
+            setNode(size() + 1, new Node(item, priority));
+        }
     }
 
     /* Returns the element with the smallest priority value, and removes it from
      * the heap. Same as dequeue, or poll. */
     public T removeMin() {
-        //TODO
-        return null;
+        swap(1, size());
+        bubbleDown(1);
+        return removeNode(size()).item();
+
     }
 
     /* Changes the node in this heap with the given item to have the given
      * priority. You can assume the heap will not have two nodes with the same
      * item. Check for item equality with .equals(), not == */
     public void changePriority(T item, double priority) {
-        //TODO
+        for (int a = 0; a < size(); a ++){
+            Node C = getNode(a);
+            if (C.item().equals(item)){
+                double b = C.priority();
+                C.setPriority(priority);
+                if (b > C.priority()){
+                    bubbleUp(a);
+                } else {
+                    bubbleDown(a);
+                }
+            }
+        }
+
     }
 
 }
