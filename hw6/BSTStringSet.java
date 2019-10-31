@@ -38,7 +38,6 @@ public class BSTStringSet implements SortedStringSet, Iterable<String> {
         }
 
     }
-
     @Override
     public boolean contains(String s) {
         Node a = _root;
@@ -151,7 +150,13 @@ public class BSTStringSet implements SortedStringSet, Iterable<String> {
         BSTIterator1(Node node, String low, String high) {
             lower = low;
             higher = high;
-            addTree(node);
+            if (node.s.compareTo(low) >= 0 && node.s.compareTo(high) <= 0){
+                addTree(node);
+            } else if (node.s.compareTo(low) < 0){
+                addTree(node.left);
+            } else {
+                addTree(node.right);
+            }
         }
 
         @Override
