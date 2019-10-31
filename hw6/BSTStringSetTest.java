@@ -7,7 +7,24 @@ import java.util.List;
  * @author
  */
 public class BSTStringSetTest  {
-    // FIXME: Add your own tests for your BST StringSet
+
+
+    @Test
+    public void testput(){
+        BSTStringSet total = new BSTStringSet();
+        total.put("Avi");
+        total.put("Bavi");
+        total.put("Davi");
+        total.put("Cavi");
+
+
+        assertEquals(true, total.contains("Avi"));
+        assertEquals(true, total.contains("Bavi"));
+        assertEquals(true, total.contains("Cavi"));
+        assertEquals(true, total.contains("Davi"));
+        assertEquals(false, total.contains("Mavi"));
+        System.out.println(total.asList());
+    }
 
     @Test
     public void testNothing() {

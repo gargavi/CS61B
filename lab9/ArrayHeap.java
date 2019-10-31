@@ -220,10 +220,9 @@ public class ArrayHeap<T> {
     /* Returns the element with the smallest priority value, and removes it from
      * the heap. Same as dequeue, or poll. */
     public T removeMin() {
-        swap(1, size());
-        bubbleDown(1);
-        return removeNode(size()).item();
-
+        T temp  = removeNode(1).item();
+        bubbleUp(size());
+        return temp;
     }
 
     /* Changes the node in this heap with the given item to have the given
