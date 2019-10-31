@@ -67,7 +67,11 @@ public class BSTStringSet implements SortedStringSet, Iterable<String> {
     public List<String> asList() {
         ArrayList<String> temp = new ArrayList<String>();
         Node a = _root;
-        addto(_root, temp);
+        if (_root == null){
+            return temp;
+        } else {
+            addto(_root, temp);
+        }
         return temp;
     }
 
@@ -192,7 +196,6 @@ public class BSTStringSet implements SortedStringSet, Iterable<String> {
     @Override
     public Iterator<String> iterator(String low, String high) {
         return new BSTIterator1(_root, low, high);
-
     }
 
 

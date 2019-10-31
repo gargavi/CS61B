@@ -13,13 +13,25 @@ class ECHashStringSet implements StringSet {
     @Override
     public void put(String s) {
         size = 1.0 + size;
-         
+
 
     }
 
     @Override
     public boolean contains(String s) {
-        return false; // FIXME
+        int a = s.hashCode();
+        Node temp = total.get(a);
+        while (temp != null){
+            if (temp._string == s){
+                return true;
+            }
+            temp = temp._next;
+        }
+        return false;
+    }
+
+    public void resize(){
+
     }
 
     @Override
