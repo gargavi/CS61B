@@ -53,8 +53,8 @@ class Board {
             return;
         }
         init();
-        for (int i = 0; i < 9; i ++){
-            for (int j = 0; j < 9; j ++){
+        for (int i = 0; i < SIZE; i ++){
+            for (int j = 0; j < SIZE; j ++){
                 all[i][j] = model.all[i][j];
             }
         }
@@ -70,8 +70,8 @@ class Board {
         for (Square b: INITIAL_ATTACKERS){
             put(BLACK, b);
         }
-        for (int i = 0; i < 9; i ++ ){
-            for (int j = 0; j < 9; j ++){
+        for (int i = 0; i < SIZE; i ++ ){
+            for (int j = 0; j < SIZE; j ++){
                 if (all[i][j] == null){
                     put(EMPTY, sq(i,j));
                 }
@@ -79,7 +79,7 @@ class Board {
         }
         _turn = BLACK;
         recording.add(encodedBoard());
-
+        history.push("End");
     }
 
     /** Set the move limit to LIM.  It is an error if 2*LIM <= moveCount(). */
@@ -115,8 +115,8 @@ class Board {
      *  position is a repeat. */
     private void checkRepeated() {
         recording.add(encodedBoard());
-        for (int i = recording.size(); i >= 0; i = i - 2){
-            if (recording.get(recording.size()) == recording.get(i)){
+        for (int i = recording.size() - 3; i >= 0; i = i - 2){
+            if (recording.get(recording.size() - 1) == recording.get(i)){
                 _repeated = true;
                 _winner = _turn.opponent();
             }
@@ -164,6 +164,7 @@ class Board {
 
     /** Set square S to P and record for undoing. */
     final void revPut(Piece p, Square s) {
+        history.push(get(s).toString() + s.toString());
         put(p ,s);
 
     }
@@ -242,7 +243,24 @@ class Board {
         _moveCount ++;
         revPut(get(from), to);
         revPut(EMPTY, from);
+        for (int i = 0; i < 4; i ++){
+            Square two_step = to.rookMove(i, 2);
+            if (two_step != null){
+                capture(to, two_step);
+            }
+        }
+        if (kingPosition().isEdge()){
+            _winner = WHITE;
+        }
+        checkRepeated();
+        history.push("End");
         _turn =  turn().opponent();
+        if (!hasMove(_turn)){
+            _winner = turn().opponent();
+        }
+        if (moveCount() == 2*getLimit()){
+            _winner = WHITE;
+        }
     }
 
     /** Move according to MOVE, assuming it is a legal move. */
@@ -253,28 +271,86 @@ class Board {
     /** Capture the piece between SQ0 and SQ2, assuming a piece just moved to
      *  SQ0 and the necessary conditions are satisfied. */
     private void capture(Square sq0, Square sq2) {
-        // FIXME
+        if (Math.abs(sq0.col() - sq2.col()) == 2 || Math.abs(sq0.row() - sq2.row()) == 2){
+            Square between = sq0.between(sq2);
+            if (get(between) != EMPTY) {
+                if (get(between) == KING){
+                    if (between == THRONE){
+                        if (get(NTHRONE) == BLACK && get(STHRONE) == BLACK && get(WTHRONE) == BLACK && get(ETHRONE) == BLACK){
+                            revPut(EMPTY, between);
+                            _winner = BLACK;
+                        }
+                    } else if (between == WTHRONE || between == NTHRONE || between == STHRONE || between == ETHRONE){
+                        Square diag1 = THRONE.diag1(between);
+                        Square diag2 = THRONE.diag2(between);
+                        if (sq0 == THRONE){
+                            if (get(sq2) == BLACK && get(diag1) == BLACK && get(diag2) == BLACK){
+                                revPut(EMPTY, between);
+                                _winner = BLACK;
+                            }
+                        } else if (sq2 == THRONE){
+                            if (get(sq0) == BLACK && get(diag1) == BLACK && get(diag2) == BLACK){
+                                revPut(EMPTY, between);
+                                _winner = BLACK;
+                            }
+                        }
+                    } else {
+                        if (get(sq0).side() == BLACK && get(sq2).side() == BLACK){
+                            revPut(EMPTY, between);
+                            _winner = BLACK;
+                        }
+                    }
+
+                } else {
+                    if (sq0 == THRONE && get(sq0) == EMPTY && get(sq2).opponent() == get(between).side()) {
+                        revPut(EMPTY, between);
+                    } else if (sq2 == THRONE && get(sq2) == EMPTY && get(sq0).opponent() == get(between).side()){
+                        revPut(EMPTY, between);
+                    } else if (get(sq0).side() == get(sq2).side() && get(sq0).side() != get(between).side()){
+                        revPut(EMPTY, between);
+                    }
+                }
+            }
+        }
+
     }
 
     /** Undo one move.  Has no effect on the initial board. */
     void undo() {
         if (_moveCount > 0) {
             undoPosition();
-            // FIXME
+            String a = history.pop();
+            while( !a.equals("End")){
+                char name = a.charAt(0);
+                Square target = sq(a.substring(1));
+                if (name == 'K'){
+                    put(KING, target);
+                }
+                if (name == 'W'){
+                    put(WHITE, target);
+                }
+                if (name == 'B'){
+                    put(BLACK, target);
+                }
+            }
         }
     }
 
     /** Remove record of current position in the set of positions encountered,
      *  unless it is a repeated position or we are at the first move. */
     private void undoPosition() {
-        // FIXME
+        if (recording.size() > 0) {
+            recording.remove(recording.size() - 1);
+        }
+        _moveCount = moveCount() - 1;
         _repeated = false;
     }
 
     /** Clear the undo stack and board-position counts. Does not modify the
      *  current position or win status. */
     void clearUndo() {
-        // FIXME
+        history.clear();
+        _moveCount = 0;
     }
 
     /** Return a new mutable list of all legal moves on the current board for
@@ -304,7 +380,7 @@ class Board {
                         total.add(Move.mv(b, sq(b.col(), i)));
                     }
                 }
-                for (int i = b.row() + 1; i <= 9; i++) {
+                for (int i = b.row() + 1; i < 9; i++) {
                     if (get(b.col(), i) != EMPTY) {
                         break;
                     } else {
@@ -356,8 +432,8 @@ class Board {
     private HashSet<Square> pieceLocations(Piece side) {
         assert side != EMPTY;
         HashSet<Square> temp = new HashSet<Square>();
-        for (int i = 0; i < 9; i ++ ){
-            for (int j = 0; j < 9; j ++){
+        for (int i = 0; i < SIZE; i ++ ){
+            for (int j = 0; j < SIZE; j ++){
                 if (all[i][j] == side){
                     temp.add(sq(i,j));
                 }
@@ -391,8 +467,8 @@ class Board {
 
     private int limit = (int) Math.pow(2, 64);
 
-    private Stack<Move> history = new Stack<Move>();
+    private Stack<String> history = new Stack<String>();
 
-    private Piece[][] all = new Piece[9][9];
+    private Piece[][] all = new Piece[SIZE][SIZE];
 
 }
