@@ -17,8 +17,7 @@ public class UnitTest {
 
     /** A dummy test as a placeholder for real ones. */
     @Test
-    public void dummyTest() {
-        assertTrue("There are no unit tests!", false);
+    public void dummyTest() { assertTrue("There are no unit tests!", false);
     }
 
 }
