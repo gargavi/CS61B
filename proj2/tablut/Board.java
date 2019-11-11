@@ -250,7 +250,9 @@ class Board {
                 capture(to, two_step);
             }
         }
-        if (kingPosition().isEdge()){
+        if (kingPosition() == null){
+            _winner = BLACK;
+        } else if (kingPosition().isEdge()){
             _winner = WHITE;
         }
         checkRepeated();

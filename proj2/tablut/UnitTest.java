@@ -34,6 +34,14 @@ public class UnitTest {
         assertTrue(temp.equals(b.encodedBoard()));
 
     }
+    @Test
+    public void checkCapture() {
+        Board b = new Board();
+        b.makeMove(Square.sq(8, 5), Square.sq(7, 5));
+        b.makeMove(Square.sq(6, 4), Square.sq(6, 5));
+        b.makeMove(Square.sq(5, 8), Square.sq(5, 5));
+        assertEquals(b.get(6,5).equals(Piece.EMPTY), true );
+    }
 
 }
 
