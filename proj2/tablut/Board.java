@@ -240,6 +240,7 @@ class Board {
     /** Move FROM-TO, assuming this is a legal move. */
     void makeMove(Square from, Square to) {
         assert isLegal(from, to);
+        history.push("End");
         _moveCount ++;
         revPut(get(from), to);
         revPut(EMPTY, from);
@@ -253,7 +254,6 @@ class Board {
             _winner = WHITE;
         }
         checkRepeated();
-        history.push("End");
         _turn =  turn().opponent();
         if (!hasMove(_turn)){
             _winner = turn().opponent();
@@ -332,6 +332,10 @@ class Board {
                 if (name == 'B'){
                     put(BLACK, target);
                 }
+                if (name == '-'){
+                    put (EMPTY, target);
+                }
+                a = history.pop();
             }
         }
     }
@@ -342,6 +346,7 @@ class Board {
         if (recording.size() > 0) {
             recording.remove(recording.size() - 1);
         }
+        _turn = _turn.opponent();
         _moveCount = moveCount() - 1;
         _repeated = false;
     }
@@ -351,6 +356,8 @@ class Board {
     void clearUndo() {
         history.clear();
         _moveCount = 0;
+        recording.clear();
+        recording.add(encodedBoard());
     }
 
     /** Return a new mutable list of all legal moves on the current board for

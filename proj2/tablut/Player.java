@@ -16,7 +16,7 @@ abstract class Player {
 
     /** Return my piece's color. */
     Piece myPiece() {
-        return _myPiece;
+        return _myPiece.side();
     }
 
     /** Return the board I am playing on. */

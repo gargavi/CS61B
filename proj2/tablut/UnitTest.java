@@ -16,8 +16,23 @@ public class UnitTest {
     }
 
     /** A dummy test as a placeholder for real ones. */
+
     @Test
-    public void dummyTest() { assertTrue("There are no unit tests!", false);
+    public void checkUndo(){
+        Board b = new Board();
+        b.makeMove(Square.sq(7, 4), Square.sq(7, 5));
+        assertFalse(b.encodedBoard().equals(new Board().encodedBoard()));
+        b.undo();
+        assertTrue(b.encodedBoard().equals(new Board().encodedBoard()));
+        b.makeMove(Square.sq(8,5), Square.sq(6 ,5));
+        b.makeMove(Square.sq(2 ,4), Square.sq(2, 5));
+        String temp = b.encodedBoard();
+        b.makeMove(Square.sq(8, 3), Square.sq(6, 3));
+        System.out.println(b);
+        b.undo();
+        System.out.println(b);
+        assertTrue(temp.equals(b.encodedBoard()));
+
     }
 
 }
