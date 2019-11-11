@@ -1,0 +1,41 @@
+#* java -ea tablut.Main
+# Check that game works
+manual white
+manual black
+h5-6
+dump
+g5-h
+dump
+a6-d
+dump
+e7-h
+dump
+i4-f
+dump
+h7-i
+dump
+d1-4
+dump
+c5-6
+dump
+i6-f
+dump
+e3-4
+dump
+b5-6
+dump
+h5-4
+dump
+d9-6
+dump
+i7-6
+dump
+i5-f
+dump
+h4-g
+f9-g
+dump
+e5-d
+dump
+a5-c
+dump
