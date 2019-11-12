@@ -53,16 +53,19 @@ class Board {
             return;
         }
         init();
-        for (int i = 0; i < SIZE; i ++){
-            for (int j = 0; j < SIZE; j ++){
-                all[i][j] = model.all[i][j];
-            }
+        for (Move b: model.get_moves()){
+            makeMove(b);
         }
 
     }
 
     /** Clears the board to the initial position. */
     void init() {
+        for (int i = 0; i < SIZE; i ++ ){
+            for (int j = 0; j < SIZE; j ++){
+                put(EMPTY, sq(i,j));
+            }
+        }
         put(KING, Square.sq("e5"));
         for (Square a: INITIAL_DEFENDERS){
             put(WHITE, a);
@@ -70,14 +73,12 @@ class Board {
         for (Square b: INITIAL_ATTACKERS){
             put(BLACK, b);
         }
-        for (int i = 0; i < SIZE; i ++ ){
-            for (int j = 0; j < SIZE; j ++){
-                if (all[i][j] == null){
-                    put(EMPTY, sq(i,j));
-                }
-            }
-        }
+        number_white = 8;
+        number_black = 16;
         _turn = BLACK;
+        recording.clear();
+        history.clear();
+        moves.clear();
         recording.add(encodedBoard());
         history.push("End");
     }
@@ -115,9 +116,8 @@ class Board {
      *  position is a repeat. */
     private void checkRepeated() {
         recording.add(encodedBoard());
-        for (int i = recording.size() - 3; i >= 0; i = i - 2){
-            if (recording.get(recording.size() - 1) == recording.get(i)){
-                _repeated = true;
+        for (int i = 0; i < recording.size() - 2; i ++){
+            if (recording.get(i).equals(recording.get(recording.size() - 1))){
                 _winner = _turn.opponent();
             }
         }
@@ -239,6 +239,9 @@ class Board {
 
     /** Move FROM-TO, assuming this is a legal move. */
     void makeMove(Square from, Square to) {
+        if (!isLegal(from, to)){
+            System.out.println(moves);
+        }
         assert isLegal(from, to);
         history.push("End");
         _moveCount ++;
@@ -267,6 +270,7 @@ class Board {
 
     /** Move according to MOVE, assuming it is a legal move. */
     void makeMove(Move move) {
+        moves.add(move);
         makeMove(move.from(), move.to());
     }
 
@@ -304,12 +308,20 @@ class Board {
                     }
 
                 } else {
+                    Piece b = get(between);
                     if (sq0 == THRONE && get(sq0) == EMPTY && get(sq2).opponent() == get(between).side()) {
                         revPut(EMPTY, between);
                     } else if (sq2 == THRONE && get(sq2) == EMPTY && get(sq0).opponent() == get(between).side()){
                         revPut(EMPTY, between);
                     } else if (get(sq0).side() == get(sq2).side() && get(sq0).side() != get(between).side()){
                         revPut(EMPTY, between);
+                    }
+                    if (get(between) == EMPTY){
+                        if (b == WHITE){
+                            number_white --;
+                        } else {
+                            number_black --;
+                        }
                     }
                 }
             }
@@ -349,7 +361,9 @@ class Board {
             recording.remove(recording.size() - 1);
         }
         _turn = _turn.opponent();
+        _winner = null;
         _moveCount = moveCount() - 1;
+        moves.remove(moves.size() -1);
         _repeated = false;
     }
 
@@ -367,33 +381,46 @@ class Board {
     List<Move> legalMoves(Piece side) {
         ArrayList<Move> total = new ArrayList<Move>();
         for (Square b : SQUARE_LIST) {
-            if (get(b) == side) {
+            if (get(b).side() == side) {
                 for (int i = b.col() - 1; i >= 0; i--) {
                     if (get(i, b.row()) != EMPTY) {
                         break;
                     } else {
-                        total.add(Move.mv(b, sq(i, b.row())));
+                        Move temp = Move.mv(b, sq(i, b.row()));
+                        if (isLegal(temp)){
+                            total.add(temp);
+                        }
+
                     }
                 }
                 for (int i = b.col() + 1; i < 9; i++) {
                     if (get(i, b.row()) != EMPTY) {
                         break;
                     } else {
-                        total.add(Move.mv(b, sq(i, b.row())));
+                        Move temp = Move.mv(b, sq(i, b.row()));
+                        if (isLegal(temp)){
+                            total.add(temp);
+                        }
                     }
                 }
                 for (int i = b.row() - 1; i >= 0; i--) {
                     if (get(b.col(), i) != EMPTY) {
                         break;
                     } else {
-                        total.add(Move.mv(b, sq(b.col(), i)));
+                        Move temp = Move.mv(b, sq(b.col(),i));
+                        if (isLegal(temp)){
+                            total.add(temp);
+                        }
                     }
                 }
                 for (int i = b.row() + 1; i < 9; i++) {
                     if (get(b.col(), i) != EMPTY) {
                         break;
                     } else {
-                        total.add(Move.mv(b, sq(b.col(), i)));
+                        Move temp = Move.mv(b, sq(b.col(),i));
+                        if (isLegal(temp)){
+                            total.add(temp);
+                        }
                     }
                 }
             }
@@ -461,6 +488,18 @@ class Board {
         }
         return new String(result);
     }
+    /** Retrives moves*/
+    public ArrayList<Move> get_moves(){
+        return moves;
+    }
+    /** Retrieves number black */
+    public int get_black(){
+        return number_black;
+    }
+    /** Retrieves number white */
+    public int get_white(){
+        return number_white;
+    }
 
     /** Piece whose turn it is (WHITE or BLACK). */
     private Piece _turn;
@@ -476,7 +515,12 @@ class Board {
 
     private int limit = (int) Math.pow(2, 64);
 
+    private ArrayList<Move> moves = new ArrayList<Move>();
+
     private Stack<String> history = new Stack<String>();
+
+    private int number_white;
+    private int number_black;
 
     private Piece[][] all = new Piece[SIZE][SIZE];
 

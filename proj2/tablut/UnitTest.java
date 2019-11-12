@@ -43,6 +43,7 @@ public class UnitTest {
         assertEquals(b.get(6,5).equals(Piece.EMPTY), true );
     }
 
+
 }
 
 

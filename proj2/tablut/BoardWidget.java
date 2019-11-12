@@ -69,7 +69,10 @@ class BoardWidget extends Pad {
         g.setColor(THRONE_COLOR);
         g.fillRect(cx(Board.THRONE), cy(Board.THRONE),
                    SQUARE_SIDE, SQUARE_SIDE);
-        // OTHER SQUARE COLORINGS?
+        g.setColor(ADJACENT_THRONE_COLOR);
+        for (Square b: ADJACENT_THRONE){
+            g.fillRect(cx(b), cy(b), SQUARE_SIDE, SQUARE_SIDE);
+        }
         g.setColor(GRID_LINE_COLOR);
         for (int k = 0; k <= SIZE; k += 1) {
             g.drawLine(cx(0), cy(k - 1), cx(SIZE), cy(k - 1));
@@ -87,7 +90,16 @@ class BoardWidget extends Pad {
 
     /** Draw the contents of S on G. */
     private void drawPiece(Graphics2D g, Square s) {
-        // FIXME
+        Piece side = _board.get(s);
+        if (side == BLACK){
+            g.setColor(BLACK_COLOR);
+            g.fillRect(cx(s), cy(s), SQUARE_SIDE, SQUARE_SIDE);
+        }  else if (side == WHITE) {
+            g.setColor(WHITE_COLOR);
+            g.fillRect(cx(s), cy(s), SQUARE_SIDE, SQUARE_SIDE);
+        }
+        g.drawLine(cx(0), cy(1), cx(SIZE), cy(1));
+
     }
 
     /** Handle a click on S. */
