@@ -73,12 +73,16 @@ class Board {
         for (Square b: INITIAL_ATTACKERS){
             put(BLACK, b);
         }
-        number_white = 8;
-        number_black = 16;
+        piece = new int[2];
+        piece[0] = 8;
+        piece[1] = 16;
         _turn = BLACK;
+        _winner = null;
         recording.clear();
         history.clear();
         moves.clear();
+        _moveCount = 0;
+        pieces.push(piece);
         recording.add(encodedBoard());
         history.push("End");
     }
@@ -259,6 +263,7 @@ class Board {
             _winner = WHITE;
         }
         checkRepeated();
+        pieces.push(new int[]{piece[0], piece[1]});
         _turn =  turn().opponent();
         if (!hasMove(_turn)){
             _winner = turn().opponent();
@@ -318,9 +323,9 @@ class Board {
                     }
                     if (get(between) == EMPTY){
                         if (b == WHITE){
-                            number_white --;
+                            piece[0] = piece[0] - 1;
                         } else {
-                            number_black --;
+                            piece[1] = piece[1] - 1;
                         }
                     }
                 }
@@ -360,6 +365,7 @@ class Board {
         if (recording.size() > 0) {
             recording.remove(recording.size() - 1);
         }
+        piece = pieces.pop();
         _turn = _turn.opponent();
         _winner = null;
         _moveCount = moveCount() - 1;
@@ -381,7 +387,7 @@ class Board {
     List<Move> legalMoves(Piece side) {
         ArrayList<Move> total = new ArrayList<Move>();
         for (Square b : SQUARE_LIST) {
-            if (get(b).side() == side) {
+            if (get(b).side() == side || get(b) == side) {
                 for (int i = b.col() - 1; i >= 0; i--) {
                     if (get(i, b.row()) != EMPTY) {
                         break;
@@ -470,7 +476,7 @@ class Board {
         HashSet<Square> temp = new HashSet<Square>();
         for (int i = 0; i < SIZE; i ++ ){
             for (int j = 0; j < SIZE; j ++){
-                if (all[i][j] == side){
+                if (all[i][j].side() == side){
                     temp.add(sq(i,j));
                 }
             }
@@ -494,11 +500,11 @@ class Board {
     }
     /** Retrieves number black */
     public int get_black(){
-        return number_black;
+        return piece[1];
     }
     /** Retrieves number white */
     public int get_white(){
-        return number_white;
+        return piece[0];
     }
 
     /** Piece whose turn it is (WHITE or BLACK). */
@@ -519,8 +525,9 @@ class Board {
 
     private Stack<String> history = new Stack<String>();
 
-    private int number_white;
-    private int number_black;
+    private Stack<int[]> pieces = new Stack<int[]>();
+
+    private int[] piece;
 
     private Piece[][] all = new Piece[SIZE][SIZE];
 

@@ -38,7 +38,15 @@ public class MySortingAlgorithms {
     public static class InsertionSort implements SortingAlgorithm {
         @Override
         public void sort(int[] array, int k) {
-            // FIXME
+            for (int i = 1; i < k; i ++){
+                int j = i;
+                while (j > 0 && array[j-1] > array[j]){
+                    int temp = array[j-1];
+                    array[j-1] = array[j];
+                    array[j] = temp;
+                    j --;
+                }
+            }
         }
 
         @Override
@@ -56,7 +64,19 @@ public class MySortingAlgorithms {
     public static class SelectionSort implements SortingAlgorithm {
         @Override
         public void sort(int[] array, int k) {
-            // FIXME
+            for (int i = 0; i < k; i ++){
+                int lowest_index = i;
+                for (int j = i; j < k; j ++){
+                    if (array[j] < array[i]){
+                        lowest_index = j;
+                    }
+                }
+                int temp = array[lowest_index];
+                array[lowest_index] = array[i];
+                array[i] = temp;
+
+            }
+
         }
 
         @Override
@@ -73,10 +93,49 @@ public class MySortingAlgorithms {
     public static class MergeSort implements SortingAlgorithm {
         @Override
         public void sort(int[] array, int k) {
-            // FIXME
+
+
+
+        }
+        public void merge(int[] arr){
+            int[] first = new int[arr.length/2];
+            int[] second = new int[arr.length - arr.length/2];
+            for (int i = 0; i < arr.length/2; i ++){
+                first[i] = arr[i];
+            }
+            for (int j = arr.length/2; j < arr.length; j ++){
+                second[j - arr.length] = arr[j];
+            }
+            // [1, 3, 4, 7, 8]
+            // [2, 5, 6, 7, 9, 10]
+            // [1, 2, 3, 4, 5, 6, 7, 7, 8
+            int i = 0;
+            int j = 0;
+            int k = 0;
+            while (i < first.length && j < second.length){
+                if (first[i] < second[j]){
+                    arr[k] = first[i];
+                    i ++;
+                    k ++;
+                } else{
+                    arr[k] = second[j];
+                    j ++;
+                    k ++;
+                }
+            }
+            while (i < first.length){
+                arr[k] = first[i];
+                i ++;
+                k ++;
+            }
+            while (j < second.length){
+                arr[k] = first[j];
+                j ++;
+                k ++;
+            }
+
         }
 
-        // may want to add additional methods
 
         @Override
         public String toString() {
@@ -92,10 +151,32 @@ public class MySortingAlgorithms {
     public static class DistributionSort implements SortingAlgorithm {
         @Override
         public void sort(int[] array, int k) {
-            // FIXME: to be implemented
-        }
+            int max = array[0];
+            int[] output = new int[array.length];
+            for (int i = 1; i < array.length; i ++ ){
+                if (array[i] > max){
+                    max = array[i];
+                }
+            }
+            int[] count = new int[max + 1];
+            for (int b: array){
+                count[b] = count[b] + 1;
+            }
+            for (int i = 1; i <= max; i ++ ){
+                count[i] = count[i] + count[i-1];
+            }
+            for (int i = array.length-1; i>=0; i--)
+            {
+                output[count[array[i]]-1] = array[i];
+                --count[array[i]];
+            }
+            int j = 0;
+            for (int b: output){
+                array[j] = b;
+                j ++;
+            }
 
-        // may want to add additional methods
+        }
 
         @Override
         public String toString() {
