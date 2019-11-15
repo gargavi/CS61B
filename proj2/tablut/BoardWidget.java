@@ -102,7 +102,7 @@ class BoardWidget extends Pad {
 
     /** Handle a click on S. */
     private void click(Square s) {
-        // FIXME
+        int to_be_fixed = 1;
         repaint();
     }
 

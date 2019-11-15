@@ -1,19 +1,11 @@
 package tablut;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-
 import static java.lang.Math.*;
 
-import static tablut.Square.SQUARE_LIST;
-import static tablut.Square.sq;
-import static tablut.Board.THRONE;
 import static tablut.Piece.*;
 
 /** A Player that automatically generates moves.
- *  @author
+ *  @author Avi Garg
  */
 class AI extends Player {
 
@@ -45,23 +37,24 @@ class AI extends Player {
     @Override
     String myMove() {
         while (true) {
-            Move the_move = findMove();
+            Move themove = findMove();
             if (board().turn() != myPiece() || board().winner() != null) {
                 _controller.reportError("misplaced move");
                 continue;
             } else {
-                if (the_move == null || !board().isLegal(the_move)){
+                if (themove == null || !board().isLegal(themove)) {
                     _controller.reportError("Invalid move. "
                             + "Please try again.");
-                    if (the_move == null){
+                    if (themove == null) {
                         System.out.println("What the fuc");
                     } else {
-                        System.out.println(the_move.toString());
-                    }continue;
+                        System.out.println(themove.toString());
+                    }
+                    continue;
                 }
             }
-            _controller.reportMove(the_move);
-            return the_move.toString();
+            _controller.reportMove(themove);
+            return themove.toString();
         }
 
     }
@@ -77,12 +70,12 @@ class AI extends Player {
         Board b = new Board(board());
         _lastFoundMove = null;
         int sense;
-        if (myPiece() == WHITE){
+        if (myPiece() == WHITE) {
             sense = 1;
         } else {
             sense = -1;
         }
-        findMove(b, maxDepth(b), true, sense, -1 * INFTY, INFTY );
+        findMove(b, maxDepth(b), true, sense, -1 * INFTY, INFTY);
         return _lastFoundMove;
     }
 
@@ -98,52 +91,53 @@ class AI extends Player {
      *  of the board value and does not set _lastMoveFound. */
     private int findMove(Board board, int depth, boolean saveMove,
                          int sense, int alpha, int beta) {
-        if (board.winner() != null || depth == 0){
-            if (board.winner() == BLACK){
-                return -1*WINNING_VALUE - depth ;
-            } else if (board.winner() == WHITE){
+        if (board.winner() != null || depth == 0) {
+            if (board.winner() == BLACK) {
+                return -1 * WINNING_VALUE - depth;
+            } else if (board.winner() == WHITE) {
                 return WINNING_VALUE + depth;
-            } else if (depth == 0){
+            } else if (depth == 0) {
                 return staticScore(board);
             } else {
                 return staticScore(board);
             }
         } else {
-            int best = INFTY*-1*sense;
-            Move best_pos = null;
-            if (sense == 1){
-                for (Move m: board.legalMoves(WHITE)){
+            int best = INFTY * -1 * sense;
+            int newd = depth - 1;
+            int news = sense * -1;
+            Move bestpos = null;
+            if (sense == 1) {
+                for (Move m: board.legalMoves(WHITE)) {
                     board.makeMove(m);
-                    int temp = findMove(board, depth - 1, false, sense*-1, alpha, beta);
+                    int temp = findMove(board, newd, false, news, alpha, beta);
                     board.undo();
-                    if (temp > best){
+                    if (temp > best) {
                         best = temp;
-                        best_pos = m;
+                        bestpos = m;
                         alpha = max(alpha, temp);
-                        if (beta <= alpha){
+                        if (beta <= alpha) {
                             break;
                         }
                     }
 
                 }
             } else {
-                for (Move m: board.legalMoves(BLACK)){
+                for (Move m: board.legalMoves(BLACK)) {
                     board.makeMove(m);
-                    int temp = findMove(board, depth -1, false, sense*-1, alpha, beta);
+                    int temp = findMove(board, newd, false, news, alpha, beta);
                     board.undo();
-                    if (temp < best){
+                    if (temp < best) {
                         best = temp;
-                        best_pos = m;
+                        bestpos = m;
                         beta = min(beta, temp);
-                        if (beta <= alpha){
+                        if (beta <= alpha) {
                             break;
                         }
                     }
                 }
             }
-            if (saveMove){
-                //System.out.println(best);
-                _lastFoundMove = best_pos;
+            if (saveMove) {
+                _lastFoundMove = bestpos;
             }
 
             return best;
@@ -153,36 +147,16 @@ class AI extends Player {
 
     /** Return a heuristically determined maximum search depth
      *  based on characteristics of BOARD. */
-    private static int maxDepth(Board board){
+    private static int maxDepth(Board board) {
         return min(4, board.getLimit());
     }
 
     /** Return a heuristic value for BOARD. */
     private int staticScore(Board board) {
-        int whites = board.get_white();
-        int blacks = board.get_black();
-//        Square b = board.kingPosition();
-//        if (board.get(sq(b.col(), 8)) == EMPTY){
-//            return WILL_WIN_VALUE;
-//        } else if (board.get(sq(b.col(), 0))== EMPTY){
-//            return WILL_WIN_VALUE;
-//        } else if (board.get(sq(0, b.row())) == EMPTY){
-//            return WILL_WIN_VALUE;
-//        } else if (board.get(sq(8, b.row())) == EMPTY){
-//            return WILL_WIN_VALUE;
-//        }
-        Square king_pos = board.kingPosition();
-        int sub = 0;
-        for (int i = 0; i < 4; i ++){
-            Square temp = king_pos.rookMove(i, 1);
-            if (board.get(temp) == BLACK){
-                sub = sub - 8;
-            }
-        }
-        int number_white = board.legalMoves(WHITE).size();
-        int number_black = board.legalMoves(BLACK).size();
-        int number_king = board.legalMoves(KING).size();
-        return whites*2 - blacks + 4*number_king + _controller.randInt(5);
+        int whites = board.getWhite();
+        int blacks = board.getBlack();
+        int numberking = board.legalMoves(KING).size();
+        return whites * 2 - blacks + 4 * numberking + _controller.randInt(5);
     }
 
 }

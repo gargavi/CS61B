@@ -40,7 +40,7 @@ public class TablutTests {
     }
 
     /**
-     * Tests legalMoves for black pieces to make sure it returns all legal Moves.
+     * Tests legalMoves for black pieces to make sure it returns all legal Move
      * This method needs to be finished and may need to be changed
      * based on your implementation.
      */
@@ -48,7 +48,7 @@ public class TablutTests {
     public void testLegalBlackMoves() {
         Board b = new Board();
 
-        List<Move> movesList = b.legalMoves(Piece.BLACK); // FIXME: Get legal moves for black pieces
+        List<Move> movesList = b.legalMoves(Piece.BLACK);
 
         assertEquals(80, movesList.size());
 
@@ -77,16 +77,5 @@ public class TablutTests {
     static final Piece W = Piece.WHITE;
     static final Piece B = Piece.BLACK;
     static final Piece K = Piece.KING;
-
-    static final Piece[][] initialBoardState = {
-            {E, E, E, B, B, B, E, E, E},
-            {E, E, E, E, B, E, E, E, E},
-            {E, E, E, E, W, E, E, E, E},
-            {B, E, E, E, W, E, E, E, B},
-            {B, B, W, W, K, W, W, B, B},
-            {B, E, E, E, W, E, E, E, B},
-            {E, E, E, E, W, E, E, E, E},
-            {E, E, E, E, B, E, E, E, E},
-            {E, E, E, B, B, B, E, E, E},
-    };
+;
 }
