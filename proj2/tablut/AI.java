@@ -60,15 +60,7 @@ class AI extends Player {
                     }continue;
                 }
             }
-            String name;
-            String from = the_move.from().toString();
-            String to = the_move.to().toString();
-            if (from.charAt(0) == to.charAt(0)){
-                name = "* " + from + "-" + to.charAt(1);
-            } else {
-                name = "* " + from + "-" + to.charAt(0);
-            }
-            System.out.println(name);
+            _controller.reportMove(the_move);
             return the_move.toString();
         }
 
@@ -187,11 +179,10 @@ class AI extends Player {
                 sub = sub - 8;
             }
         }
-        int dis = Math.min(Math.min(9 - king_pos.col(), king_pos.col() - 0), Math.min(9 - king_pos.row(), king_pos.row()));
         int number_white = board.legalMoves(WHITE).size();
         int number_black = board.legalMoves(BLACK).size();
         int number_king = board.legalMoves(KING).size();
-        return whites*2 - blacks + number_white/8 + number_black/4 + 4*number_king + _controller.randInt(5);
+        return whites*2 - blacks + 4*number_king + _controller.randInt(5);
     }
 
 }
