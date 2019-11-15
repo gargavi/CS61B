@@ -150,7 +150,7 @@ class AI extends Player {
                 }
             }
             if (saveMove){
-                System.out.println(best);
+                //System.out.println(best);
                 _lastFoundMove = best_pos;
             }
 
@@ -191,7 +191,7 @@ class AI extends Player {
         int number_white = board.legalMoves(WHITE).size();
         int number_black = board.legalMoves(BLACK).size();
         int number_king = board.legalMoves(KING).size();
-        return whites*2 - blacks + number_white/8 + number_black/4 + 4*number_king;
+        return whites*2 - blacks + number_white/8 + number_black/4 + 4*number_king + _controller.randInt(5);
     }
 
 }

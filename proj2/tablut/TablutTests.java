@@ -16,7 +16,7 @@ public class TablutTests {
     }
 
     /**
-     * Tests legalMoves for white pieces to make sure it returns all legal Moves.
+     * Tests legalMoves for white pieces to make sure it returns all legal Move.
      * This method needs to be finished and may need to be changed
      * based on your implementation.
      */
@@ -24,19 +24,19 @@ public class TablutTests {
     public void testLegalWhiteMoves() {
 
         Board b = new Board();
-        List<Move> movesList = b.legalMoves(Piece.WHITE); //
+        List<Move> movesList = b.legalMoves(Piece.WHITE);
 
         assertEquals(56, movesList.size());
 
-        // Check for absence of illegal moves
+
         assertFalse(movesList.contains(Move.mv("e7-8")));
         assertFalse(movesList.contains(Move.mv("e8-f")));
 
-        // Check for presence of legal moves
+
         assertTrue(movesList.contains(Move.mv("e6-f")));
         assertTrue(movesList.contains(Move.mv("f5-8")));
 
-        // FIXME: Add more assertions
+
     }
 
     /**
@@ -52,19 +52,16 @@ public class TablutTests {
 
         assertEquals(80, movesList.size());
 
-        // Check for absence of illegal moves
+
         assertFalse(movesList.contains(Move.mv("e8-7")));
         assertFalse(movesList.contains(Move.mv("e7-8")));
 
-        // Check for presence of legal moves
+
         assertTrue(movesList.contains(Move.mv("f9-i")));
         assertTrue(movesList.contains(Move.mv("h5-1")));
 
-        // FIXME: Add more assertions
+
     }
-
-    // FIXME: Add more test cases for other Board.java methods
-
 
     private void buildBoard(Board b, Piece[][] target) {
         for (int col = 0; col < Board.SIZE; col++) {

@@ -11,10 +11,9 @@ import java.awt.event.MouseEvent;
 
 import static tablut.Piece.*;
 import static tablut.Square.sq;
-import static tablut.Move.mv;
 
 /** A widget that displays a Tablut game.
- *  @author
+ *  @author Avi Garg
  */
 class BoardWidget extends Pad {
 
@@ -70,7 +69,7 @@ class BoardWidget extends Pad {
         g.fillRect(cx(Board.THRONE), cy(Board.THRONE),
                    SQUARE_SIDE, SQUARE_SIDE);
         g.setColor(ADJACENT_THRONE_COLOR);
-        for (Square b: ADJACENT_THRONE){
+        for (Square b: ADJACENT_THRONE) {
             g.fillRect(cx(b), cy(b), SQUARE_SIDE, SQUARE_SIDE);
         }
         g.setColor(GRID_LINE_COLOR);
@@ -79,7 +78,6 @@ class BoardWidget extends Pad {
             g.drawLine(cx(k), cy(-1), cx(k), cy(SIZE - 1));
         }
 
-        // OTHER STUFF.
     }
 
     @Override
@@ -91,7 +89,7 @@ class BoardWidget extends Pad {
     /** Draw the contents of S on G. */
     private void drawPiece(Graphics2D g, Square s) {
         Piece side = _board.get(s);
-        if (side == BLACK){
+        if (side == BLACK) {
             g.setColor(BLACK_COLOR);
             g.fillRect(cx(s), cy(s), SQUARE_SIDE, SQUARE_SIDE);
         }  else if (side == WHITE) {
