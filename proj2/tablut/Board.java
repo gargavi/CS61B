@@ -83,6 +83,7 @@ class Board {
         recording.clear();
         history.clear();
         moves.clear();
+        limit = Integer.MAX_VALUE;
         _moveCount = 0;
         pieces.push(piece);
         recording.add(encodedBoard());
@@ -101,6 +102,9 @@ class Board {
     /** Gets the limit.
      * @return the limt */
     int getLimit() {
+        if (limit < 0) {
+            return limit + Integer.MAX_VALUE;
+        }
         return limit;
     }
 
@@ -313,6 +317,13 @@ class Board {
                             }
                         } else if (sq2 == THRONE) {
                             if (get(sq0) == BLACK && diag1t && diag2t) {
+                                revPut(EMPTY, between);
+                                _winner = BLACK;
+                            }
+                        } else {
+                            int b = THRONE.direction(between);
+                            Square c = THRONE.rookMove(b, 2);
+                            if (diag1t && diag2t && get(c) == BLACK) {
                                 revPut(EMPTY, between);
                                 _winner = BLACK;
                             }
