@@ -111,7 +111,7 @@ class AI extends Player {
                     board.makeMove(m);
                     int temp = findMove(board, newd, false, news, alpha, beta);
                     board.undo();
-                    if (temp > best) {
+                    if (temp >= best) {
                         best = temp;
                         bestpos = m;
                         alpha = max(alpha, temp);
@@ -126,7 +126,7 @@ class AI extends Player {
                     board.makeMove(m);
                     int temp = findMove(board, newd, false, news, alpha, beta);
                     board.undo();
-                    if (temp < best) {
+                    if (temp <= best) {
                         best = temp;
                         bestpos = m;
                         beta = min(beta, temp);
