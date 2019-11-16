@@ -12,13 +12,10 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import java.util.concurrent.ArrayBlockingQueue;
 
 /** The GUI controller for a Tablut board and buttons.
- *  @author
+ *  @author Avi Garg
  */
 class GUI extends TopLevel implements View, Reporter {
 
@@ -32,13 +29,16 @@ class GUI extends TopLevel implements View, Reporter {
     static final String ABOUT_TEXT = "tablut/About.html";
 
     /** Resource name of Tablut help text. */
-    static final String HELP_TEXT = "tablut/Help.html";
+    static final String HELP_TEXT = "tablut/tablut.html";
 
     /** A new window with given TITLE providing a view of a Tablut board. */
     GUI(String title) {
         super(title, true);
         addMenuButton("Game->Quit", this::quit);
-        // More commands?
+        addMenuButton("Game->Undo", this::undo);
+        addMenuButton("Game-> New", this::newg);
+        addMenuButton("Help->About", this::about);
+        addMenuButton("Help->Tablut", this::tablut);
         _widget = new BoardWidget(_pendingCommands);
         add(_widget,
             new LayoutSpec("y", 1,
@@ -48,7 +48,6 @@ class GUI extends TopLevel implements View, Reporter {
                  new LayoutSpec("x", 0, "y", 0,
                                 "height", 1,
                                 "width", 3));
-        // More stuff?
 
     }
 
@@ -57,7 +56,25 @@ class GUI extends TopLevel implements View, Reporter {
         _pendingCommands.offer("quit");
     }
 
-    // Other command responses?
+    /** Response to "Undo" button click. */
+    private void undo(String dummy) {
+        _pendingCommands.offer("undo");
+    }
+
+    /** Response to "New " button click. */
+    private void newg(String dummy) {
+        _pendingCommands.offer("new");
+    }
+
+    /** Display Help Menu and Associated.*/
+    private void about(String dummy) {
+        displayText("About", ABOUT_TEXT);
+    }
+
+    /** Dispaly help Menu and Help. */
+    private void tablut(String dummy) {
+        displayText("Tablut", HELP_TEXT);
+    }
 
     /** Return the next command from our widget, waiting for it as necessary.
      *  The BoardWidget uses _pendingCommands to queue up moves that it

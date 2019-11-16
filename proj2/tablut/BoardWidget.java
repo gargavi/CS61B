@@ -77,6 +77,13 @@ class BoardWidget extends Pad {
             g.drawLine(cx(0), cy(k - 1), cx(SIZE), cy(k - 1));
             g.drawLine(cx(k), cy(-1), cx(k), cy(SIZE - 1));
         }
+        g.setColor(Color.black);
+        g.setFont(ROW_COL_FONT);
+        byte[] numb = new byte[9];
+        for (int i = 1; i < 10; i++) {
+            numb[i - 1] = (byte) i;
+        }
+
 
     }
 
@@ -89,20 +96,56 @@ class BoardWidget extends Pad {
     /** Draw the contents of S on G. */
     private void drawPiece(Graphics2D g, Square s) {
         Piece side = _board.get(s);
-        if (side == BLACK) {
-            g.setColor(BLACK_COLOR);
-            g.fillRect(cx(s), cy(s), SQUARE_SIDE, SQUARE_SIDE);
-        }  else if (side == WHITE) {
-            g.setColor(WHITE_COLOR);
+        if (_from == s) {
+            g.setColor(CLICKED_SQUARE_COLOR);
             g.fillRect(cx(s), cy(s), SQUARE_SIDE, SQUARE_SIDE);
         }
-        g.drawLine(cx(0), cy(1), cx(SIZE), cy(1));
+        int small = SQUARE_SIDE - 4;
+        if (side == BLACK) {
+            g.setColor(BLACK_COLOR);
+            g.fillOval(cx(s) + 2, cy(s) + 2, small, small);
+        } else if (side == WHITE) {
+            g.setColor(WHITE_COLOR);
+            g.fillOval(cx(s) + 2, cy(s) + 2, small, small);
+        } else if (side == KING) {
+            g.setColor(WHITE_COLOR);
+            g.fillOval(cx(s) + 2, cy(s) + 2, small, small);
+            g.setFont(KING_FONT);
+            g.setColor(Color.red);
+            g.drawString("K", cx(s) + 6, cy(s)  + SQUARE_SIDE - 8);
+        }
+        g.setColor(Color.black);
+        g.setFont(ROW_COL_FONT);
+        g.drawString("a", 1, 10);
+
 
     }
 
     /** Handle a click on S. */
     private void click(Square s) {
-        int to_be_fixed = 1;
+        if (_from == null) {
+            _from = s;
+        } else {
+            if (_from != s) {
+                try {
+                    Move temp = Move.mv(_from, s);
+                    if (temp != null) {
+                        _commands.add(temp.toString());
+                    } else {
+                        String name;
+                        if (_from.col() == s.col()){
+                            name = _from.toString() + "-" + s.row();
+                        } else {
+                            name = _from.toString() + "-" + s.col();
+                        }
+                        _commands.add(name);
+                    }
+                } catch (Exception e){
+
+                }
+            }
+            _from = null;
+        }
         repaint();
     }
 
@@ -162,5 +205,8 @@ class BoardWidget extends Pad {
 
     /** True iff accepting moves from user. */
     private boolean _acceptingMoves;
+
+    /** Temporary Storage.*/
+    private Square _from;
 
 }

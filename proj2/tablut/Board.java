@@ -1,7 +1,10 @@
 package tablut;
 
-import java.util.*;
-
+import java.util.Stack;
+import java.util.ArrayList;
+import java.util.Formatter;
+import java.util.HashSet;
+import java.util.List;
 import static tablut.Piece.*;
 import static tablut.Square.*;
 
@@ -315,32 +318,45 @@ class Board {
                             }
                         }
                     } else {
-                        if (get(sq0).side() == BLACK && get(sq2).side() == BLACK) {
-                            revPut(EMPTY, between);
-                            _winner = BLACK;
+                        if (get(sq0).side() == BLACK) {
+                            if (get(sq2).side() == BLACK) {
+                                revPut(EMPTY, between);
+                                _winner = BLACK;
+                            }
                         }
                     }
 
                 } else {
-                    Piece b = get(between);
-                    if (sq0 == THRONE && get(sq0) == EMPTY && get(sq2).opponent() == get(between).side()) {
-                        revPut(EMPTY, between);
-                    } else if (sq2 == THRONE && get(sq2) == EMPTY && get(sq0).opponent() == get(between).side()) {
-                        revPut(EMPTY, between);
-                    } else if (get(sq0).side() == get(sq2).side() && get(sq0).side() != get(between).side()){
-                        revPut(EMPTY, between);
-                    }
-                    if (get(between) == EMPTY) {
-                        if (b == WHITE) {
-                            piece[0] = piece[0] - 1;
-                        } else {
-                            piece[1] = piece[1] - 1;
-                        }
-                    }
+                    helpCapture(between, sq0, sq2);
                 }
             }
         }
 
+    }
+
+    /** Helper function for the capture.
+     * @param  between is the square between.
+     * @param sq0 is the square on the 0.
+     * @param sq2 is the square on the 2.
+     */
+    void helpCapture(Square between, Square sq0, Square sq2) {
+        Piece b = get(between);
+        boolean sq2o = get(sq2).side() != get(between).side();
+        boolean sq0o = get(sq0).side() != get(between).side();
+        if (sq0 == THRONE && get(sq0) == EMPTY && sq2o) {
+            revPut(EMPTY, between);
+        } else if (sq2 == THRONE && get(sq2) == EMPTY && sq0o) {
+            revPut(EMPTY, between);
+        } else if (get(sq0).side() == get(sq2).side() && sq2o) {
+            revPut(EMPTY, between);
+        }
+        if (get(between) == EMPTY) {
+            if (b == WHITE) {
+                piece[0] = piece[0] - 1;
+            } else {
+                piece[1] = piece[1] - 1;
+            }
+        }
     }
 
     /** Undo one move.  Has no effect on the initial board. */
@@ -531,7 +547,7 @@ class Board {
     /**Recording the positions. */
     private ArrayList<String> recording = new ArrayList<String>();
     /**The limit.*/
-    private int limit = (int) Math.pow(2, 64);
+    private int limit = Integer.MAX_VALUE;
     /** The moves. */
     private ArrayList<Move> moves = new ArrayList<Move>();
     /**The history. */

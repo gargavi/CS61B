@@ -77,5 +77,5 @@ public class TablutTests {
     static final Piece W = Piece.WHITE;
     static final Piece B = Piece.BLACK;
     static final Piece K = Piece.KING;
-;
+
 }
