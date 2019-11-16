@@ -39,6 +39,12 @@ class GUI extends TopLevel implements View, Reporter {
         addMenuButton("Game-> New", this::newg);
         addMenuButton("Help->About", this::about);
         addMenuButton("Help->Tablut", this::tablut);
+        addMenuRadioButton("Settings->Auto Black", "Auto", false, this::autob);
+        addMenuRadioButton(
+                "Settings->Manual Black", "Manu", true, this::manualb);
+        addMenuRadioButton("Settings->Auto White", "Auto", true, this::autow);
+        addMenuRadioButton(
+                "Settings->Manual White", "Manu", false, this::manualw);
         _widget = new BoardWidget(_pendingCommands);
         add(_widget,
             new LayoutSpec("y", 1,
@@ -50,7 +56,22 @@ class GUI extends TopLevel implements View, Reporter {
                                 "width", 3));
 
     }
-
+    /** Make it manual black. */
+    private void manualb(String dummy) {
+        _pendingCommands.offer("manual black");
+    }
+    /** Make it auto black. */
+    private void autob(String dummy) {
+        _pendingCommands.offer("auto black");
+    }
+    /** Make it manual black. */
+    private void manualw(String dummy) {
+        _pendingCommands.offer("manual white");
+    }
+    /** Make it auto black. */
+    private void autow(String dummy) {
+        _pendingCommands.offer("auto white");
+    }
     /** Response to "Quit" button click. */
     private void quit(String dummy) {
         _pendingCommands.offer("quit");

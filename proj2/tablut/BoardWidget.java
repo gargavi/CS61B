@@ -79,10 +79,17 @@ class BoardWidget extends Pad {
         }
         g.setColor(Color.black);
         g.setFont(ROW_COL_FONT);
-        byte[] numb = new byte[9];
-        for (int i = 1; i < 10; i++) {
-            numb[i - 1] = (byte) i;
+        String[] a = new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+        String[] n = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+
+
+        int special = 15 + 2;
+        int spec = BOARD_SIDE - 2 * OFFSET;
+        for (int i = 0; i < 9; i++) {
+            g.drawString(a[i], (i + 1) * SQUARE_SIDE, spec);
+            g.drawString(n[8 - i], OFFSET, special + i * SQUARE_SIDE);
         }
+
 
 
     }
@@ -116,8 +123,6 @@ class BoardWidget extends Pad {
         }
         g.setColor(Color.black);
         g.setFont(ROW_COL_FONT);
-        g.drawString("a", 1, 10);
-
 
     }
 
@@ -127,21 +132,17 @@ class BoardWidget extends Pad {
             _from = s;
         } else {
             if (_from != s) {
-                try {
-                    Move temp = Move.mv(_from, s);
-                    if (temp != null) {
-                        _commands.add(temp.toString());
+                Move temp = Move.mv(_from, s);
+                if (temp != null) {
+                    _commands.add(temp.toString());
+                } else {
+                    String name;
+                    if (_from.col() == s.col()) {
+                        name = _from.toString() + "-" + s.row();
                     } else {
-                        String name;
-                        if (_from.col() == s.col()){
-                            name = _from.toString() + "-" + s.row();
-                        } else {
-                            name = _from.toString() + "-" + s.col();
-                        }
-                        _commands.add(name);
+                        name = _from.toString() + "-" + s.col();
                     }
-                } catch (Exception e){
-
+                    _commands.add(name);
                 }
             }
             _from = null;

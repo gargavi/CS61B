@@ -149,7 +149,7 @@ class AI extends Player {
      *  based on characteristics of BOARD. */
     private static int maxDepth(Board board) {
         int b = 2 * board.getLimit();
-        if (b < 0){
+        if (b < 0) {
             b = b + INFTY;
         }
         int a = board.moveCount();
@@ -163,5 +163,4 @@ class AI extends Player {
         int numberking = board.legalMoves(KING).size();
         return whites * 2 - blacks + 4 * numberking + _controller.randInt(5);
     }
-
 }
