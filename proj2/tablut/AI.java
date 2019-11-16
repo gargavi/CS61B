@@ -153,7 +153,7 @@ class AI extends Player {
             b = b + INFTY;
         }
         int a = board.moveCount();
-        return min(4, (b - a));
+        return min(3, (b - a));
     }
 
     /** Return a heuristic value for BOARD. */
