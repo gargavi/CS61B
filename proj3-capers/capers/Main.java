@@ -8,8 +8,8 @@ public class Main {
     /**
      * Runs one of three comands:
      * story [text] -- writes "text" to a story file in the .capers directory
-     * dog [name] [breed] [age] -- creates a dog with the specified parameters
-     * birthday [name] -- advances a dog's age and prints out a celebratory message
+     * dog [name] [breed] [age] -- creates a dog with the specified parameters; should also print out the dog's toString()
+     * birthday [name] -- advances a dog's age and prints out a celebratory message; should also print out the dog's toString()
      * 
      * All persistent data should be stored in a ".capers" 
      * directory in the current working directory.
