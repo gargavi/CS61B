@@ -15,6 +15,7 @@ public class Main {
      * directory in the current working directory.
      * 
      * Recommended structure (you do not have to follow):
+     * *YOU SHOULD NOT CREATE THESE MANUALLY, YOUR PROGRAM SHOULD CREATE THESE FOLDERS/FILES*
      * .capers/ -- top level folder for all persistent data
      *    - dogs/ -- folder containing all of the persistent data for dogs
      *    - story -- file containing the current story
