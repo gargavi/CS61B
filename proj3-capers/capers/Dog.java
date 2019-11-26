@@ -16,6 +16,8 @@ public class Dog implements Serializable {
      */
     public void haveBirthday() {
         _age += 1;
+
+        // celebratory message
         System.out.println(toString());
         System.out.println("Happy birthday! Woof! Woof!");
     }
