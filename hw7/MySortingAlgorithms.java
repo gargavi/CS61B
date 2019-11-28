@@ -189,7 +189,40 @@ public class MySortingAlgorithms {
     public static class HeapSort implements SortingAlgorithm {
         @Override
         public void sort(int[] array, int k) {
-            // FIXME
+
+            for (int i = k/2 ; i > 0; i --){
+                heapify(array, k, i-1);
+            }
+            for (int i = k  -1; i >= 0; i --){
+                int temp = array[0];
+                array[0] = array[i];
+                array[i] = temp;
+
+                heapify(array, i, 0);
+            }
+
+        }
+
+        public void heapify(int arr[], int n, int i){
+            int largest = i;
+            int val_l = arr[i];
+            int left = 2*i;
+            int right = 2*i + 1;
+
+            if (left < n && arr[left] > val_l){
+                largest = left;
+            }
+            if (right < n && arr[right] > largest){
+                largest = right;
+            }
+            if (largest != i){
+                int temp = arr[i];
+                arr[i] = arr[largest];
+                arr[largest] = temp;
+
+                heapify(arr, n, largest);
+            }
+
         }
 
         @Override
