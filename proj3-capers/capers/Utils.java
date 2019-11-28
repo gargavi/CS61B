@@ -17,7 +17,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.List;
-import java.lang.RuntimeException;
 
 
 /** Assorted utilities.
