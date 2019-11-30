@@ -18,9 +18,13 @@ public class Blob implements Serializable {
 
     public Blob(String filename){
         name = filename;
-        File file = new File(filename);
-        byteme = Utils.readContents(file);
-        word = Utils.readContentsAsString(file);
+        try {
+            File file = new File(filename);
+            byteme = Utils.readContents(file);
+            word = Utils.readContentsAsString(file);
+        } catch (IllegalArgumentException expr){
+            throw Utils.error("File Does Not Exist");
+        }
         List<Object> temp = new ArrayList<Object>();
         temp.add(byteme);
         temp.add(name);

@@ -3,10 +3,7 @@ package gitlet;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /** This class serves as the commit object for the Gitlet structure. Essentially it contains
  * hash references to blobs, and itself contains some information (data, message) and hash code
@@ -30,17 +27,39 @@ public class Commit implements Serializable {
         ZonedDateTime temp = ZonedDateTime.now();
         time = temp.format(DateTimeFormatter.ofPattern
                         ("EEE MMM d HH:mm:ss yyyy xxxx"));
-        hash = hashval();
     }
+    public Commit(Commit old){
+        _parent = old.hashval();
+        merge = false;
+        _mergeparent = null;
+        _branch = old.getbranch();
+        ZonedDateTime temp = ZonedDateTime.now();
+        time = temp.format(DateTimeFormatter.ofPattern
+                ("EEE MMM d HH:mm:ss yyyy xxxx"));
+        HashMap<String, String> prev = old.getContents();
+        for (String b: prev.keySet()){
+            contents.put(b, prev.get(b));
+        }
+    }
+    /** Put an element in the contents */
+    public void feed(String name, String hash) {
+        contents.put(name, hash);
+    }
+
+    /** Remove an element from the contents */
+    public void rem (String name) {
+        contents.remove(name);
+    }
+
+    /** Used to create the inital commit */
     public Commit(){
         _parent = null;
         merge = false;
         _mergeparent = null;
+        contents = new HashMap<String, String>();
         _branch = "master";
         time = "January 1, 1970, Thursday, 00:00:00";
         message = "inital commit";
-        hash = hashval();
-
     }
 
     private String hashval(){
@@ -66,7 +85,7 @@ public class Commit implements Serializable {
     }
     /** Return the hash value */
     String gethash(){
-        return hash;
+        return hashval();
     }
     /** Return the branch this commit belongs too. */
     String getbranch(){
@@ -88,6 +107,17 @@ public class Commit implements Serializable {
     public String getSParent(){
         return _mergeparent;
     }
+    /** Retrieves the hashes of the blobs*/
+    public Collection<String> getBlobs(){
+        return contents.values();
+    }
+    /** Retrieves the contents of the commit */
+    public HashMap<String, String> getContents(){
+        return contents;
+    }
+
+
+    /** Whether it was merged.*/
     private Boolean merge;
     /** Name of the branch. */
     private String _branch;
@@ -99,10 +129,6 @@ public class Commit implements Serializable {
     private String time;
     /** Represents a mapping from file name to the hash code of the file */
     private HashMap<String, String> contents;
-
     /** Represents the message that is associated with the commit */
     private String message;
-
-    /** The hash value.*/
-    private String hash;
 }

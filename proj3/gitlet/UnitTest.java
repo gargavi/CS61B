@@ -3,7 +3,7 @@ package gitlet;
 import ucb.junit.textui;
 import org.junit.Test;
 
-import java.io.IOException;
+import java.io.*;
 
 import static org.junit.Assert.*;
 
@@ -23,9 +23,29 @@ public class UnitTest {
     public void init_test() throws IOException {
         Gitlet temp = new Gitlet();
         temp.init();
-        temp.init();
+
 
     }
+    @Test
+    public void add_test() throws IOException {
+        try {
+            Main.main("init");
+        } catch (Exception expr) {
+            System.out.println(expr);
+        }
+        Main.main("add", "something2");
+        Main.main("add", "something1");
+        Main.main("commit", "this be the way");
+        Main.main("commit", "this is the way");
+
+    }
+    @Test
+    public void trty() {
+
+
+    }
+
+
 }
 
 
