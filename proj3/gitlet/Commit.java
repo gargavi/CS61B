@@ -1,7 +1,9 @@
 package gitlet;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -14,28 +16,25 @@ import java.util.*;
 public class Commit implements Serializable {
 
 
-    public Commit(String tmessage, HashMap<String, Blob> files, String parent, String branch){
+    public Commit(String tmessage, HashMap<String, String> files, String parent, String branch){
         message = tmessage;
-        for (String b: files.keySet()){
-            Blob blob = files.get(b);
-            contents.put(blob.getName(),blob.gethash());
-        }
+        contents = files;
         _parent = parent;
         merge = false;
         _mergeparent = null;
         _branch = branch;
-        ZonedDateTime temp = ZonedDateTime.now();
-        time = temp.format(DateTimeFormatter.ofPattern
-                        ("EEE MMM d HH:mm:ss yyyy xxxx"));
+        Date temp = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("E MMM dd HH:mm:ss yyyy Z");
+        time = format.format(temp);
     }
     public Commit(Commit old){
         _parent = old.hashval();
         merge = false;
         _mergeparent = null;
+        contents = new HashMap<String, String>();
         _branch = old.getbranch();
-        ZonedDateTime temp = ZonedDateTime.now();
-        time = temp.format(DateTimeFormatter.ofPattern
-                ("EEE MMM d HH:mm:ss yyyy xxxx"));
+        Date temp = new Date();
+        time = temp.toString();
         HashMap<String, String> prev = old.getContents();
         for (String b: prev.keySet()){
             contents.put(b, prev.get(b));
@@ -58,8 +57,10 @@ public class Commit implements Serializable {
         _mergeparent = null;
         contents = new HashMap<String, String>();
         _branch = "master";
-        time = "January 1, 1970, Thursday, 00:00:00";
-        message = "inital commit";
+        Date temp = new Date(0);
+        SimpleDateFormat format = new SimpleDateFormat("E MMM dd HH:mm:ss yyyy Z");
+        time = format.format(temp);
+        message = "initial commit";
     }
 
     private String hashval(){

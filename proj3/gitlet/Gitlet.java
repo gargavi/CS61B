@@ -8,11 +8,12 @@ import java.nio.file.Paths;
 import java.util.*;
 
 /** This will help us manage the git repository and all the commmands we'll be using
- *
+ * @author avigarg
  */
 
 public class Gitlet implements Serializable {
 
+    /** */
     private ArrayList<String> untracked;
 
     private Collection<String> tracked;
@@ -61,7 +62,6 @@ public class Gitlet implements Serializable {
 
     public void add(String file) {
         if (inited) {
-            tracked.add(file);
             Blob blob;
             try {
                 File relevant = new File(file);
@@ -69,6 +69,7 @@ public class Gitlet implements Serializable {
             } catch (Exception expr){
                 throw Utils.error("File does not exist");
             }
+            tracked.add(file);
             String hashed = blob.gethash();
             File prev = new File(".gitlet/" + branchHeads.get(currentbranch));
             Commit previous = Utils.readObject(prev, Commit.class);
@@ -104,23 +105,24 @@ public class Gitlet implements Serializable {
         if (message == "") {
             throw Utils.error("Please enter a commit message");
         } else {
-            File parent = new File(".gitlet/" + branchHeads.get(currentbranch));
+            String parental = branchHeads.get(currentbranch);
+            File parent = new File(".gitlet/" + parental);
             Commit old = Utils.readObject(parent, Commit.class);
-            Commit current = new Commit(old);
+            HashMap<String, String> prev = old.getContents();
             HashMap<String, String> staging = staged.getContents();
-            int stag = 1;
-            for (String b : staging.keySet()) {
-                current.feed(b, staging.get(b));
-                stag ++;
+            HashMap<String, String> cur = new HashMap<String, String>();
+            for (String name: tracked){
+                if (staging.containsKey(name)){
+                    cur.put(name, staging.get(name));
+                } else if (!untracked.contains(name)){
+                    cur.put(name, prev.get(name));
+                }
             }
-            for (String b : untracked) {
-                current.rem(b);
-                stag ++;
-            }
-            if (stag == 1){
+            if (prev.equals(cur)){
                 throw Utils.error("No Change Added to Commit");
             } else {
                 staged = new Stage();
+                Commit current = new Commit(message, cur, parental, currentbranch );
                 String name = current.gethash();
                 branchHeads.put(currentbranch, name);
                 commits.add(name);
@@ -128,6 +130,130 @@ public class Gitlet implements Serializable {
                 Utils.writeObject(loc, current);
                 untracked.clear();
             }
+        }
+    }
+    /** Displays the commits from current head to the inital commit. */
+    public void log() {
+        File cur = new File(".gitlet/" + branchHeads.get(currentbranch));
+        Commit current = Utils.readObject(cur, Commit.class);
+        while (current.getParent() != null) {
+            System.out.println("===");
+            System.out.println("commit " + current.gethash());
+            if (current.getSParent() != null) {
+                String first = current.getParent().substring(0, 6);
+                String second = current.getSParent().substring(0, 6);
+                System.out.println("Merge: " + first + " " + second);
+            }
+            System.out.println("Date: " + current.getTime());
+            System.out.println(current.getMessage());
+            System.out.println();
+            String temp = current.getParent();
+            cur = new File(".gitlet/" + temp);
+            current = Utils.readObject(cur, Commit.class);
+        }
+        System.out.println("===");
+        System.out.println("commit " + current.gethash());
+        System.out.println("Date: " + current.getTime());
+        System.out.println(current.getMessage());
+        System.out.println();
+    }
+
+    public void globall() {
+        for (String b: commits) {
+            File cur = new File(".gitlet/" + b);
+            Commit current = Utils.readObject(cur, Commit.class);
+            System.out.println("===");
+            System.out.println("Commit: " + current.gethash());
+            if (current.getSParent() != null) {
+                String first = current.getParent().substring(0, 6);
+                String second = current.getSParent().substring(0, 6);
+                System.out.println("Merge: " + first + " " + second);
+            }
+            System.out.println("Date: " + current.getTime());
+            System.out.println(current.getMessage());
+            System.out.println();
+        }
+    }
+
+    public void find(String mess) {
+        boolean found = false;
+        for (String b: commits) {
+            File cur = new File(".gitlet/" + b);
+            Commit current = Utils.readObject(cur, Commit.class);
+            if (mess == current.getMessage()) {
+                System.out.println(b);
+                found = true;
+            }
+        }
+        if (!found) {
+            Utils.error("Found no commit with that message");
+        }
+    }
+
+    public void status() {
+        System.out.println("=== Branches ===");
+        for (String b: branchHeads.keySet()) {
+            if (b == currentbranch) {
+                System.out.println("*" + b);
+            } else {
+                System.out.println(b);
+            }
+        }
+        System.out.println("=== Staged Files===");
+        for (String b: staged.getContents().keySet()) {
+            System.out.println(b);
+        }
+        System.out.println("=== Removed Files===");
+        for (String b: untracked) {
+            System.out.println(b);
+        }
+        System.out.println("===Modifications Not Staged for Commit");
+            // Need to add more code for the extra credit portion
+
+    }
+
+    public void checkout (String name, String commit) {
+        if (commit.length() >= 40 ) {
+            File temp = new File(".gitlet/" + commit);
+            Commit head = Utils.readObject( temp, Commit.class);
+            String hash = head.getContents().get(name);
+            if (head.getContents().containsKey(name)){
+                temp = new File(".gitlet/" + hash);
+                if (!temp.exists()){
+                    throw Utils.error("No commit with that id exists");
+                }
+                Blob blob = Utils.readObject(temp, Blob.class);
+                temp = new File(name);;
+                Utils.writeContents(temp, blob.getBContents());
+            } else {
+                throw Utils.error("File does not exist in that commit.");
+            }
+
+        } else if (commit.length() < 40){
+            for (String b: commits) {
+                if (commit.equals(b.substring(0, commit.length()))) {
+                    checkout(name, b);
+                }
+            }
+            throw Utils.error("No commit with that id exists.");
+        }
+
+    }
+    public void checkoutn (String name) {
+        String current = branchHeads.get(currentbranch);
+        checkout(name, current);
+    }
+
+    public void checkoutb (String branchName) {
+        if (branchHeads.keySet().contains(branchName)) {
+            if (branchName == currentbranch) {
+                throw Utils.error("No need to checkout the current branch.");
+            } else {
+                List<String> all = Utils.plainFilenamesIn(".");
+
+            }
+        } else {
+            throw Utils.error("No such branch exists.");
         }
     }
 }
