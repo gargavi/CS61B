@@ -48,6 +48,9 @@ public class Stage implements Serializable {
 
     public void remove(String file){
         if (files.containsKey(file)){
+            String b = files.get(file);
+            File cur = new File(".gitlet/" + b);
+            cur.delete();
             files.remove(file);
         }
     }
@@ -56,6 +59,9 @@ public class Stage implements Serializable {
             return true;
         }
         return false;
+    }
+    public void clear() {
+        files.clear();
     }
 
 

@@ -13,15 +13,15 @@ import java.util.*;
 
 public class Gitlet implements Serializable {
 
-    /** */
+    /** Keeps track of untracked files. */
     private ArrayList<String> untracked;
-
-    private Collection<String> tracked;
-
+    /** Keeps track of the tracked files at any given point in time. */
+    private Set<String> tracked;
+    /** The staging area */
     private Stage staged;
-
+    /** The names of all branches in the file. */
     private ArrayList<String> branches;
-
+    /** .*/
     private ArrayList<String> commits;
 
     private HashMap<String, String> branchHeads;
@@ -87,7 +87,7 @@ public class Gitlet implements Serializable {
     public void remove(String file) {
         if (tracked.contains(file) || staged.contains(file)) {
             if (tracked.contains(file)) {
-                untracked.contains(file);
+                untracked.add(file);
                 File temp = new File(file);
                 Utils.restrictedDelete(temp);
             }
@@ -249,11 +249,75 @@ public class Gitlet implements Serializable {
             if (branchName == currentbranch) {
                 throw Utils.error("No need to checkout the current branch.");
             } else {
-                List<String> all = Utils.plainFilenamesIn(".");
+                File cur = new File(".gitlet/"  + branchHeads.get(branchName));
+                Commit branch = Utils.readObject(cur, Commit.class);
+                HashMap<String, String> files = branch.getContents();
+                List<String> working_dir = Utils.plainFilenamesIn(".");
+                for (String ter: working_dir) {
+                    if (!tracked.contains(ter) && files.keySet().contains(ter)) {
+                        throw Utils.error("There is an untracked file in the way; delete it or add it first.");
+                    }
+                }
+                for (String ter: working_dir) {
+                    if (files.keySet().contains(ter)) {
+                        String hash = files.get(ter);
+                        Blob c = Utils.readObject(new File(".gitlet/" + hash), Blob.class);
+                        Utils.writeObject(new File(".ter"), c.getBContents());
+                    } else {
+                        Utils.restrictedDelete(ter);
+                    }
+                }
+                currentbranch = branchName;
+                staged.clear();
 
             }
         } else {
             throw Utils.error("No such branch exists.");
         }
     }
+    public void branch(String bname) {
+        if (branches.contains(bname)) {
+            throw Utils.error("branch with that name already exists.");
+        } else {
+            String curr = branchHeads.get(currentbranch);
+            branchHeads.put(bname, curr);
+            branches.add(bname);
+        }
+    }
+    public void removebranch(String bname) {
+        if (!branches.contains(bname)) {
+            throw Utils.error("A branch with that name does not exist.");
+        } else if (bname == currentbranch){
+            throw Utils.error("Cannot remove the current branch.");
+        } else {
+            branchHeads.remove(bname);
+            branches.remove(bname);
+        }
+    }
+    public void reset(String commmit) {
+        if (commits.contains(commmit)){
+            Commit temp = Utils.readObject(new File(".gitlet/" + commmit), Commit.class);
+            HashMap<String, String> files = temp.getContents();
+            List<String> working_dir = Utils.plainFilenamesIn(".");
+            for (String ter: working_dir) {
+                if (!tracked.contains(ter) && files.keySet().contains(ter)) {
+                    throw Utils.error("There is an untracked file in the way; delete it or add it first.");
+                }
+            }
+            for (String b: files.keySet()) {
+                checkout(b, commmit);
+            }
+            branchHeads.put(currentbranch, commmit);
+
+        } else {
+            throw Utils.error("No commit with that id exists.");
+        }
+    }
+    public void merge(String bname) {
+
+
+
+    }
+
+
 }

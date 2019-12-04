@@ -22,103 +22,92 @@ public class Main {
             System.out.println("Please enter a command.");
             System.exit(0);
         }
-        if (args[0].equals("add")) {
-            if (args.length == 2) {
-                try {
+        try {
+            if (args[0].equals("add")) {
+                if (args.length == 2) {
                     repo.add(args[1]);
-                } catch (GitletException exp) {
-                    System.out.println(exp);
-                    System.exit(0);
+                } else {
+                    throw Utils.error("Incorrect Operands");
                 }
-            } else {
-                System.out.println("Incorrect Operands");
-                System.exit(0);
-            }
-        } else if (args[0].equals("rm")) {
-            if (args.length == 2) {
-                try {
+            } else if (args[0].equals("rm")) {
+                if (args.length == 2) {
                     repo.remove(args[1]);
-                } catch (GitletException exp) {
-                    System.out.println(exp);
-                    System.exit(0);
+                } else {
+                    throw Utils.error("Incorrect Operands");
                 }
-            } else {
-                System.out.println("Incorrect Operands");
-                System.exit(0);
-            }
-        } else if (args[0].equals("commit")) {
-            if (args.length == 2) {
-                try {
+            } else if (args[0].equals("commit")) {
+                if (args.length == 2) {
                     repo.commit(args[1]);
-                } catch (GitletException exp) {
-                    System.out.println(exp);
-                    System.exit(0);
+                } else {
+                    throw Utils.error("Incorrect Operands");
                 }
-            } else {
-                System.out.println("Incorrect Operands");
-                System.exit(0);
-            }
-        } else if (args[0].equals("init")) {
-            if (args.length == 1) {
-                try {
+            } else if (args[0].equals("init")) {
+                if (args.length == 1) {
                     repo.init();
-                } catch (GitletException exp) {
-                    System.out.println(exp);
-                    System.exit(0);
+                } else {
+                    throw Utils.error("Incorrect Operands");
                 }
-            } else {
-                System.out.println("Incorrect Operands");
-                System.exit(0);
-            }
-        } else if (args[0].equals("log")) {
-            if (args.length == 1) {
-                try {
+            } else if (args[0].equals("log")) {
+                if (args.length == 1) {
                     repo.log();
-                } catch (GitletException exp) {
-                    System.out.println(exp);
-                    System.exit(0);
+                } else {
+                    throw Utils.error("Incorrect Operands");
                 }
-            } else {
-                System.out.println("Incorrect Operands");
-                System.exit(0);
-            }
-        } else if (args[0].equals("global-log")) {
-            if (args.length == 1) {
-                try {
+            } else if (args[0].equals("global-log")) {
+                if (args.length == 1) {
                     repo.globall();
-                } catch (GitletException exp) {
-                    System.out.println(exp);
-                    System.exit(0);
-                }
-            } else {
-                System.out.println("Incorrect Operands");
-                System.exit(0);
-            }
-        } else if (args[0].equals("checkout")){
-            if (args[1].equals("--")){
-                if (args.length == 3){
-                    repo.checkoutn(args[2]);
                 } else {
-                    System.out.println("Incorrect Operands");
-                    System.exit(0);
+                    throw Utils.error("Incorrect Operands");
+                }
+            } else if (args[0].equals("checkout")) {
+                if (args[1].equals("--")) {
+                    if (args.length == 3) {
+                        repo.checkoutn(args[2]);
+                    } else {
+                        throw Utils.error("Incorrect Operands");
+                    }
+
+                } else if (args[2].equals("--")) {
+                    if (args.length == 4) {
+                        repo.checkout(args[3], args[1]);
+                    } else {
+                        throw Utils.error("Incorrect Operands");
+                    }
+                } else if (args.length == 2) {
+                    repo.checkoutb(args[2]);
+                } else {
+                    throw Utils.error("Incorrect Operands");
                 }
 
-            } else if (args[2].equals("--")) {
-                if (args.length == 4){
-                    repo.checkout(args[3], args[1]);
+            } else if (args[0].equals("status")) {
+                if (args.length == 1) {
+                    repo.status();
                 } else {
-                    System.out.println("Incorrect Operands");
-                    System.exit(0);
+                    throw Utils.error("Incorrect Operands");
                 }
-            } else if (args.length == 2) {
-                repo.checkoutb(args[2]);
+            } else if (args[0].equals("branch")) {
+                if (args.length == 2) {
+                    repo.branch(args[1]);
+                } else {
+                    throw Utils.error("Incorrect Operands");
+                }
+            } else if (args[0].equals("rm-branch")) {
+                if (args.length == 2) {
+                    repo.removebranch(args[1]);
+                } else {
+                    throw Utils.error("Incorrect Operands");
+                }
+            } else if (args[0].equals("reset")) {
+                if (args.length == 2) {
+                    repo.reset(args[1]);
+                } else {
+                    throw Utils.error("Incorrect Operands");
+                }
             } else {
-                System.out.println("Incorrect Operands");
-                System.exit(0);
+                throw Utils.error("No command with that name exists");
             }
-
-        } else {
-            System.out.println("No command with that name exists");
+        } catch (GitletException exp)  {
+            System.out.println(exp);
             System.exit(0);
         }
         Utils.writeObject(gitlet, repo);

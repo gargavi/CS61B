@@ -26,11 +26,12 @@ public class UnitTest {
         } catch (Exception expr) {
             System.out.println(expr);
         }
-        Main.main("add", "blah");
+        Main.main("add", "something2");
         Main.main("commit", "this be the way");
         Main.main("add", "something1");
-        Main.main("commit", "this is the way");
+        Main.main("rm", "something2");
         Main.main("log");
+        Main.main("status");
 
     }
     @Test
