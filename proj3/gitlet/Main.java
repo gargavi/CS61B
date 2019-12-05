@@ -67,14 +67,14 @@ public class Main {
                         throw Utils.error("Incorrect Operands");
                     }
 
-                } else if (args[2].equals("--")) {
+                } else if (args[1].equals("--")) {
                     if (args.length == 4) {
                         repo.checkout(args[3], args[1]);
                     } else {
                         throw Utils.error("Incorrect Operands");
                     }
                 } else if (args.length == 2) {
-                    repo.checkoutb(args[2]);
+                    repo.checkoutb(args[1]);
                 } else {
                     throw Utils.error("Incorrect Operands");
                 }
@@ -100,6 +100,12 @@ public class Main {
             } else if (args[0].equals("reset")) {
                 if (args.length == 2) {
                     repo.reset(args[1]);
+                } else {
+                    throw Utils.error("Incorrect Operands");
+                }
+            } else if (args[0].equals("find")) {
+                if (args.length == 2) {
+                    repo.find(args[1]);
                 } else {
                     throw Utils.error("Incorrect Operands");
                 }

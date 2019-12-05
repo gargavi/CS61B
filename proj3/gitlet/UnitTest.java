@@ -4,6 +4,7 @@ import ucb.junit.textui;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -29,14 +30,26 @@ public class UnitTest {
         Main.main("add", "something2");
         Main.main("commit", "this be the way");
         Main.main("add", "something1");
-        Main.main("rm", "something2");
+        Main.main("branch", "nayan");
         Main.main("log");
+        Main.main("status");
+        Main.main("checkout", "nayan");
         Main.main("status");
 
     }
     @Test
     public void try_this() {
-        System.out.println(Utils.plainFilenamesIn("."));
+        HashMap<String, String> temp = new HashMap<String, String>();
+        HashMap<String, String> temp1 = new HashMap<String, String>();
+        temp.put("hello", "aditya");
+        temp.put("hi", "avi");
+        temp1.put("hello", "adi");
+        temp.put("fuck", "avi");
+        for (String b: temp.keySet()) {
+            if (temp.get(b).equals(temp1.get(b))){
+                System.out.println("nice");
+            }
+        }
     }
 
 
