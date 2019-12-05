@@ -267,9 +267,7 @@ public class Gitlet implements Serializable {
                         Utils.restrictedDelete(c);
                     }
                 }
-                tracked.clear();
                 for (String b: files.keySet()) {
-                    tracked.add(b);
                     String hash = files.get(b);
                     Blob c = Utils.readObject(new File(".gitlet/" + hash), Blob.class);
                     Utils.writeObject(new File(b), c.getBContents());
