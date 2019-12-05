@@ -1,0 +1,124 @@
+Gitlet Design Document
+----------------------
+
+Classes and Data Structures
+---------------------------
+        *** BLOB ***
+- byte[] inside: the contents of the file
+    - getInside()
+- String name: name of the file/ commit name
+    - getName()
+- String hashID: the SHA1 of the 'name'
+    - getHashID()
+
+        *** COMMIT ***
+- sha1ID:
+    - getSha1ID()
+- public static Commit initialCommit():
+    -
+- public String hashCommit():
+    -
+Variables:
+* private String[] _parents;
+    - get_parents()
+* private String _message;
+    - get_message()
+* private HashMap<String, String> _files;
+* private String _timestamp;
+    - get_timestamp()
+* private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+* private String sha1ID;
+
+        *** REPO ***
+THIS CONTAINS ALL MY COMMANDS
+- Repo()
+    - this operates as my repo initialization
+    - It creates /.gitlet
+        - and /.gitlet/allCommits (which will save all my commits)
+        - and /.gitlet/stage (which will act as a staging area)
+- log()
+    - this operates as my log command
+    - printCommit(String id)
+        - prints the commit for the log
+- add()
+    - this operates as my add command
+- idToCommit(String id)
+    - converts a string ID to a commit
+- getHead()
+    - returns _head
+Variables:
+* private String _head;
+* private HashMap<String, String> _branches;
+* private HashMap<String, String> _stage;
+* private ArrayList<String> _untrackedFiles;
+
+        *** MAIN ***
+- String[] commands
+    - holds all string commands
+- public static Repo getBackRepo()
+    - saves information from repo and returns existing repo
+- boolean aCommmand(String arg)
+    - makes sure what ever command is passed into gitlet is actually a command
+- boolean repoInitialized()
+    - checks that a /.gitlet directory was created
+- void command(String[] args, String[] operands)
+    - this is what calls all my commands from my Repo class (instance variable is repo)
+Variables:
+* private static Repo repo;
+    - instance variable of my Repo class
+* private static String PATH = ".gitlet/repo";
+    - PATH to my repo in .gitlet
+
+Algorithms
+----------
+**** COMMIT CLASS ****
+1. Commit(String msg, HashMap<String, String> f, String[] p, boolean commit)
+    - initializes a commit
+    - passes in a String commit message (initial commit's is "initial commit")
+    - passes HashMap<String, String> representing files, "initial commit" has null for this field
+    - passes in a String array for parents, so I can return the parent id with _parents
+    - passes in a boolean commit which checks if the commit is different from the "initial commit",
+    so the "initial commit" has commit set to false
+    - after it checks if commit is true or false, it sets the SHA-1 id to hashCommit()
+2. String hashCommit()
+    - this converts both the HashMap files and String array parents to a string so they can be passed in SHA-1
+    - after that, the fields of a commit (the files, the commit message, thhe timestamp, the parent) are passed into
+    SHA-1 so that it returns a String SHA-1 ID
+
+**** REPO CLASS ****
+1. Repo()
+    - This creates Gitlet in the current directory
+    (along with a directory containing all the commits and the staging area)
+    - It starts with the initial commit (which contains no files)
+    - It contains one branch (the current branch) when initialized because that one branch is the head
+    and the master branch which points to the initial commit
+
+2. Log()
+    - gets head string head with getHead()
+    - gets the id of that commit which is the head
+    - using printCommit() it prints out the log for the head
+    -
+    3. printCommit()
+    - passes in a String id which is the universal ID or the SHA-1 ID
+    - if it is a merge commit, it will print it out differently as opposed to a regular commit (not yet implemented)
+
+3. Add()
+    - checks if the file you are trying to add exists or not
+    - using SHA-1 it creates a hashed version of the file you are trying to add
+    - Commit mostRecent is the SHA-1 id of the head
+    - I create a HashMap of files because get_files is declared a HashMap in the Commit class
+    - I create a File stagingBlob which is the newly added contents of the modified file + the hashed file
+    - The last part of my add() method checks if the same file has been modified more than once,
+    if it has, then the older version that was added to the stage should be removed so that only
+    the latest changes for the particular file are in the staging area
+    - the end removes the file from _untrackedFiles
+
+4. Commit()
+
+
+
+**** MAIN CLASS ****
+
+
+Persistence
+-----------
