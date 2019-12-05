@@ -38,8 +38,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="362" column="43" lean-forward="true" selection-start-line="362" selection-start-column="43" selection-end-line="362" selection-end-column="43" />
+            <state relative-caret-position="113">
+              <caret line="337" column="69" selection-start-line="337" selection-start-column="69" selection-end-line="337" selection-end-column="69" />
               <folding>
                 <element signature="e#8863#8864#0" expanded="true" />
                 <element signature="e#8899#8900#0" expanded="true" />
@@ -307,7 +307,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.4145749" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -488,8 +487,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="362" column="43" lean-forward="true" selection-start-line="362" selection-start-column="43" selection-end-line="362" selection-end-column="43" />
+        <state relative-caret-position="113">
+          <caret line="337" column="69" selection-start-line="337" selection-start-column="69" selection-end-line="337" selection-end-column="69" />
           <folding>
             <element signature="e#8863#8864#0" expanded="true" />
             <element signature="e#8899#8900#0" expanded="true" />
