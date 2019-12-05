@@ -1,69 +1,123 @@
 Gitlet Design Document
 ----------------------
-The overall premise for the project is to replicate the functionality of git
-but locally and through a program. The essence of this is simpler than git,
-but allows a lot of the stuff we typically use from git.
 
 Classes and Data Structures
 ---------------------------
-There are a variety of data structures used within classes. The main classes are:
+        *** BLOB ***
+- byte[] inside: the contents of the file
+    - getInside()
+- String name: name of the file/ commit name
+    - getName()
+- String hashID: the SHA1 of the 'name'
+    - getHashID()
 
-Blob - the blob class contains a file's name and the contents it has, both
-in a string format and a byte array format. The former allows us to deal with merges
-and the later allows us to deal with overwriting files easily.
+        *** COMMIT ***
+- sha1ID:
+    - getSha1ID()
+- public static Commit initialCommit():
+    -
+- public String hashCommit():
+    -
+Variables:
+* private String[] _parents;
+    - get_parents()
+* private String _message;
+    - get_message()
+* private HashMap<String, String> _files;
+* private String _timestamp;
+    - get_timestamp()
+* private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+* private String sha1ID;
 
-Commit - this class contains a time, message and a hashmap of references to blob values.
-The HashMap is a string to string hashmap with the names of files as the key and the hash
-value of the blob that contains that file. The blob are stored as files in a .gitlet directory
-named by their hash value. Thus retrieves a blob is as easy as finding the file you
-want to retrieve and then getting the hash and reading the file that has that name,
-casting it to a blob and then retrieves the file contents from it. This also implements
-serializable which makes it easy because it allows us to store hash references to the commits
-instead of the actual commits.
+        *** REPO ***
+THIS CONTAINS ALL MY COMMANDS
+- Repo()
+    - this operates as my repo initialization
+    - It creates /.gitlet
+        - and /.gitlet/allCommits (which will save all my commits)
+        - and /.gitlet/stage (which will act as a staging area)
+- log()
+    - this operates as my log command
+    - printCommit(String id)
+        - prints the commit for the log
+- add()
+    - this operates as my add command
+- idToCommit(String id)
+    - converts a string ID to a commit
+- getHead()
+    - returns _head
+Variables:
+* private String _head;
+* private HashMap<String, String> _branches;
+* private HashMap<String, String> _stage;
+* private ArrayList<String> _untrackedFiles;
 
-Stage - This class maintains our staging area. It essentially contains the ability to add or
-remove to the stage. It contains a HashMap as well mapping a files names to its blob value.
-It also maintains the ability to clear the staging area which means deleting the references to blob's
-that it has and getting rid of redundant files.
-
-Gitlet - This contains a variety of data structures. It contains untracked files, which are
-all the files that we aren't tracking at the moment, i.e that we have called remove on. We also
-have tracked which entails which files we are tracking and should go into a commit. Furthermore,
-we have branches which tracks all the active branches we have at the moment, and we have branchheads
-which is a hashmap mapping the various branches to the commit hash that is the branch's head.
-We have commits which contains each commit's hash that has every been committed and the String
-current branch which retrieves which string we are currently on. The boolean inited tells us if
-the system has been initialized or not.
+        *** MAIN ***
+- String[] commands
+    - holds all string commands
+- public static Repo getBackRepo()
+    - saves information from repo and returns existing repo
+- boolean aCommmand(String arg)
+    - makes sure what ever command is passed into gitlet is actually a command
+- boolean repoInitialized()
+    - checks that a /.gitlet directory was created
+- void command(String[] args, String[] operands)
+    - this is what calls all my commands from my Repo class (instance variable is repo)
+Variables:
+* private static Repo repo;
+    - instance variable of my Repo class
+* private static String PATH = ".gitlet/repo";
+    - PATH to my repo in .gitlet
 
 Algorithms
 ----------
-Algorithms are used for each command that we have.
+**** COMMIT CLASS ****
+1. Commit(String msg, HashMap<String, String> f, String[] p, boolean commit)
+    - initializes a commit
+    - passes in a String commit message (initial commit's is "initial commit")
+    - passes HashMap<String, String> representing files, "initial commit" has null for this field
+    - passes in a String array for parents, so I can return the parent id with _parents
+    - passes in a boolean commit which checks if the commit is different from the "initial commit",
+    so the "initial commit" has commit set to false
+    - after it checks if commit is true or false, it sets the SHA-1 id to hashCommit()
+2. String hashCommit()
+    - this converts both the HashMap files and String array parents to a string so they can be passed in SHA-1
+    - after that, the fields of a commit (the files, the commit message, thhe timestamp, the parent) are passed into
+    SHA-1 so that it returns a String SHA-1 ID
 
-Stage
-add(String file) -> add the file to the HashMap, and create a Blob instance with that file in it
-and add the name and hash value to the HashMap in Stage
-remove(String file) -> If the file is in the hashmap, remove it from the hashmap. Also delete the old blob
-hash from the system to avoid redundant files.
-contains(String file) -> Returns whether or not that a file's name is in the staging area
-clear() -> Clears the staging area
-Stage() -> Contstructor that initializes an empty HashMap
+**** REPO CLASS ****
+1. Repo()
+    - This creates Gitlet in the current directory
+    (along with a directory containing all the commits and the staging area)
+    - It starts with the initial commit (which contains no files)
+    - It contains one branch (the current branch) when initialized because that one branch is the head
+    and the master branch which points to the initial commit
 
-Blob
-Blob(String file) -> adds file name to the name, and adds the file's name content
-to the string and byte class
-All other methos just retrieve the contents
+2. Log()
+    - gets head string head with getHead()
+    - gets the id of that commit which is the head
+    - using printCommit() it prints out the log for the head
+    -
+    3. printCommit()
+    - passes in a String id which is the universal ID or the SHA-1 ID
+    - if it is a merge commit, it will print it out differently as opposed to a regular commit (not yet implemented)
 
-Gitlet
-Gitlet() -> set init to false and all other data structures to false
-init() -> creates a new .gitlet subdirectory if one doesn't exist and create a new
-master branch and a new initial commit to add to the log
-add(String file) -> see if the file exists and if it doesnt throw an error. If it does,
-add it to the staging area, unless it is identical to the previous commit and then remove
-it.
-remove(String file) -> if the file is tracked or staging, than remove it from the tracking
-and the stage otherwise throw error
-commit(String file) -> Check to see if the commit is different from the previous commit and
-if it is the same then it throws an error.
+3. Add()
+    - checks if the file you are trying to add exists or not
+    - using SHA-1 it creates a hashed version of the file you are trying to add
+    - Commit mostRecent is the SHA-1 id of the head
+    - I create a HashMap of files because get_files is declared a HashMap in the Commit class
+    - I create a File stagingBlob which is the newly added contents of the modified file + the hashed file
+    - The last part of my add() method checks if the same file has been modified more than once,
+    if it has, then the older version that was added to the stage should be removed so that only
+    the latest changes for the particular file are in the staging area
+    - the end removes the file from _untrackedFiles
+
+4. Commit()
+
+
+
+**** MAIN CLASS ****
 
 
 Persistence

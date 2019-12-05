@@ -46,11 +46,12 @@ public class UnitTest {
         temp.put("hi", "avi");
         temp1.put("hello", "adi");
         temp.put("fuck", "avi");
-        for (String b: temp.keySet()) {
-            if (temp.get(b).equals(temp1.get(b))){
+        for (String b : temp.keySet()) {
+            if (temp.get(b).equals(temp1.get(b))) {
                 System.out.println("nice");
             }
         }
+        System.out.println(temp.get("avi"));
     }
 
 

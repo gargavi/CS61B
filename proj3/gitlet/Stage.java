@@ -7,7 +7,7 @@ import java.util.HashMap;
 /** The purpose of this class is to store the stage elements used by Gitlet
  * Should contain the names of all files that are staged and have methods to add to
  * stage and remove from the stage
- * @author aviga
+ * @author aviga 
  */
 
 public class Stage implements Serializable {

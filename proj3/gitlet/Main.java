@@ -109,7 +109,11 @@ public class Main {
                 } else {
                     throw Utils.error("Incorrect Operands");
                 }
-            } else {
+            } else if (args[0].equals("list")) {
+                System.out.println(Utils.plainFilenamesIn("."));
+            }
+
+            else {
                 throw Utils.error("No command with that name exists");
             }
         } catch (GitletException exp)  {

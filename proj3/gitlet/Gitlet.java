@@ -348,23 +348,61 @@ public class Gitlet implements Serializable {
         for (String b: current.getContents().keySet()) {
             allfiles.add(b);
         }
+        boolean conflict = false;
         HashMap<String, String> givenval = given.getContents();
         HashMap<String, String> currentval = current.getContents();
         HashMap<String, String> ancestorval = ancestor.getContents();
         for (String c: allfiles) {
             if (givenval.containsKey(c)) {
-                if (!givenval.get(c).equals(ancestorval.get(c))){
+                if (ancestorval.get(c) != null && !givenval.get(c).equals(ancestorval.get(c))){
                     if (currentval.get(c).equals(ancestorval.get(c))) {
-                        System.out.println("temp");
+                        checkout(c, given.gethash());
+                        staged.add(c);
+                    }
+                } else if (!ancestorval.containsKey(c) && !currentval.containsKey(c)) {
+                    checkout(c, given.gethash());
+                } else if (ancestorval.containsKey(c) && currentval.containsKey(c)) {
+                    if (currentval.get(c) != givenval.get(c)) {
+                        Blob fir = Utils.readObject(Utils.join(".gitlet/", currentval.get(c)), Blob.class);
+                        Blob sec = Utils.readObject(Utils.join(".gitlet/", givenval.get(c)), Blob.class);
+                        String concat = "<<<<<<< HEAD" + fir.getSContents() + " in " + currentbranch
+                                + "=======" + sec.getSContents() + " in " + bname + ">>>>>>>";
+                        Utils.writeObject(new File(c), concat);
+                        add(c);
+                        conflict = true;
                     }
                 }
 
             } else {
+                if (ancestorval.containsKey(c)) {
+                    if (currentval.containsKey(c) && currentval.get(c).equals(ancestorval.get(c))) {
+                        Utils.join(".gitlet/", currentval.get(c)).delete();
+                        untracked.add(c);
+                    }
+                }
                 System.out.println("temp");
             }
 
         }
+        if (conflict) {
+            System.out.println("Encountered a merge conflict");
+        }
+        HashMap<String, String> staging = staged.getContents();
+        HashMap<String, String> curr = new HashMap<String, String>();
+        for (String name: tracked){
+            if (staging.containsKey(name)){
+                curr.put(name, staging.get(name));
+            } else if (!untracked.contains(name)){
+                curr.put(name, currentval.get(name));
+            }
+        }
+        Commit merged = new Commit(current.gethash(), given.gethash(), curr, currentbranch);
+        staged = new Stage();
+        String name = merged.gethash();
+        branchHeads.put(currentbranch, name);
+        commits.add(name);
+        File loc = new File(".gitlet/" + name);
+        Utils.writeObject(loc, current);
+        untracked.clear();
     }
-
-
 }
