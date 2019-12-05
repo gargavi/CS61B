@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -33,7 +34,7 @@ public class UnitTest {
         Main.main("branch", "nayan");
         Main.main("log");
         Main.main("status");
-        Main.main("checkout", "nayan");
+        List<String> working_dir = Utils.plainFilenamesIn(".");
         Main.main("status");
 
     }
