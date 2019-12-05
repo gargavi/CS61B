@@ -114,11 +114,13 @@ public class Main {
                 } else {
                     throw Utils.error("Incorrect Operands");
                 }
-            } else if (args[0].equals("list")) {
-                System.out.println(Utils.plainFilenamesIn("."));
-            }
-
-            else {
+            } else if (args[0].equals("merge")) {
+                if (args.length == 2) {
+                    repo.merge(args[1]);
+                } else {
+                    throw Utils.error("Incorrect Operands");
+                }
+            } else {
                 throw Utils.error("No command with that name exists");
             }
         } catch (GitletException exp)  {

@@ -116,7 +116,7 @@ public class Gitlet implements Serializable {
             for (String name: tracked){
                 if (staging.containsKey(name)){
                     cur.put(name, staging.get(name));
-                } else if (!untracked.contains(name)){
+                } else if (!untracked.contains(name) && cur.containsKey(name)){
                     cur.put(name, prev.get(name));
                 }
             }
@@ -270,7 +270,7 @@ public class Gitlet implements Serializable {
                 for (String b: files.keySet()) {
                     String hash = files.get(b);
                     Blob c = Utils.readObject(new File(".gitlet/" + hash), Blob.class);
-                    Utils.writeObject(new File(b), c.getBContents());
+                    Utils.writeContents(new File(b), c.getBContents());
                 }
 
                 currentbranch = branchName;
@@ -328,13 +328,32 @@ public class Gitlet implements Serializable {
         String secondgiven = null;
         String secondcurrent = null;
         while (!found) {
-            Commit given = Utils.readObject(Utils.join(".gitlet/", givenhash ), Commit.class);
-            Commit current = Utils.readObject(Utils.join(".gitlet/", currenthash), Commit.class);
+            System.out.println(givenhash);
+            if (givenhash != null) {
+                Commit given = Utils.readObject(Utils.join(".gitlet/", givenhash ), Commit.class);
+                if (given.getbranch() == currentbranch) {
+                    found = true;
+                    ancestor = given;
+                } else {
+                    givenhash = given.getParent();
+                }
+            }
+            if (currenthash != null) {
+                Commit current = Utils.readObject(Utils.join(".gitlet/", currenthash), Commit.class);
+                if (current.getbranch() == bname) {
+                    found = true;
+                    ancestor = current;
+                } else {
+                    currenthash = current.getParent();
+                }
+            }
             if (secondcurrent != null) {
                 Commit scurrent = Utils.readObject(Utils.join(".gitlet/", secondcurrent), Commit.class);
                 if (scurrent.getbranch() == bname) {
                     found = true;
                     ancestor = scurrent;
+                } else {
+                    secondcurrent = scurrent.getParent();
                 }
             }
             if (secondgiven != null) {
@@ -342,19 +361,10 @@ public class Gitlet implements Serializable {
                 if (sgiven.getbranch() == currentbranch) {
                     found = true;
                     ancestor = sgiven;
+                } else {
+                    secondgiven = sgiven.getParent();
                 }
             }
-            if (given.getbranch() == currentbranch) {
-                found = true;
-                ancestor = given;
-            } else if (current.getbranch() == bname) {
-                found = true;
-                ancestor = current;
-            }
-            givenhash = given.getParent();
-            secondgiven = given.getSParent();
-            currenthash = current.getParent();
-            secondcurrent = current.getSParent();
         }
         Commit given = Utils.readObject(Utils.join(".gitlet/", giv ), Commit.class);
         Commit current = Utils.readObject(Utils.join(".gitlet/", cur), Commit.class);
