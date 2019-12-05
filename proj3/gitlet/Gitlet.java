@@ -259,6 +259,7 @@ public class Gitlet implements Serializable {
                     }
                 }
                 for (String ter: working_dir) {
+                    System.out.println(ter);
                     if (files.keySet().contains(ter)) {
                         String hash = files.get(ter);
                         Blob c = Utils.readObject(new File(".gitlet/" + hash), Blob.class);

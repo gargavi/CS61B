@@ -9,7 +9,7 @@ import java.util.HashMap;
 import static org.junit.Assert.*;
 
 /** The suite of all JUnit tests for the gitlet package.
- *  @author
+ *  @author avigarg
  */
 public class UnitTest {
 
