@@ -13,15 +13,20 @@ public class Main {
     public static void main(String... args) throws IOException {
         File gitlet = new File(".gitlet/gitlet");
         Gitlet repo;
-        if (gitlet.exists()){
-            repo = Utils.readObject(gitlet, Gitlet.class);
-        } else {
-            repo = new Gitlet();
-        }
         if (args.length == 0) {
             System.out.println("Please enter a command.");
             System.exit(0);
         }
+        if (gitlet.exists()){
+            repo = Utils.readObject(gitlet, Gitlet.class);
+        } else {
+            repo = new Gitlet();
+            if (!args[0].equals("init")){
+                System.out.println("Git repository not intialized.");
+                System.exit(0);
+            }
+        }
+
         try {
             if (args[0].equals("add")) {
                 if (args.length == 2) {

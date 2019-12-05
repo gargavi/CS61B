@@ -128,6 +128,7 @@ public class Gitlet implements Serializable {
                 String name = current.gethash();
                 branchHeads.put(currentbranch, name);
                 commits.add(name);
+                head = name;
                 File loc = new File(".gitlet/" + name);
                 Utils.writeObject(loc, current);
                 untracked.clear();
