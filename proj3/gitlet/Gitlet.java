@@ -253,26 +253,31 @@ public class Gitlet implements Serializable {
                 File cur = new File(".gitlet/"  + branchHeads.get(branchName));
                 Commit branch = Utils.readObject(cur, Commit.class);
                 HashMap<String, String> files = branch.getContents();
+                if (!staged.getContents().isEmpty()) {
+                    throw Utils.error("You have uncommitted changes.");
+                }
                 List<String> working_dir = Utils.plainFilenamesIn(".");
                 for (String ter: working_dir) {
                     if (!tracked.contains(ter) && files.keySet().contains(ter)) {
                         throw Utils.error("There is an untracked file in the way; delete it or add it first.");
                     }
                 }
-                for (String ter: working_dir) {
-                    System.out.println(ter);
-                    if (files.keySet().contains(ter)) {
-                        String hash = files.get(ter);
-                        Blob c = Utils.readObject(new File(".gitlet/" + hash), Blob.class);
-                        Utils.writeObject(new File(".ter"), c.getBContents());
-                    } else {
-                        Utils.restrictedDelete(ter);
+                for (String c: tracked) {
+                    if (!files.containsKey(c)){
+                        Utils.restrictedDelete(c);
                     }
                 }
+                tracked.clear();
+                for (String b: files.keySet()) {
+                    tracked.add(b);
+                    String hash = files.get(b);
+                    Blob c = Utils.readObject(new File(".gitlet/" + hash), Blob.class);
+                    Utils.writeObject(new File(b), c.getBContents());
+                }
+
                 currentbranch = branchName;
                 head = branchHeads.get(branchName);
                 staged.clear();
-
             }
         } else {
             throw Utils.error("No such branch exists.");
@@ -322,9 +327,25 @@ public class Gitlet implements Serializable {
         Commit ancestor = Utils.readObject(Utils.join(".gitlet/", givenhash), Commit.class);
         String currenthash = branchHeads.get(currentbranch);
         String cur = currenthash;
+        String secondgiven = null;
+        String secondcurrent = null;
         while (!found) {
             Commit given = Utils.readObject(Utils.join(".gitlet/", givenhash ), Commit.class);
             Commit current = Utils.readObject(Utils.join(".gitlet/", currenthash), Commit.class);
+            if (secondcurrent != null) {
+                Commit scurrent = Utils.readObject(Utils.join(".gitlet/", secondcurrent), Commit.class);
+                if (scurrent.getbranch() == bname) {
+                    found = true;
+                    ancestor = scurrent;
+                }
+            }
+            if (secondgiven != null) {
+                Commit sgiven = Utils.readObject(Utils.join(".gitlet/", secondgiven), Commit.class);
+                if (sgiven.getbranch() == currentbranch) {
+                    found = true;
+                    ancestor = sgiven;
+                }
+            }
             if (given.getbranch() == currentbranch) {
                 found = true;
                 ancestor = given;
@@ -333,7 +354,9 @@ public class Gitlet implements Serializable {
                 ancestor = current;
             }
             givenhash = given.getParent();
-            currenthash = given.getParent();
+            secondgiven = given.getSParent();
+            currenthash = current.getParent();
+            secondcurrent = current.getSParent();
         }
         Commit given = Utils.readObject(Utils.join(".gitlet/", giv ), Commit.class);
         Commit current = Utils.readObject(Utils.join(".gitlet/", cur), Commit.class);

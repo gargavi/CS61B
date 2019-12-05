@@ -92,7 +92,12 @@ public class Commit implements Serializable {
             for (String b: contents.values()){
                 total.add(b);
             }
-            return Utils.sha1(total);
+            try {
+                return Utils.sha1(total);
+            } catch (Exception eexp) {
+                System.out.println(contents.keySet());
+               throw Utils.error(eexp.toString());
+            }
         }
     }
     /** Return the hash value */

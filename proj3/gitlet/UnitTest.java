@@ -28,30 +28,20 @@ public class UnitTest {
         } catch (Exception expr) {
             System.out.println(expr);
         }
-        Main.main("add", "something2");
+        Main.main("add", "somet.txt");
         Main.main("commit", "this be the way");
-        Main.main("add", "something1");
+        Main.main("add", "hello.txt");
         Main.main("branch", "nayan");
         Main.main("log");
         Main.main("status");
-        List<String> working_dir = Utils.plainFilenamesIn(".");
+        Main.main("checkout", "nayan");
         Main.main("status");
 
     }
     @Test
     public void try_this() {
-        HashMap<String, String> temp = new HashMap<String, String>();
-        HashMap<String, String> temp1 = new HashMap<String, String>();
-        temp.put("hello", "aditya");
-        temp.put("hi", "avi");
-        temp1.put("hello", "adi");
-        temp.put("fuck", "avi");
-        for (String b : temp.keySet()) {
-            if (temp.get(b).equals(temp1.get(b))) {
-                System.out.println("nice");
-            }
-        }
-        System.out.println(temp.get("avi"));
+        Commit he = new Commit();
+        System.out.println(he.getSParent());
     }
 
 

@@ -72,7 +72,7 @@ public class Main {
                         throw Utils.error("Incorrect Operands");
                     }
 
-                } else if (args[1].equals("--")) {
+                } else if (args.length > 2 && args[2].equals("--")) {
                     if (args.length == 4) {
                         repo.checkout(args[3], args[1]);
                     } else {
