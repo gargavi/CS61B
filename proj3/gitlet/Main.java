@@ -121,10 +121,10 @@ public class Main {
                     throw Utils.error("Incorrect Operands");
                 }
             } else {
-                throw Utils.error("No command with that name exists");
+                throw Utils.error("No command with that name exists.");
             }
         } catch (GitletException exp)  {
-            System.out.println(exp);
+            System.out.println(exp.toString().substring(24));
             System.exit(0);
         }
         Utils.writeObject(gitlet, repo);

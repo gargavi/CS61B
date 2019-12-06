@@ -28,10 +28,12 @@ public class Commit implements Serializable {
         time = format.format(temp);
     }
     public Commit(String firstp, String secondp, HashMap<String, String> files, String branch1) {
+
         message  = "Merged " + secondp + " into " + firstp;
         _parent = firstp;
         _mergeparent = secondp;
         merge = true;
+        contents = files;
         _branch = branch1;
         Date temp = new Date();
         SimpleDateFormat format = new SimpleDateFormat("E MMM dd HH:mm:ss yyyy Z");

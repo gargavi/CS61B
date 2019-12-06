@@ -32,6 +32,10 @@ public class Gitlet implements Serializable {
 
     private boolean inited;
 
+    private int lowest;
+
+    private String globalances;
+
     public Gitlet(){
         inited = false;
         untracked = new ArrayList<String>();
@@ -40,6 +44,7 @@ public class Gitlet implements Serializable {
         branchHeads = new HashMap<String, String>();
         branches = new ArrayList<String>();
         staged = new Stage();
+        lowest = Integer.MAX_VALUE;
     }
 
     /** Init should create a gitlet repository if one doesn't exist
@@ -59,6 +64,7 @@ public class Gitlet implements Serializable {
             branches.add("master");
             currentbranch = "master";
             head = initName;
+            globalances = head;
             branchHeads.put("master", initName);
         }
     }
@@ -116,7 +122,7 @@ public class Gitlet implements Serializable {
             for (String name: tracked){
                 if (staging.containsKey(name)){
                     cur.put(name, staging.get(name));
-                } else if (!untracked.contains(name) && cur.containsKey(name)){
+                } else if (!untracked.contains(name) && prev.containsKey(name)){
                     cur.put(name, prev.get(name));
                 }
             }
@@ -318,25 +324,46 @@ public class Gitlet implements Serializable {
             throw Utils.error("No commit with that id exists.");
         }
     }
-    public void merge(String bname) {
-        boolean found = false;
-        String givenhash = branchHeads.get(bname);
-        String giv = givenhash;
-        Commit ancestor = Utils.readObject(Utils.join(".gitlet/", givenhash), Commit.class);
-        String currenthash = branchHeads.get(currentbranch);
-        String cur = currenthash;
-        String secondgiven = null;
-        String secondcurrent = null;
-        while (!found) {
-            
-        Commit given = Utils.readObject(Utils.join(".gitlet/", giv ), Commit.class);
-        Commit current = Utils.readObject(Utils.join(".gitlet/", cur), Commit.class);
-        if (ancestor.gethash() == giv) {
-            throw Utils.error(" Given branch is an ancestor of the current branch");
-        } else if (ancestor.gethash() == cur) {
-            branchHeads.put(currentbranch, giv);
+    public void reaffirm(String first, String branch, int total) {
+        Commit temp = Utils.readObject(Utils.join(".gitlet/", first), Commit.class);
+        if (temp.getbranch().equals(branch)) {
+            if (total < lowest) {
+                lowest = total;
+                globalances = first;
+            }
+        } else if (temp.getParent() != null) {
+            if (temp.getSParent() != null) {
+                reaffirm(temp.getSParent(), branch, total + 1);
+            }
+            reaffirm(temp.getParent(), branch, total + 1);
         }
-        Set<String> allfiles = ancestor.getContents().keySet();
+    }
+
+    public String ancestorlocater(String first, String second, String branch1, String branch2) {
+        reaffirm(first, branch2, 0);
+        reaffirm(second, branch1, 0);
+        return globalances;
+    }
+
+
+    public void merge(String bname) {
+        String givenhash = branchHeads.get(bname);
+        String currenthash = branchHeads.get(currentbranch);
+        String ances = ancestorlocater(givenhash, currenthash, bname, currentbranch);
+        Commit ancestor = Utils.readObject(Utils.join(".gitlet/",ances ), Commit.class);
+        Commit given = Utils.readObject(Utils.join(".gitlet/", givenhash ), Commit.class);
+        Commit current = Utils.readObject(Utils.join(".gitlet/", currenthash), Commit.class);
+        if (ancestor.gethash() == givenhash) {
+            throw Utils.error(" Given branch is an ancestor of the current branch");
+        } else if (ancestor.gethash() == currenthash) {
+            branchHeads.put(currentbranch, givenhash);
+        }
+        lowest = Integer.MAX_VALUE;
+        globalances = head;
+        HashSet<String> allfiles = new HashSet<String>();
+        for (String b: ancestor.getContents().keySet()){
+            allfiles.add(b);
+        }
         for (String b: given.getContents().keySet()) {
             allfiles.add(b);
         }
@@ -347,6 +374,10 @@ public class Gitlet implements Serializable {
         HashMap<String, String> givenval = given.getContents();
         HashMap<String, String> currentval = current.getContents();
         HashMap<String, String> ancestorval = ancestor.getContents();
+//        if (bname.equals("B")){
+//            System.out.println(givenval);
+//            System.out.println(currentval);
+//        }
         for (String c: allfiles) {
             if (givenval.containsKey(c)) {
                 if (ancestorval.get(c) != null && !givenval.get(c).equals(ancestorval.get(c))){
@@ -356,38 +387,51 @@ public class Gitlet implements Serializable {
                     }
                 } else if (!ancestorval.containsKey(c) && !currentval.containsKey(c)) {
                     checkout(c, given.gethash());
-                } else if (ancestorval.containsKey(c) && currentval.containsKey(c)) {
-                    if (currentval.get(c) != givenval.get(c)) {
+                    staged.add(c);
+                } else if (currentval.containsKey(c)) {
+                    if (!currentval.get(c).equals(givenval.get(c))) {
                         Blob fir = Utils.readObject(Utils.join(".gitlet/", currentval.get(c)), Blob.class);
                         Blob sec = Utils.readObject(Utils.join(".gitlet/", givenval.get(c)), Blob.class);
                         String concat = "<<<<<<< HEAD" + fir.getSContents() + " in " + currentbranch
                                 + "=======" + sec.getSContents() + " in " + bname + ">>>>>>>";
-                        Utils.writeObject(new File(c), concat);
+                        Utils.writeContents(new File(c), concat);
                         add(c);
                         conflict = true;
                     }
+                } else if (!currentval.containsKey(c) && !givenval.get(c).equals(ancestorval.get(c))){
+                    Blob sec = Utils.readObject(Utils.join(".gitlet/", givenval.get(c)), Blob.class);
+                    String concat = "<<<<<<< HEAD in " + currentbranch
+                            + "=======" + sec.getSContents() + " in " + bname + ">>>>>>>";
+                    Utils.writeContents(new File(c), concat);
+                    add(c);
+                    conflict = true;
                 }
 
             } else {
                 if (ancestorval.containsKey(c)) {
                     if (currentval.containsKey(c) && currentval.get(c).equals(ancestorval.get(c))) {
-                        Utils.join(".gitlet/", currentval.get(c)).delete();
+                        new File(c).delete();
                         untracked.add(c);
+                    } else if (currentval.containsKey(c) && !currentval.get(c).equals(ancestorval.get(c))) {
+                        Blob fir = Utils.readObject(Utils.join(".gitlet/", currentval.get(c)), Blob.class);
+                        String concat = "<<<<<<< HEAD" + fir.getSContents() + " in " + currentbranch
+                                + "======= in " + bname + ">>>>>>>";
+                        Utils.writeContents(new File(c), concat);
+                        add(c);
+                        conflict = true;
                     }
                 }
-                System.out.println("temp");
             }
-
         }
         if (conflict) {
             System.out.println("Encountered a merge conflict");
         }
         HashMap<String, String> staging = staged.getContents();
         HashMap<String, String> curr = new HashMap<String, String>();
-        for (String name: tracked){
+        for (String name: allfiles){
             if (staging.containsKey(name)){
                 curr.put(name, staging.get(name));
-            } else if (!untracked.contains(name)){
+            } else if (!untracked.contains(name) && currentval.containsKey(name)){
                 curr.put(name, currentval.get(name));
             }
         }
@@ -395,9 +439,11 @@ public class Gitlet implements Serializable {
         staged = new Stage();
         String name = merged.gethash();
         branchHeads.put(currentbranch, name);
+        branchHeads.put(bname, name);
         commits.add(name);
+        head = name;
         File loc = new File(".gitlet/" + name);
-        Utils.writeObject(loc, current);
+        Utils.writeObject(loc, merged);
         untracked.clear();
     }
 }
