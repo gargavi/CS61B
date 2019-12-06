@@ -328,44 +328,7 @@ public class Gitlet implements Serializable {
         String secondgiven = null;
         String secondcurrent = null;
         while (!found) {
-            System.out.println(givenhash);
-            if (givenhash != null) {
-                Commit given = Utils.readObject(Utils.join(".gitlet/", givenhash ), Commit.class);
-                if (given.getbranch() == currentbranch) {
-                    found = true;
-                    ancestor = given;
-                } else {
-                    givenhash = given.getParent();
-                }
-            }
-            if (currenthash != null) {
-                Commit current = Utils.readObject(Utils.join(".gitlet/", currenthash), Commit.class);
-                if (current.getbranch() == bname) {
-                    found = true;
-                    ancestor = current;
-                } else {
-                    currenthash = current.getParent();
-                }
-            }
-            if (secondcurrent != null) {
-                Commit scurrent = Utils.readObject(Utils.join(".gitlet/", secondcurrent), Commit.class);
-                if (scurrent.getbranch() == bname) {
-                    found = true;
-                    ancestor = scurrent;
-                } else {
-                    secondcurrent = scurrent.getParent();
-                }
-            }
-            if (secondgiven != null) {
-                Commit sgiven = Utils.readObject(Utils.join(".gitlet/", secondgiven), Commit.class);
-                if (sgiven.getbranch() == currentbranch) {
-                    found = true;
-                    ancestor = sgiven;
-                } else {
-                    secondgiven = sgiven.getParent();
-                }
-            }
-        }
+            
         Commit given = Utils.readObject(Utils.join(".gitlet/", giv ), Commit.class);
         Commit current = Utils.readObject(Utils.join(".gitlet/", cur), Commit.class);
         if (ancestor.gethash() == giv) {
