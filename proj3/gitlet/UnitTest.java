@@ -3,11 +3,8 @@ package gitlet;
 import ucb.junit.textui;
 import org.junit.Test;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.List;
+import java.io.IOException;
 
-import static org.junit.Assert.*;
 
 /** The suite of all JUnit tests for the gitlet package.
  *  @author avigarg
@@ -22,10 +19,10 @@ public class UnitTest {
 
     /** A dummy test to avoid complaint. */
     @Test
-    public void add_test() throws IOException {
+    public void addTest() throws IOException {
         try {
             Main.main("init");
-        } catch (Exception expr) {
+        } catch (GitletException expr) {
             System.out.println(expr);
         }
         Main.main("add", "somet.txt");
@@ -39,12 +36,10 @@ public class UnitTest {
 
     }
     @Test
-    public void try_this() {
+    public void tryThis() {
         Commit he = new Commit();
         System.out.println(he.getSParent());
     }
-
-
 }
 
 

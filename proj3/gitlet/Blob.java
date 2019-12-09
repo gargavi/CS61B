@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The goal of this is to serve as a container for the files that we have, with ability
- * to compare two different blobs to each other to make the commit class easier.
+ * The goal of this is to serve as a container for the files that we have,
+ * with ability to compare two different blobs to each other to
+ * make the commit class easier.
  * A blob should contain the name of the file and the contents of a file
  * @author aviga
  */
@@ -15,14 +16,15 @@ import java.util.List;
 
 public class Blob implements Serializable {
 
-
-    public Blob(String filename){
+    /** This initializes the blob class.
+     * @param filename */
+    public Blob(String filename) {
         name = filename;
         try {
             File file = new File(filename);
             byteme = Utils.readContents(file);
             word = Utils.readContentsAsString(file);
-        } catch (IllegalArgumentException expr){
+        } catch (IllegalArgumentException expr) {
             throw Utils.error("File Does Not Exist");
         }
         List<Object> temp = new ArrayList<Object>();
@@ -33,20 +35,24 @@ public class Blob implements Serializable {
         hash = Utils.sha1(temp);
     }
 
-    /** Retrieve the name of the file. */
-    String getName(){
+    /** Retrieve the name of the file.
+     * @return the name of the string. */
+    String getName() {
         return name;
     }
-    /** Return the string of the file contents. */
-    String getSContents(){
+    /** Return the string of the file contents.
+     * @return the word.  */
+    String getSContents() {
         return word;
     }
-    /** Return the byte array of the file contents.*/
-    byte[] getBContents(){
+    /** Return the byte array of the file contents.
+     * @return the byte array*/
+    byte[] getBContents() {
         return byteme;
     }
-    /** Return the hash value */
-    String gethash(){
+    /** Return the hash value.
+     * @return the hashvalue*/
+    String gethash() {
         return hash;
     }
 
@@ -58,8 +64,5 @@ public class Blob implements Serializable {
     private String word;
     /** Hash Value of the Blob. */
     private String hash;
-
-
-
 
 }
