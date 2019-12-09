@@ -8,12 +8,10 @@ import java.io.IOException;
  */
 public class Main {
 
-
-
     /** Usage: java gitlet.Main ARGS, where ARGS contains
      *  <COMMAND> <OPERAND> .... */
     public static void main(String... args) throws IOException {
-        File gitlet = new File(".gitlet/gitlet");
+        File gitlet = new File(".gitlet", "gitlet");
         Gitlet repo;
         if (args.length == 0) {
             System.out.println("Please enter a command.");
@@ -36,5 +34,4 @@ public class Main {
         }
         Utils.writeObject(gitlet, repo);
     }
-
 }

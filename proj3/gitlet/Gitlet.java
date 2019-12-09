@@ -18,6 +18,8 @@ import java.util.Arrays;
 
 public class Gitlet implements Serializable {
 
+    /** Name of the file. */
+    private String rootdir;
     /** Keeps track of untracked files. */
     private ArrayList<String> untracked;
     /** Keeps track of the tracked files at any given point in time. */
@@ -53,6 +55,7 @@ public class Gitlet implements Serializable {
         staged = new Stage();
         lowest = Integer.MAX_VALUE;
         remoterepos = new HashMap<String, String>();
+        rootdir = ".gitlet" + System.getProperty("file.separator");
     }
     /** This runs our gitlet.
      * @param args this just has arguments*/
@@ -232,7 +235,7 @@ public class Gitlet implements Serializable {
             Commit initial = new Commit();
             String initName = initial.gethash();
             commits.add(initName);
-            File loc = new File(".gitlet/" + initName);
+            File loc = Utils.join(rootdir, initName);
             Utils.writeObject(loc, initial);
             branches.add("master");
             currentbranch = "master";
@@ -256,7 +259,7 @@ public class Gitlet implements Serializable {
             untracked.remove(file);
         }
         String hashed = blob.gethash();
-        File prev = new File(".gitlet/" + head);
+        File prev = Utils.join(rootdir, head);
         Commit previous = Utils.readObject(prev, Commit.class);
         if (previous.getBlobs().contains(hashed)) {
             staged.remove(file);
@@ -269,7 +272,7 @@ public class Gitlet implements Serializable {
      * @param file the name of the file*/
     public void remove(String file) {
         Commit header = Utils.readObject(
-                Utils.join(".gitlet/", head), Commit.class);
+                Utils.join(rootdir, head), Commit.class);
         if (header.getContents().containsKey(file) || staged.contains(file)) {
             if (header.getContents().containsKey(file)) {
                 untracked.add(file);
@@ -291,7 +294,7 @@ public class Gitlet implements Serializable {
         if (message.equals("")) {
             throw Utils.error("Please enter a commit message.");
         } else {
-            File parent = new File(".gitlet/" + head);
+            File parent = Utils.join(rootdir, head);
             Commit old = Utils.readObject(parent, Commit.class);
             HashMap<String, String> prev = old.getContents();
             HashMap<String, String> staging = staged.getContents();
@@ -313,7 +316,7 @@ public class Gitlet implements Serializable {
                 branchHeads.put(currentbranch, name);
                 commits.add(name);
                 head = name;
-                File loc = new File(".gitlet/" + name);
+                File loc = Utils.join(rootdir, name);
                 Utils.writeObject(loc, current);
                 untracked.clear();
             }
@@ -321,7 +324,7 @@ public class Gitlet implements Serializable {
     }
     /** Displays the commits from current head to the initial commit.*/
     public void log() {
-        File cur = new File(".gitlet/" + head);
+        File cur = Utils.join(rootdir, head);
         Commit current = Utils.readObject(cur, Commit.class);
         while (current.getParent() != null) {
             System.out.println("===");
@@ -335,7 +338,7 @@ public class Gitlet implements Serializable {
             System.out.println(current.getMessage());
             System.out.println();
             String temp = current.getParent();
-            cur = new File(".gitlet/" + temp);
+            cur = new File(rootdir + temp);
             current = Utils.readObject(cur, Commit.class);
         }
         System.out.println("===");
@@ -347,7 +350,7 @@ public class Gitlet implements Serializable {
     /** This is the way to call all the logs. */
     public void globall() {
         for (String b: commits) {
-            File cur = new File(".gitlet/" + b);
+            File cur = new File(rootdir + b);
             Commit current = Utils.readObject(cur, Commit.class);
             System.out.println("===");
             System.out.println("Commit: " + current.gethash());
@@ -366,7 +369,7 @@ public class Gitlet implements Serializable {
     public void find(String mess) {
         boolean found = false;
         for (String b: commits) {
-            File cur = new File(".gitlet/" + b);
+            File cur = new File(rootdir + b);
             Commit current = Utils.readObject(cur, Commit.class);
             if (mess == current.getMessage()) {
                 System.out.println(b);
@@ -410,11 +413,11 @@ public class Gitlet implements Serializable {
     public void checkout(String name, String commit) {
         int length = head.length();
         if (commit.length() >= length) {
-            File temp = new File(".gitlet/" + commit);
+            File temp = new File(rootdir + commit);
             Commit header = Utils.readObject(temp, Commit.class);
             String hash = header.getContents().get(name);
             if (header.getContents().containsKey(name)) {
-                temp = new File(".gitlet/" + hash);
+                temp = new File(rootdir + hash);
                 if (!temp.exists()) {
                     throw Utils.error("No commit with that id exists");
                 }
@@ -446,7 +449,7 @@ public class Gitlet implements Serializable {
                 throw Utils.error("No need to checkout the current branch.");
             } else {
                 File cur = new File(
-                        ".gitlet/"  + branchHeads.get(branchName));
+                        rootdir  + branchHeads.get(branchName));
                 Commit branch = Utils.readObject(cur, Commit.class);
                 HashMap<String, String> files = branch.getContents();
                 if (!staged.getContents().isEmpty()) {
@@ -469,7 +472,7 @@ public class Gitlet implements Serializable {
                 for (String b: files.keySet()) {
                     String hash = files.get(b);
                     Blob c = Utils.readObject(
-                            new File(".gitlet/" + hash), Blob.class);
+                            new File(rootdir + hash), Blob.class);
                     Utils.writeContents(new File(b), c.getBContents());
                 }
 
@@ -508,7 +511,7 @@ public class Gitlet implements Serializable {
     public void reset(String commmit) {
         if (commits.contains(commmit)) {
             Commit temp = Utils.readObject(new File(
-                    ".gitlet/" + commmit), Commit.class);
+                    rootdir + commmit), Commit.class);
             HashMap<String, String> files = temp.getContents();
             List<String> workingdir = Utils.plainFilenamesIn(".");
             for (String ter: workingdir) {
@@ -533,7 +536,7 @@ public class Gitlet implements Serializable {
      * @param total the total */
     public void reaffirm(String first, String branch, int total) {
         Commit temp = Utils.readObject(
-                Utils.join(".gitlet/", first), Commit.class);
+                Utils.join(rootdir, first), Commit.class);
         if (temp.getbranch().equals(branch)) {
             if (total < lowest) {
                 lowest = total;
@@ -589,10 +592,10 @@ public class Gitlet implements Serializable {
                 } else if (currentval.containsKey(c)) {
                     if (!currentval.get(c).equals(givenval.get(c))) {
                         Blob fir = Utils.readObject(
-                                Utils.join(".gitlet/", currentval.get(c)),
+                                Utils.join(rootdir, currentval.get(c)),
                                 Blob.class);
                         Blob sec = Utils.readObject(
-                                Utils.join(".gitlet/", givenval.get(c)),
+                                Utils.join(rootdir, givenval.get(c)),
                                 Blob.class);
                         String concat = "<<<<<<< HEAD"
                                 + fir.getSContents() + " in " + currentbranch
@@ -605,7 +608,7 @@ public class Gitlet implements Serializable {
                 } else if (!currentval.containsKey(c)
                         && !givenval.get(c).equals(ancestorval.get(c))) {
                     Blob sec = Utils.readObject(
-                            Utils.join(".gitlet/", givenval.get(c)),
+                            Utils.join(rootdir, givenval.get(c)),
                             Blob.class);
                     String concat = "<<<<<<< HEAD in " + currentbranch
                             + "=======" + sec.getSContents() + " in "
@@ -641,7 +644,7 @@ public class Gitlet implements Serializable {
                                String bname,
                                 String c) {
         Blob fir = Utils.readObject(
-                Utils.join(".gitlet/", currentval.get(c)),
+                Utils.join(rootdir, currentval.get(c)),
                 Blob.class);
         String concat = "<<<<<<< HEAD"
                 + fir.getSContents() + " in " + currentbranch
@@ -658,11 +661,11 @@ public class Gitlet implements Serializable {
         String ances = ancestorlocater(
                 givenhash, currenthash, bname, currentbranch);
         Commit ancestor = Utils.readObject(
-                Utils.join(".gitlet/", ances), Commit.class);
+                Utils.join(rootdir, ances), Commit.class);
         Commit given = Utils.readObject(
-                Utils.join(".gitlet/", givenhash), Commit.class);
+                Utils.join(rootdir, givenhash), Commit.class);
         Commit current = Utils.readObject(
-                Utils.join(".gitlet/", currenthash), Commit.class);
+                Utils.join(rootdir, currenthash), Commit.class);
         if (ancestor.gethash() == givenhash) {
             throw Utils.error(
                     "Given branch is an ancestor of the current branch");
@@ -707,7 +710,7 @@ public class Gitlet implements Serializable {
         branchHeads.put(bname, name);
         commits.add(name);
         head = name;
-        File loc = new File(".gitlet/" + name);
+        File loc = new File(rootdir + name);
         Utils.writeObject(loc, merged);
         untracked.clear();
     }
@@ -725,7 +728,7 @@ public class Gitlet implements Serializable {
         branchHeads.put(currentbranch, name);
         commits.add(name);
         head = name;
-        File loc = new File(".gitlet/" + name);
+        File loc = new File(rootdir + name);
         Utils.writeObject(loc, current);
     }
     /** Adds a remote branch.
@@ -758,7 +761,7 @@ public class Gitlet implements Serializable {
         }
         if (location.exists()) {
             Gitlet remoterepo = Utils.readObject(
-                    Utils.join(remoterepos.get(name), ".gitlet"),
+                    Utils.join(remoterepos.get(name), rootdir),
                     Gitlet.class);
             String remotehead = remoterepo.gethead();
             boolean found = false;
@@ -766,7 +769,7 @@ public class Gitlet implements Serializable {
             ArrayList<Commit> tobecommited = new ArrayList<Commit>();
             while (tempo != null) {
                 Commit header = Utils.readObject(
-                        Utils.join(".gitlet/", tempo), Commit.class);
+                        Utils.join(rootdir, tempo), Commit.class);
                 tobecommited.add(header);
                 if (tempo.equals(remotehead)) {
                     found =  true;
