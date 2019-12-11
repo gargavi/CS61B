@@ -7,7 +7,7 @@ C D1
 <<<
 > add g.txt
 <<<
-> commit "Two Files"
+> commit "These two Files"
 <<<
 C D2
 > init
@@ -25,4 +25,3 @@ C D2
 <<<
 > checkout master
 <<<
->

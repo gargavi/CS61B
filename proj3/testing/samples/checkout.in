@@ -1,0 +1,14 @@
+> init
+<<<
++ avi.txt wug.txt
++ iva.txt notwug.txt
+> add avi.txt
+<<<
+> add iva.txt
+<<<
+> commit "iva and avi"
+<<<
++ avi.txt wug2.txt
+> checkout -- avi.txt
+<<<
+= avi.txt wug.txt

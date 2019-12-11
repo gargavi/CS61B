@@ -348,7 +348,7 @@ public class Gitlet implements Serializable {
                 staged.remove(file);
             }
         } else {
-            throw Utils.error("No reason to remove the file");
+            throw Utils.error("No reason to remove the file.");
         }
     }
 
@@ -449,12 +449,12 @@ public class Gitlet implements Serializable {
             File cur = new File(rootdir + b);
             Commit current = Utils.readObject(cur, Commit.class);
             if (mess.equals(current.getMessage())) {
-                System.out.println(b);
+                System.out.println(current.gethash());
                 found = true;
             }
         }
         if (!found) {
-            Utils.error("Found no commit with that message.");
+            throw Utils.error("Found no commit with that message.");
         }
     }
 
@@ -546,12 +546,16 @@ public class Gitlet implements Serializable {
                 throw Utils.error("File does not exist in that commit.");
             }
         } else if (commit.length() < length) {
+            boolean found = false;
             for (String b : commits) {
                 if (commit.equals(b.substring(0, commit.length()))) {
                     checkout(name, b);
+                    found = true;
                 }
             }
-            throw Utils.error("No commit with that id exists.");
+            if (!found) {
+                throw Utils.error("No commit with that id exists.");
+            }
         }
     }
 
@@ -570,6 +574,7 @@ public class Gitlet implements Serializable {
      * @param branchName the name of the branch
      */
     public void checkoutb(String branchName) {
+        branchName = branchName.replace("/", File.separator);
         if (branchHeads.keySet().contains(branchName)) {
             if (branchName == currentbranch) {
                 throw Utils.error("No need to checkout the current branch.");
@@ -871,7 +876,6 @@ public class Gitlet implements Serializable {
         staged = new Stage();
         String name = merged.gethash();
         branchHeads.put(currentbranch, name);
-        branchHeads.put(bname, name);
         commits.add(name);
         head = name;
         File loc = new File(rootdir + name);

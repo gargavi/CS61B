@@ -1,0 +1,27 @@
+> init
+<<<
++ avi.txt wug.txt
++ iva.txt wug2.txt
++ eve.txt wug3.txt
+> add avi.txt
+<<<
+> add iva.txt
+<<<
+> branch other
+<<<
+> status
+=== Branches ===
+*master
+other
+
+=== Staged Files ===
+avi.txt
+iva.txt
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+eve.txt
+<<<

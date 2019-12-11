@@ -1,0 +1,43 @@
+> init
+<<<
++ avi.txt wug.txt
++ garg.txt wug2.txt
++ kumar.txt wug3.txt
+> add avi.txt
+<<<
+> commit "just avi"
+<<<
+> add garg.txt
+<<<
+> commit "just avi garg"
+<<<
+D UID "[a-f0-9]+"
+D HEADER "commit (${UID})"
+D DATE "Date: \w\w\w \w\w\w \d+ \d\d:\d\d:\d\d \d\d\d\d [-+]\d\d\d\d"
+> log
+===
+${HEADER}
+${DATE}
+just avi garg
+
+===
+${HEADER}
+${DATE}
+just avi
+
+===
+${HEADER}
+${DATE}
+initial commit
+
+<<<*
+# UID of NUMBER 1
+D UID1 "${1}"
+# UID of NUMBER 2
+D UID2 "${2}"
+# UID of initial commit
+D UID3 "${3}"
+
+> find "just avi"
+${UID2}
+<<<

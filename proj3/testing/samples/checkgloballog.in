@@ -1,0 +1,21 @@
+> init
+<<<
++ avi.txt wug.txt
++ garg.txt wug2.txt
++ kumar.txt wug3.txt
+> add avi.txt
+<<<
+> commit "just avi"
+<<<
+> branch other
+<<<
+>checkout other
+<<<
+> add garg.txt
+<<<
+> commit "just avi garg"
+<<<
+> checkout master
+<<<
+> rm-branch other
+<<<

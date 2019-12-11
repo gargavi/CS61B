@@ -1,0 +1,14 @@
+> init
+<<<
++ f.txt wug.txt
++ avi.txt wug2.txt
++ iva.txt wug3.txt
+> add f.txt
+<<<
+> rm f.txt
+<<<
+> rm iva.txt
+No reason to remove the file.
+<<<
+= f.txt wug.txt
+= iva.txt wug3.txt
