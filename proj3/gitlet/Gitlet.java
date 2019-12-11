@@ -630,40 +630,38 @@ public class Gitlet implements Serializable {
         boolean conflict = false;
         for (String c: allfiles) {
             if (givenval.containsKey(c)) {
-                if (ancestorval.get(c) != null
-                        && !givenval.get(c).equals(ancestorval.get(c))) {
-                    if (currentval.get(c).equals(ancestorval.get(c))) {
-                        checkout(c, given.gethash());
-                        staged.add(c);
-                    }
+                if (ancestorval.get(c) != null && !givenval.get(
+                        c).equals(ancestorval.get(c))
+                        && currentval.get(c).equals(ancestorval.get(c))) {
+                    checkout(c, given.gethash());
+                    staged.add(c);
                 } else if (!ancestorval.containsKey(c)
                         && !currentval.containsKey(c)) {
                     checkout(c, given.gethash());
                     staged.add(c);
-                } else if (currentval.containsKey(c)) {
-                    if (!currentval.get(c).equals(givenval.get(c))) {
-                        Blob fir = Utils.readObject(
-                                Utils.join(rootdir, currentval.get(c)),
-                                Blob.class);
-                        Blob sec = Utils.readObject(
-                                Utils.join(rootdir, givenval.get(c)),
-                                Blob.class);
-                        String concat = "<<<<<<< HEAD"
-                                + fir.getSContents() + " in " + currentbranch
-                                + "=======" + sec.getSContents()
-                                + " in " + bname + ">>>>>>>";
-                        Utils.writeContents(new File(c), concat);
-                        add(c);
-                        conflict = true;
-                    }
+                } else if (currentval.containsKey(c)
+                        && !currentval.get(c).equals(givenval.get(c))) {
+                    Blob fir = Utils.readObject(
+                            Utils.join(rootdir, currentval.get(c)),
+                            Blob.class);
+                    Blob sec = Utils.readObject(
+                            Utils.join(rootdir, givenval.get(c)),
+                            Blob.class);
+                    String concat = "<<<<<<< HEAD \n"
+                            + fir.getSContents()
+                            + "=======\n" + sec.getSContents()
+                            + ">>>>>>>";
+                    Utils.writeContents(new File(c), concat);
+                    add(c);
+                    conflict = true;
                 } else if (!currentval.containsKey(c)
                         && !givenval.get(c).equals(ancestorval.get(c))) {
                     Blob sec = Utils.readObject(
                             Utils.join(rootdir, givenval.get(c)),
                             Blob.class);
-                    String concat = "<<<<<<< HEAD in " + currentbranch
-                            + "=======" + sec.getSContents() + " in "
-                            + bname + ">>>>>>>";
+                    String concat = "<<<<<<< HEAD"
+                            + "=======" + sec.getSContents()
+                            + ">>>>>>>";
                     Utils.writeContents(new File(c), concat);
                     add(c);
                     conflict = true;
@@ -698,8 +696,8 @@ public class Gitlet implements Serializable {
                 Utils.join(rootdir, currentval.get(c)),
                 Blob.class);
         String concat = "<<<<<<< HEAD"
-                + fir.getSContents() + " in " + currentbranch
-                + "======= in " + bname + ">>>>>>>";
+                + fir.getSContents()
+                + "======= >>>>>>>";
         Utils.writeContents(new File(c), concat);
         add(c);
     }
@@ -717,7 +715,7 @@ public class Gitlet implements Serializable {
                 Utils.join(rootdir, givenhash), Commit.class);
         Commit current = Utils.readObject(
                 Utils.join(rootdir, currenthash), Commit.class);
-        if (ancestor.gethash() == givenhash) {
+        if (ancestor.gethash().equals(givenhash)) {
             throw Utils.error(
                     "Given branch is an ancestor of the current branch");
         } else if (ancestor.gethash() == currenthash) {
