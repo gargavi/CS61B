@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d5c1202-9927-43ef-9407-035ad6f7b182" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/testing/samples/blanket.in" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testing/samples/checkec.in" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/Commit.class" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Commit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Blob.class" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Blob.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Blob.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Blob.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/blanket.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/blanket.in" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,7 +24,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gitlet/Commit.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
+            <state relative-caret-position="-1100">
               <caret line="48" column="64" selection-start-line="48" selection-start-column="64" selection-end-line="48" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -50,8 +52,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testing/samples/blanket.in">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="21" column="3" lean-forward="true" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
+            <state relative-caret-position="419">
+              <caret line="34" column="13" lean-forward="true" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/testing/samples/checkec.in">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="27" column="1" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -59,14 +70,36 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="657" column="53" lean-forward="true" selection-start-line="657" selection-start-column="53" selection-end-line="657" selection-end-column="53" />
+            <state relative-caret-position="246">
+              <caret line="903" column="20" selection-start-line="903" selection-start-column="20" selection-end-line="903" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#17799#17800#0" expanded="true" />
                 <element signature="e#17835#17836#0" expanded="true" />
+                <element signature="e#29162#29178#0" expanded="true" />
                 <element signature="e#30002#30003#0" expanded="true" />
                 <element signature="e#30029#30030#0" expanded="true" />
+                <element signature="e#31101#31117#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gitlet/Blob.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="23" column="43" lean-forward="true" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1130#1131#0" expanded="true" />
+                <element signature="e#1157#1158#0" expanded="true" />
+                <element signature="e#1262#1263#0" expanded="true" />
+                <element signature="e#1289#1290#0" expanded="true" />
+                <element signature="e#1401#1402#0" expanded="true" />
+                <element signature="e#1430#1431#0" expanded="true" />
+                <element signature="e#1515#1516#0" expanded="true" />
+                <element signature="e#1542#1543#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -99,6 +132,7 @@
       <find>status</find>
       <find>globall</find>
       <find>No changes</find>
+      <find>File Does Not Exist</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -120,7 +154,6 @@
         <option value="$PROJECT_DIR$/testing/src/g.txt" />
         <option value="$PROJECT_DIR$/testing/samples/test14-add-remove-status.in" />
         <option value="$PROJECT_DIR$/testing/samples/test43-criss-cross-merge.in" />
-        <option value="$PROJECT_DIR$/gitlet/Blob.java" />
         <option value="$PROJECT_DIR$/gitlet/UnitTest.java" />
         <option value="$PROJECT_DIR$/gitlet/Stage.java" />
         <option value="$PROJECT_DIR$/gitlet/Main.java" />
@@ -134,7 +167,9 @@
         <option value="$PROJECT_DIR$/testing/samples/resettest.in" />
         <option value="$PROJECT_DIR$/gitlet-design.txt" />
         <option value="$PROJECT_DIR$/gitlet/Commit.java" />
+        <option value="$PROJECT_DIR$/gitlet/Blob.java" />
         <option value="$PROJECT_DIR$/testing/samples/blanket.in" />
+        <option value="$PROJECT_DIR$/testing/samples/checkec.in" />
         <option value="$PROJECT_DIR$/gitlet/Gitlet.java" />
       </list>
     </option>
@@ -426,13 +461,6 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Makefile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.idea/proj3.iml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -599,22 +627,6 @@
     <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.class">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/gitlet/Blob.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="54" column="21" selection-start-line="54" selection-start-column="21" selection-end-line="54" selection-end-column="21" />
-          <folding>
-            <element signature="e#1130#1131#0" expanded="true" />
-            <element signature="e#1157#1158#0" expanded="true" />
-            <element signature="e#1262#1263#0" expanded="true" />
-            <element signature="e#1289#1290#0" expanded="true" />
-            <element signature="e#1401#1402#0" expanded="true" />
-            <element signature="e#1430#1431#0" expanded="true" />
-            <element signature="e#1542#1543#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gitlet-design.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="504">
@@ -622,9 +634,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/testing/src/wug2.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="22" selection-start-column="22" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gitlet/Blob.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="23" column="43" lean-forward="true" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1130#1131#0" expanded="true" />
+            <element signature="e#1157#1158#0" expanded="true" />
+            <element signature="e#1262#1263#0" expanded="true" />
+            <element signature="e#1289#1290#0" expanded="true" />
+            <element signature="e#1401#1402#0" expanded="true" />
+            <element signature="e#1430#1431#0" expanded="true" />
+            <element signature="e#1515#1516#0" expanded="true" />
+            <element signature="e#1542#1543#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing/samples/checkec.in">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="1" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing/samples/blanket.in">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="34" column="13" lean-forward="true" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/gitlet/Commit.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
+        <state relative-caret-position="-1100">
           <caret line="48" column="64" selection-start-line="48" selection-start-column="64" selection-end-line="48" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -648,30 +699,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testing/src/wug2.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="22" selection-start-column="22" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testing/samples/blanket.in">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="21" column="3" lean-forward="true" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="657" column="53" lean-forward="true" selection-start-line="657" selection-start-column="53" selection-end-line="657" selection-end-column="53" />
+        <state relative-caret-position="246">
+          <caret line="903" column="20" selection-start-line="903" selection-start-column="20" selection-end-line="903" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#17799#17800#0" expanded="true" />
             <element signature="e#17835#17836#0" expanded="true" />
+            <element signature="e#29162#29178#0" expanded="true" />
             <element signature="e#30002#30003#0" expanded="true" />
             <element signature="e#30029#30030#0" expanded="true" />
+            <element signature="e#31101#31117#0" expanded="true" />
           </folding>
         </state>
       </provider>

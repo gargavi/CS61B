@@ -25,6 +25,7 @@ public class Blob implements Serializable {
             byteme = Utils.readContents(file);
             word = Utils.readContentsAsString(file);
         } catch (IllegalArgumentException expr) {
+            System.out.println(filename);
             throw Utils.error("File Does Not Exist");
         }
         List<Object> temp = new ArrayList<Object>();

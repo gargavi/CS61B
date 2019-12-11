@@ -33,4 +33,5 @@
 > checkout master
 <<<
 > merge other
+Encountered a merge conflict.
 <<<
