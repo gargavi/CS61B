@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d5c1202-9927-43ef-9407-035ad6f7b182" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/gitlet-design.txt" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet-design.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Commit.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Commit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,11 +17,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/gitlet/Commit.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="124">
+              <caret line="48" column="64" selection-start-line="48" selection-start-column="64" selection-end-line="48" selection-end-column="64" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#4071#4072#0" expanded="true" />
+                <element signature="e#4103#4104#0" expanded="true" />
+                <element signature="e#4223#4224#0" expanded="true" />
+                <element signature="e#4253#4254#0" expanded="true" />
+                <element signature="e#4354#4355#0" expanded="true" />
+                <element signature="e#4384#4385#0" expanded="true" />
+                <element signature="e#4490#4491#0" expanded="true" />
+                <element signature="e#4517#4518#0" expanded="true" />
+                <element signature="e#4615#4616#0" expanded="true" />
+                <element signature="e#4645#4646#0" expanded="true" />
+                <element signature="e#4759#4760#0" expanded="true" />
+                <element signature="e#4794#4795#0" expanded="true" />
+                <element signature="e#4913#4914#0" expanded="true" />
+                <element signature="e#4953#4954#0" expanded="true" />
+                <element signature="e#5076#5077#0" expanded="true" />
+                <element signature="e#5107#5108#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-896">
-              <caret line="295" column="9" selection-start-line="295" selection-start-column="9" selection-end-line="295" selection-end-column="9" />
+            <state relative-caret-position="195">
+              <caret line="319" column="37" lean-forward="true" selection-start-line="319" selection-start-column="37" selection-end-line="319" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#17799#17800#0" expanded="true" />
@@ -33,11 +61,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gitlet-design.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="470">
-              <caret line="61" selection-start-line="61" selection-end-line="61" />
+            <state relative-caret-position="504">
+              <caret line="63" selection-start-line="63" selection-end-line="63" />
             </state>
           </provider>
         </entry>
@@ -58,6 +86,8 @@
       <find>.gitlet</find>
       <find>&quot;.&quot;</find>
       <find>status</find>
+      <find>globall</find>
+      <find>No changes</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -82,7 +112,6 @@
         <option value="$PROJECT_DIR$/gitlet/Blob.java" />
         <option value="$PROJECT_DIR$/gitlet/UnitTest.java" />
         <option value="$PROJECT_DIR$/gitlet/Stage.java" />
-        <option value="$PROJECT_DIR$/gitlet/Commit.java" />
         <option value="$PROJECT_DIR$/gitlet/Main.java" />
         <option value="$PROJECT_DIR$/testing/src/bts.txt" />
         <option value="$PROJECT_DIR$/testing/src/nct.txt" />
@@ -92,8 +121,9 @@
         <option value="$PROJECT_DIR$/testing/src/wug3.txt" />
         <option value="$PROJECT_DIR$/testing/samples/test40-reset.in" />
         <option value="$PROJECT_DIR$/testing/samples/resettest.in" />
-        <option value="$PROJECT_DIR$/gitlet/Gitlet.java" />
         <option value="$PROJECT_DIR$/gitlet-design.txt" />
+        <option value="$PROJECT_DIR$/gitlet/Gitlet.java" />
+        <option value="$PROJECT_DIR$/gitlet/Commit.java" />
       </list>
     </option>
   </component>
@@ -581,10 +611,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/gitlet-design.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="63" selection-start-line="63" selection-end-line="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="319" column="37" lean-forward="true" selection-start-line="319" selection-start-column="37" selection-end-line="319" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#17799#17800#0" expanded="true" />
+            <element signature="e#17835#17836#0" expanded="true" />
+            <element signature="e#30002#30003#0" expanded="true" />
+            <element signature="e#30029#30030#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/gitlet/Commit.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-981">
-          <caret line="92" column="16" lean-forward="true" selection-start-line="92" selection-start-column="16" selection-end-line="92" selection-end-column="16" />
+        <state relative-caret-position="124">
+          <caret line="48" column="64" selection-start-line="48" selection-start-column="64" selection-end-line="48" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#4071#4072#0" expanded="true" />
@@ -604,27 +655,6 @@
             <element signature="e#5076#5077#0" expanded="true" />
             <element signature="e#5107#5108#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-896">
-          <caret line="295" column="9" selection-start-line="295" selection-start-column="9" selection-end-line="295" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#17799#17800#0" expanded="true" />
-            <element signature="e#17835#17836#0" expanded="true" />
-            <element signature="e#30002#30003#0" expanded="true" />
-            <element signature="e#30029#30030#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gitlet-design.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="470">
-          <caret line="61" selection-start-line="61" selection-end-line="61" />
         </state>
       </provider>
     </entry>

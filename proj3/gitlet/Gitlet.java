@@ -315,7 +315,7 @@ public class Gitlet implements Serializable {
                 }
             }
             if (prev.equals(cur)) {
-                throw Utils.error("No Change Added to Commit");
+                throw Utils.error(" No changes added to the commit.");
             } else {
                 staged = new Stage();
                 Commit current = new Commit(message, cur, head, currentbranch);
@@ -360,7 +360,7 @@ public class Gitlet implements Serializable {
             File cur = new File(rootdir + b);
             Commit current = Utils.readObject(cur, Commit.class);
             System.out.println("===");
-            System.out.println("Commit: " + current.gethash());
+            System.out.println("commit " + current.gethash());
             if (current.getSParent() != null) {
                 String first = current.getParent().substring(0, 6);
                 String second = current.getSParent().substring(0, 6);
@@ -378,13 +378,13 @@ public class Gitlet implements Serializable {
         for (String b: commits) {
             File cur = new File(rootdir + b);
             Commit current = Utils.readObject(cur, Commit.class);
-            if (mess == current.getMessage()) {
+            if (mess.equals(current.getMessage())) {
                 System.out.println(b);
                 found = true;
             }
         }
         if (!found) {
-            Utils.error("Found no commit with that message");
+            Utils.error("Found no commit with that message.");
         }
     }
     /** This will print out the status of the entire thing. */
@@ -460,7 +460,7 @@ public class Gitlet implements Serializable {
             if (header.getContents().containsKey(name)) {
                 temp = new File(rootdir + hash);
                 if (!temp.exists()) {
-                    throw Utils.error("No commit with that id exists");
+                    throw Utils.error("No commit with that id exists.");
                 }
                 Blob blob = Utils.readObject(temp, Blob.class);
                 temp = new File(name);
@@ -542,7 +542,7 @@ public class Gitlet implements Serializable {
     public void removebranch(String bname) {
         if (!branches.contains(bname)) {
             throw Utils.error("A branch with that name does not exist.");
-        } else if (bname == currentbranch) {
+        } else if (bname.equals(currentbranch)) {
             throw Utils.error("Cannot remove the current branch.");
         } else {
             branchHeads.remove(bname);
