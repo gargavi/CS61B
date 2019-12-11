@@ -5,7 +5,15 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Stack;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Arrays;
+import java.util.TreeMap;
+import java.util.SortedMap;
+import java.util.List;
 
 /** This will help us manage the git repository and commands we'll be using.
  * @author avigarg
@@ -15,6 +23,8 @@ public class Gitlet implements Serializable {
 
     /** Name of the file. */
     private String rootdir;
+    /** Name of the initial commit. */
+    private String initialcommit;
     /** Nme of the root directory. */
     private String workingdirectory;
     /** Keeps track of untracked files. */
@@ -108,7 +118,7 @@ public class Gitlet implements Serializable {
             }
         } else if (args[0].equals("pull")) {
             if (args.length == 3) {
-                int a = 1;
+                pull(args[1], args[2]);
             } else {
                 throw Utils.error("Incorrect Operands.");
             }
@@ -240,6 +250,7 @@ public class Gitlet implements Serializable {
             head = initName;
             globalances = head;
             branchHeads.put("master", initName);
+            initialcommit = initName;
         }
     }
     /** This is the add function for the gitlet class.
@@ -283,9 +294,7 @@ public class Gitlet implements Serializable {
         } else {
             throw Utils.error("No reason to remove the file");
         }
-
     }
-
     /** Make a new commit and add it to whatever the fuck.
      * @param message the message associated with */
     public void commit(String message) {
@@ -409,9 +418,8 @@ public class Gitlet implements Serializable {
         for (String file: current.getContents().keySet()) {
             if (workingdir.contains(file)) {
                 Blob temp = new Blob(file);
-                if (!temp.gethash().equals(
-                        current.getContents().get(file))
-                        && !staged.contains(file)) {
+                if (!temp.gethash().equals(current.getContents().get(
+                        file)) && !staged.contains(file)) {
                     System.out.println(file + " (modified)");
                 }
             } else {
@@ -763,17 +771,18 @@ public class Gitlet implements Serializable {
         return head;
     }
     /** This is the commit.
-     * @param temp the name of commit to put */
-    public void addcommit(Commit temp) {
+     * @param temp the name of commit to put
+     * @param branch the name of the branch*/
+    public void addcommit(Commit temp, String branch) {
         Commit current = new Commit(
-                temp.getMessage(), temp.getContents(), head, currentbranch);
+                temp.getMessage(), temp.getContents(), head, branch);
         for (String blob: current.getContents().keySet()) {
             Blob temporary = new Blob(blob);
             Utils.writeObject(Utils.join(rootdir
                     + temporary.gethash()), temporary);
         }
         String name = current.gethash();
-        branchHeads.put(currentbranch, name);
+        branchHeads.put(branch, name);
         commits.add(name);
         head = name;
         File loc = new File(rootdir + name);
@@ -809,7 +818,7 @@ public class Gitlet implements Serializable {
         }
         if (location.exists()) {
             Gitlet remoterepo = Utils.readObject(
-                    Utils.join(remoterepos.get(name), rootdir),
+                    Utils.join(remoterepos.get(name), ".gitlet"),
                     Gitlet.class);
             String remotehead = remoterepo.gethead();
             boolean found = false;
@@ -817,7 +826,7 @@ public class Gitlet implements Serializable {
             ArrayList<Commit> tobecommited = new ArrayList<Commit>();
             while (tempo != null) {
                 Commit header = Utils.readObject(
-                        Utils.join(rootdir, tempo), Commit.class);
+                        Utils.join(name, tempo), Commit.class);
                 tobecommited.add(header);
                 if (tempo.equals(remotehead)) {
                     found =  true;
@@ -831,7 +840,7 @@ public class Gitlet implements Serializable {
                 }
                 remoterepo.checkoutb(branch);
                 for (int i = tobecommited.size(); i > 0; i--) {
-                    remoterepo.addcommit(tobecommited.get(i));
+                    remoterepo.addcommit(tobecommited.get(i), currentbranch);
                 }
             } else {
                 throw Utils.error(""
@@ -851,7 +860,23 @@ public class Gitlet implements Serializable {
                     Utils.join(remoterepos.get(remote), ".gitlet"),
                     Gitlet.class);
             if (remoterepo.branches.contains(branch)) {
-                int a = 1;
+                String name = remote + "/" + branch;
+                if (!branches.contains(name)) {
+                    branch(name);
+                    branchHeads.put(name, initialcommit);
+                }
+                Stack<Commit> allcomits = new Stack<Commit>();
+                String remotehead = remoterepo.branchHeads.get(branch);
+                while (!remotehead.equals(branchHeads.get(name))) {
+                    Commit remotecommit = Utils.readObject(
+                            Utils.join(remote, remotehead), Commit.class
+                    );
+                    allcomits.push(remotecommit);
+                    remotehead = remotecommit.getParent();
+                }
+                while (!allcomits.isEmpty()) {
+                    addcommit(allcomits.pop(), name);
+                }
             } else {
                 throw Utils.error(" That remote does not have that branch.");
             }
@@ -859,4 +884,13 @@ public class Gitlet implements Serializable {
             throw Utils.error("Remote directory not found.");
         }
     }
+    /** This is a way to deal with remote and branch.
+     * @param remote the remote name
+     * @param branch the remote branch*/
+    public void pull(String remote, String branch) {
+        fetch(remote, branch);
+        merge(remote + "/" + branch);
+    }
+
+
 }
