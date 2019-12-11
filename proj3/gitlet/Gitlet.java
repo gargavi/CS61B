@@ -5,12 +5,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.List;
-import java.util.HashSet;
-import java.util.Arrays;
+import java.util.*;
 
 /** This will help us manage the git repository and commands we'll be using.
  * @author avigarg
@@ -20,6 +15,8 @@ public class Gitlet implements Serializable {
 
     /** Name of the file. */
     private String rootdir;
+    /** Nme of the root directory. */
+    private String workingdirectory;
     /** Keeps track of untracked files. */
     private ArrayList<String> untracked;
     /** Keeps track of the tracked files at any given point in time. */
@@ -56,6 +53,7 @@ public class Gitlet implements Serializable {
         lowest = Integer.MAX_VALUE;
         remoterepos = new HashMap<String, String>();
         rootdir = ".gitlet" + System.getProperty("file.separator");
+        workingdirectory = System.getProperty("user.dir");
     }
     /** This runs our gitlet.
      * @param args this just has arguments*/
@@ -382,8 +380,14 @@ public class Gitlet implements Serializable {
     }
     /** This will print out the status of the entire thing. */
     public void status() {
+        List<String> workingdir = Utils.plainFilenamesIn(
+                workingdirectory);
+        Commit current = Utils.readObject(
+                Utils.join(rootdir, head), Commit.class);
         System.out.println("=== Branches ===");
-        for (String b: branchHeads.keySet()) {
+        SortedMap<String, String> sorted = new TreeMap<
+                String, String>(branchHeads);
+        for (String b: sorted.keySet()) {
             if (b.equals(currentbranch)) {
                 System.out.println("*" + b);
             } else {
@@ -402,10 +406,39 @@ public class Gitlet implements Serializable {
         }
         System.out.println();
         System.out.println("=== Modifications Not Staged For Commit ===");
+        for (String file: current.getContents().keySet()) {
+            if (workingdir.contains(file)) {
+                Blob temp = new Blob(file);
+                if (!temp.gethash().equals(
+                        current.getContents().get(file))
+                        && !staged.contains(file)) {
+                    System.out.println(file + " (modified)");
+                }
+            } else {
+                if (!untracked.contains(file)) {
+                    System.out.println(file + " (deleted)");
+                }
+            }
+        }
+        for (String file: staged.getContents().keySet()) {
+            if (workingdir.contains(file)) {
+                Blob temp = new Blob(file);
+                if (!temp.gethash().equals(
+                        staged.getContents().get(file))) {
+                    System.out.println(file + " (modified)");
+                }
+            } else {
+                System.out.println(file + " (deleted)");
+            }
+        }
         System.out.println();
         System.out.println("=== Untracked Files ===");
+        for (String b: workingdir) {
+            if (!tracked.contains(b) && !staged.contains(b)) {
+                System.out.println(b);
+            }
+        }
         System.out.println();
-
     }
     /** This will change the file to the file we want.
      * @param name the name of the file
@@ -455,7 +488,8 @@ public class Gitlet implements Serializable {
                 if (!staged.getContents().isEmpty()) {
                     throw Utils.error("You have uncommitted changes.");
                 }
-                List<String> workingdir = Utils.plainFilenamesIn(".");
+                List<String> workingdir = Utils.plainFilenamesIn(
+                        workingdirectory);
                 for (String ter: workingdir) {
                     if (!tracked.contains(ter)
                             && files.keySet().contains(ter)) {
@@ -469,13 +503,14 @@ public class Gitlet implements Serializable {
                         Utils.restrictedDelete(c);
                     }
                 }
+                tracked.clear();
                 for (String b: files.keySet()) {
                     String hash = files.get(b);
                     Blob c = Utils.readObject(
                             new File(rootdir + hash), Blob.class);
                     Utils.writeContents(new File(b), c.getBContents());
+                    tracked.add(b);
                 }
-
                 currentbranch = branchName;
                 head = branchHeads.get(branchName);
                 staged.clear();
@@ -513,7 +548,7 @@ public class Gitlet implements Serializable {
             Commit temp = Utils.readObject(new File(
                     rootdir + commmit), Commit.class);
             HashMap<String, String> files = temp.getContents();
-            List<String> workingdir = Utils.plainFilenamesIn(".");
+            List<String> workingdir = Utils.plainFilenamesIn(workingdirectory);
             for (String ter: workingdir) {
                 if (!tracked.contains(ter) && files.keySet().contains(ter)) {
                     throw Utils.error("There "
@@ -521,11 +556,19 @@ public class Gitlet implements Serializable {
                             + "the way; delete it or add it first.");
                 }
             }
+            for (String ter: workingdir) {
+                if (tracked.contains(ter) && !files.keySet().contains(ter)) {
+                    new File(ter).delete();
+                }
+            }
+            tracked.clear();
             for (String b: files.keySet()) {
+                tracked.add(b);
                 checkout(b, commmit);
             }
+            staged.clear();
+            head = commmit;
             branchHeads.put(currentbranch, commmit);
-
         } else {
             throw Utils.error("No commit with that id exists.");
         }
@@ -724,6 +767,11 @@ public class Gitlet implements Serializable {
     public void addcommit(Commit temp) {
         Commit current = new Commit(
                 temp.getMessage(), temp.getContents(), head, currentbranch);
+        for (String blob: current.getContents().keySet()) {
+            Blob temporary = new Blob(blob);
+            Utils.writeObject(Utils.join(rootdir
+                    + temporary.gethash()), temporary);
+        }
         String name = current.gethash();
         branchHeads.put(currentbranch, name);
         commits.add(name);
