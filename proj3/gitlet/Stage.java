@@ -14,6 +14,8 @@ public class Stage implements Serializable {
 
     /**A mapping from the file name to the hash of that file.*/
     private HashMap<String, String> files;
+    /** private String. */
+    private String rootdir = ".gitlet" + File.separator;
 
     /** Initalizes the stage. */
     public Stage() {
@@ -29,9 +31,9 @@ public class Stage implements Serializable {
             if (files.containsKey(file)) {
                 String old = files.get(file);
                 if (old != blobh) {
-                    File temp = new File(".gitlet/" + old);
+                    File temp = new File(rootdir + old);
                     temp.delete();
-                    File loc = new File(".gitlet/" + blobh);
+                    File loc = new File(rootdir + blobh);
                     Utils.writeObject(loc, blob);
                 }
             } else {

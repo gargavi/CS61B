@@ -40,13 +40,14 @@ public class Commit implements Serializable {
      * @param firstp the first parent
      * @param secondp the second parent
      * @param files the second set of files
-     * @param branch1 the branch it belongs to*/
+     * @param branch1 the branch it belongs to
+     * @param branch2 the branch it belongs to */
 
     public Commit(
             String firstp,
-            String secondp, HashMap<String, String> files, String branch1) {
-
-        message  = "Merged " + secondp + " into " + firstp + ".";
+            String secondp, HashMap<String, String>
+                    files, String branch1, String branch2) {
+        message  = "Merged " + branch2 + " into " + branch1 + ".";
         _parent = firstp;
         _mergeparent = secondp;
         merge = true;
@@ -60,17 +61,13 @@ public class Commit implements Serializable {
     /** Creates a copy of another commit.
      * @param old the other hash value of the commit*/
     public Commit(Commit old) {
-        _parent = old.hashval();
-        merge = false;
-        _mergeparent = null;
-        contents = new HashMap<String, String>();
+        message = old.getMessage();
+        _parent = old.getParent();
+        _mergeparent = old.getSParent();
+        merge = old.merge;
+        contents = old.getContents();
         _branch = old.getbranch();
-        Date temp = new Date();
-        time = temp.toString();
-        HashMap<String, String> prev = old.getContents();
-        for (String b: prev.keySet()) {
-            contents.put(b, prev.get(b));
-        }
+        time = old.getTime();
     }
     /** Put an element in the contents.
      * @param name the name of the thing to put in

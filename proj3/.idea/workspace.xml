@@ -2,20 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d5c1202-9927-43ef-9407-035ad6f7b182" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/testing/samples/checkfind.in" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testing/samples/checkgloballog.in" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testing/samples/checkout.in" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testing/samples/checkstatusec.in" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testing/samples/finderror.in" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testing/samples/rmtest.in" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testing/samples/testshortcommits.in" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testing/samples/teststatus.in" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testing/samples/fixingtests.in" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testing/samples/prelude.inc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testing/samples/setup1.inc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet-design.txt" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet-design.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Blob.class" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Blob.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Blob.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Blob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Commit.class" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Commit.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Commit.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Commit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/samples/blanket.in" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/samples/checkec.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/checkec.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Stage.class" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Stage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Stage.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Stage.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,62 +27,89 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testing/samples/checkec.in">
+        <entry file="file://$PROJECT_DIR$/gitlet/Commit.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="24" column="3" lean-forward="true" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="3" />
+            <state relative-caret-position="-726">
+              <caret line="60" column="41" lean-forward="true" selection-start-line="60" selection-start-column="41" selection-end-line="60" selection-end-column="41" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testing/samples/checkfind.in">
+        <entry file="file://$PROJECT_DIR$/testing/samples/fixingtests.in">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="453">
-              <caret line="42" column="3" lean-forward="true" selection-start-line="42" selection-start-column="3" selection-end-line="42" selection-end-column="3" />
+            <state relative-caret-position="-153">
+              <caret line="54" column="17" lean-forward="true" selection-start-line="54" selection-start-column="17" selection-end-line="54" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gitlet/Stage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
+              <folding>
+                <element signature="e#518#519#0" expanded="true" />
+                <element signature="e#571#572#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/testing/samples/prelude.inc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="30" lean-forward="true" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/testing/samples/checkgloballog.in">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="3" selection-start-line="20" selection-start-column="3" selection-end-line="20" selection-end-column="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testing/samples/reset.in">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="38" column="17" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testing/samples/testshortcommits.in">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="3" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="263">
-              <caret line="454" column="9" lean-forward="true" selection-start-line="454" selection-start-column="9" selection-end-line="454" selection-end-column="9" />
+              <caret line="1009" column="43" lean-forward="true" selection-start-line="1009" selection-start-column="43" selection-end-line="1009" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#18741#18742#0" expanded="true" />
+                <element signature="e#18729#18730#0" expanded="true" />
                 <element signature="e#29162#29178#0" expanded="true" />
-                <element signature="e#30991#30992#0" expanded="true" />
-                <element signature="e#31101#31117#0" expanded="true" />
+                <element signature="e#31020#31021#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gitlet/Blob.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="430">
+              <caret line="43" column="33" lean-forward="true" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/testing/samples/setup1.inc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/testing/samples/setup2.inc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="3" lean-forward="true" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -127,6 +152,9 @@
       <find>No changes</find>
       <find>File Does Not Exist</find>
       <find>checkoutb</find>
+      <find>checkout</find>
+      <find>log</find>
+      <find>PLease</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -138,7 +166,6 @@
         <option value="$PROJECT_DIR$/this.txt" />
         <option value="$PROJECT_DIR$/somet.txt" />
         <option value="$PROJECT_DIR$/hello.txt" />
-        <option value="$PROJECT_DIR$/testing/samples/prelude.inc" />
         <option value="$PROJECT_DIR$/testing/samples/merge-parent2.in" />
         <option value="$PROJECT_DIR$/testing/samples/incorrectcommand.in" />
         <option value="$PROJECT_DIR$/testing/src/wug2.txt" />
@@ -149,7 +176,6 @@
         <option value="$PROJECT_DIR$/testing/samples/test14-add-remove-status.in" />
         <option value="$PROJECT_DIR$/testing/samples/test43-criss-cross-merge.in" />
         <option value="$PROJECT_DIR$/gitlet/UnitTest.java" />
-        <option value="$PROJECT_DIR$/gitlet/Stage.java" />
         <option value="$PROJECT_DIR$/gitlet/Main.java" />
         <option value="$PROJECT_DIR$/testing/src/bts.txt" />
         <option value="$PROJECT_DIR$/testing/src/nct.txt" />
@@ -159,8 +185,6 @@
         <option value="$PROJECT_DIR$/testing/src/wug3.txt" />
         <option value="$PROJECT_DIR$/testing/samples/test40-reset.in" />
         <option value="$PROJECT_DIR$/testing/samples/resettest.in" />
-        <option value="$PROJECT_DIR$/gitlet/Commit.java" />
-        <option value="$PROJECT_DIR$/gitlet/Blob.java" />
         <option value="$PROJECT_DIR$/testing/samples/blanket.in" />
         <option value="$PROJECT_DIR$/testing/samples/testshortcommits.in" />
         <option value="$PROJECT_DIR$/gitlet-design.txt" />
@@ -170,9 +194,16 @@
         <option value="$PROJECT_DIR$/testing/samples/rmtest.in" />
         <option value="$PROJECT_DIR$/testing/samples/checkstatusec.in" />
         <option value="$PROJECT_DIR$/testing/samples/teststatus.in" />
-        <option value="$PROJECT_DIR$/gitlet/Gitlet.java" />
         <option value="$PROJECT_DIR$/testing/samples/checkfind.in" />
         <option value="$PROJECT_DIR$/testing/samples/checkgloballog.in" />
+        <option value="$PROJECT_DIR$/testing/samples/prelude.inc" />
+        <option value="$PROJECT_DIR$/testing/samples/setup1.inc" />
+        <option value="$PROJECT_DIR$/testing/samples/fixingtests.in" />
+        <option value="$PROJECT_DIR$/testing/samples/setup2.inc" />
+        <option value="$PROJECT_DIR$/gitlet/Blob.java" />
+        <option value="$PROJECT_DIR$/gitlet/Stage.java" />
+        <option value="$PROJECT_DIR$/gitlet/Commit.java" />
+        <option value="$PROJECT_DIR$/gitlet/Gitlet.java" />
       </list>
     </option>
   </component>
@@ -469,8 +500,6 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wug.txt" />
-    <entry file="file://$PROJECT_DIR$/testing/samples/prelude.inc" />
     <entry file="file://$PROJECT_DIR$/testing/src/wug.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -481,8 +510,6 @@
     <entry file="file://$PROJECT_DIR$/testing/samples/prelude1.inc" />
     <entry file="file://$PROJECT_DIR$/testing/samples/test14-add-remove-status.in" />
     <entry file="file://$PROJECT_DIR$/testing/samples/blank-status.inc" />
-    <entry file="file://$PROJECT_DIR$/testing/samples/setup1.inc" />
-    <entry file="file://$PROJECT_DIR$/testing/samples/setup2.inc" />
     <entry file="file://$PROJECT_DIR$/testing/samples/test15-remove-add-status.in" />
     <entry file="file://$PROJECT_DIR$/testing/samples/test42-other-err.in" />
     <entry file="file://$PROJECT_DIR$/testing/samples/test17-empty-commit-message-err.in" />
@@ -506,17 +533,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="73" selection-start-column="73" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gitlet/Stage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
-          <caret line="50" column="55" selection-start-line="50" selection-start-column="55" selection-end-line="50" selection-end-column="55" />
-          <folding>
-            <element signature="e#518#519#0" expanded="true" />
-            <element signature="e#571#572#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -609,50 +625,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gitlet/Commit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="48" column="64" selection-start-line="48" selection-start-column="64" selection-end-line="48" selection-end-column="64" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4071#4072#0" expanded="true" />
-            <element signature="e#4103#4104#0" expanded="true" />
-            <element signature="e#4223#4224#0" expanded="true" />
-            <element signature="e#4253#4254#0" expanded="true" />
-            <element signature="e#4354#4355#0" expanded="true" />
-            <element signature="e#4384#4385#0" expanded="true" />
-            <element signature="e#4490#4491#0" expanded="true" />
-            <element signature="e#4517#4518#0" expanded="true" />
-            <element signature="e#4615#4616#0" expanded="true" />
-            <element signature="e#4645#4646#0" expanded="true" />
-            <element signature="e#4759#4760#0" expanded="true" />
-            <element signature="e#4794#4795#0" expanded="true" />
-            <element signature="e#4913#4914#0" expanded="true" />
-            <element signature="e#4953#4954#0" expanded="true" />
-            <element signature="e#5076#5077#0" expanded="true" />
-            <element signature="e#5107#5108#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gitlet/Blob.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="23" column="43" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1130#1131#0" expanded="true" />
-            <element signature="e#1157#1158#0" expanded="true" />
-            <element signature="e#1262#1263#0" expanded="true" />
-            <element signature="e#1289#1290#0" expanded="true" />
-            <element signature="e#1401#1402#0" expanded="true" />
-            <element signature="e#1430#1431#0" expanded="true" />
-            <element signature="e#1515#1516#0" expanded="true" />
-            <element signature="e#1542#1543#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/testing/samples/resettest.in">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -730,20 +702,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="454" column="9" lean-forward="true" selection-start-line="454" selection-start-column="9" selection-end-line="454" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#18741#18742#0" expanded="true" />
-            <element signature="e#29162#29178#0" expanded="true" />
-            <element signature="e#30991#30992#0" expanded="true" />
-            <element signature="e#31101#31117#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/testing/samples/reset.in">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="646">
@@ -761,7 +719,79 @@
     <entry file="file://$PROJECT_DIR$/testing/samples/checkgloballog.in">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
-          <caret line="20" column="3" selection-start-line="20" selection-start-column="3" selection-end-line="20" selection-end-column="3" />
+          <caret line="20" column="3" lean-forward="true" selection-start-line="20" selection-start-column="3" selection-end-line="20" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing/samples/prelude.inc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="30" lean-forward="true" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing/samples/setup1.inc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing/samples/setup2.inc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="3" lean-forward="true" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing/samples/fixingtests.in">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-153">
+          <caret line="54" column="17" lean-forward="true" selection-start-line="54" selection-start-column="17" selection-end-line="54" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gitlet/Blob.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="430">
+          <caret line="43" column="33" lean-forward="true" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gitlet/Stage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
+          <folding>
+            <element signature="e#518#519#0" expanded="true" />
+            <element signature="e#571#572#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gitlet/Commit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-726">
+          <caret line="60" column="41" lean-forward="true" selection-start-line="60" selection-start-column="41" selection-end-line="60" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="263">
+          <caret line="1009" column="43" lean-forward="true" selection-start-line="1009" selection-start-column="43" selection-end-line="1009" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#18729#18730#0" expanded="true" />
+            <element signature="e#29162#29178#0" expanded="true" />
+            <element signature="e#31020#31021#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

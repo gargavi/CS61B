@@ -17,7 +17,7 @@ import java.util.List;
 public class Blob implements Serializable {
 
     /** This initializes the blob class.
-     * @param filename */
+     * @param filename name of file**/
     public Blob(String filename) {
         name = filename;
         try {
@@ -26,6 +26,25 @@ public class Blob implements Serializable {
             word = Utils.readContentsAsString(file);
         } catch (IllegalArgumentException expr) {
             System.out.println(filename);
+            throw Utils.error("File Does Not Exist");
+        }
+        List<Object> temp = new ArrayList<Object>();
+        temp.add(byteme);
+        temp.add(name);
+        temp.add(word);
+        temp.add("Blob");
+        hash = Utils.sha1(temp);
+    }
+    /** This initializes the blob class.
+     * @param filename name of file
+     * @param location name of location**/
+    public Blob(String filename, String location) {
+        name = filename;
+        try {
+            File file = new File(location + filename);
+            byteme = Utils.readContents(file);
+            word = Utils.readContentsAsString(file);
+        } catch (IllegalArgumentException expr) {
             throw Utils.error("File Does Not Exist");
         }
         List<Object> temp = new ArrayList<Object>();

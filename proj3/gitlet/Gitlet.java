@@ -400,8 +400,8 @@ public class Gitlet implements Serializable {
             System.out.println("===");
             System.out.println("commit " + current.gethash());
             if (current.getSParent() != null) {
-                String first = current.getParent().substring(0, 6);
-                String second = current.getSParent().substring(0, 6);
+                String first = current.getParent().substring(0, 7);
+                String second = current.getSParent().substring(0, 7);
                 System.out.println("Merge: " + first + " " + second);
             }
             System.out.println("Date: " + current.getTime());
@@ -532,13 +532,13 @@ public class Gitlet implements Serializable {
         int length = head.length();
         if (commit.length() >= length) {
             File temp = new File(rootdir + commit);
+            if (!temp.exists()) {
+                throw Utils.error("No commit with that id exists.");
+            }
             Commit header = Utils.readObject(temp, Commit.class);
             String hash = header.getContents().get(name);
             if (header.getContents().containsKey(name)) {
                 temp = new File(rootdir + hash);
-                if (!temp.exists()) {
-                    throw Utils.error("No commit with that id exists.");
-                }
                 Blob blob = Utils.readObject(temp, Blob.class);
                 temp = new File(name);
                 Utils.writeContents(temp, blob.getBContents());
@@ -576,7 +576,7 @@ public class Gitlet implements Serializable {
     public void checkoutb(String branchName) {
         branchName = branchName.replace("/", File.separator);
         if (branchHeads.keySet().contains(branchName)) {
-            if (branchName == currentbranch) {
+            if (branchName.equals(currentbranch)) {
                 throw Utils.error("No need to checkout the current branch.");
             } else {
                 File cur = new File(
@@ -764,7 +764,7 @@ public class Gitlet implements Serializable {
                     String concat = "<<<<<<< HEAD \n"
                             + fir.getSContents()
                             + "=======\n" + sec.getSContents()
-                            + ">>>>>>>";
+                            + ">>>>>>>\n";
                     Utils.writeContents(new File(c), concat);
                     add(c);
                     conflict = true;
@@ -773,9 +773,9 @@ public class Gitlet implements Serializable {
                     Blob sec = Utils.readObject(
                             Utils.join(rootdir, givenval.get(c)),
                             Blob.class);
-                    String concat = "<<<<<<< HEAD"
-                            + "=======" + sec.getSContents()
-                            + ">>>>>>>";
+                    String concat = "<<<<<<< HEAD \n"
+                            + "=======\n" + sec.getSContents()
+                            + ">>>>>>>\n";
                     Utils.writeContents(new File(c), concat);
                     add(c);
                     conflict = true;
@@ -812,16 +812,16 @@ public class Gitlet implements Serializable {
         Blob fir = Utils.readObject(
                 Utils.join(rootdir, currentval.get(c)),
                 Blob.class);
-        String concat = "<<<<<<< HEAD"
+        String concat = "<<<<<<< HEAD \n"
                 + fir.getSContents()
-                + "======= >>>>>>>";
+                + "=======\n"
+                + ">>>>>>>\n";
         Utils.writeContents(new File(c), concat);
         add(c);
     }
 
     /**
      * This is the merge function.
-     *
      * @param bname the name of the branch to merge
      */
     public void merge(String bname) {
@@ -872,7 +872,7 @@ public class Gitlet implements Serializable {
             }
         }
         Commit merged = new Commit(
-                current.gethash(), given.gethash(), curr, currentbranch);
+                current.gethash(), given.gethash(), curr, currentbranch, bname);
         staged = new Stage();
         String name = merged.gethash();
         branchHeads.put(currentbranch, name);
@@ -900,22 +900,43 @@ public class Gitlet implements Serializable {
      * @param location the name of the location
      */
     public void addcommit(Commit temp, String branch, String location) {
-        HashMap<String, String> content = new HashMap<String, String>();
         for (String blob : temp.getContents().keySet()) {
-            Blob temporay = new Blob(location + "/"
-                    + temp.getContents().get(blob));
+            Blob temporary = Utils.readObject(Utils.join(
+                    location + File.separator,
+                    temp.getContents().get(blob)), Blob.class);
             Utils.writeObject(Utils.join(rootdir,
-                    temporay.gethash()), temporay);
-            content.put(blob, temporay.gethash());
+                    temp.getContents().get(blob)), temporary);
         }
-        Commit current = new Commit(temp.getMessage(), content,
-                head, branch);
-        String name = current.gethash();
+        String name = temp.gethash();
         branchHeads.put(branch, name);
         commits.add(name);
         head = name;
         File loc = new File(rootdir + name);
-        Utils.writeObject(loc, current);
+        Utils.writeObject(loc, temp);
+    }
+    /**
+     * This is the commit.
+     *
+     * @param temp   the name of commit to put
+     * @param branch the name of the branch
+     * @param location the name of the location
+     */
+    public void addcommit2(Commit temp, String branch, String location) {
+        for (String blob: temp.getContents().keySet()) {
+            Blob temporary = Utils.readObject(
+                    Utils.join(rootdir, temp.getContents().get(blob)),
+                    Blob.class);
+            Utils.writeObject(Utils.join(location + File.separator,
+                    temp.getContents().get(blob)), temporary);
+        }
+        String name = temp.gethash();
+        Gitlet remote = Utils.readObject(Utils.join(
+                location + File.separator, "gitlet"), Gitlet.class);
+        remote.branchHeads.put(branch, name);
+        remote.commits.add(name);
+        remote.head = name;
+        File loc = new File(location + File.separator + name);
+        Utils.writeObject(loc, temp);
     }
 
     /**
@@ -960,7 +981,7 @@ public class Gitlet implements Serializable {
         }
         if (location.exists()) {
             Gitlet remoterepo = Utils.readObject(
-                    Utils.join(remoterepos.get(name), ".gitlet"),
+                    Utils.join(remoterepos.get(name), "gitlet"),
                     Gitlet.class);
             String remotehead = remoterepo.gethead();
             boolean found = false;
@@ -968,7 +989,7 @@ public class Gitlet implements Serializable {
             ArrayList<Commit> tobecommited = new ArrayList<Commit>();
             while (tempo != null) {
                 Commit header = Utils.readObject(
-                        Utils.join(name, tempo), Commit.class);
+                        Utils.join(rootdir, tempo), Commit.class);
                 tobecommited.add(header);
                 if (tempo.equals(remotehead)) {
                     found = true;
@@ -980,11 +1001,15 @@ public class Gitlet implements Serializable {
                 if (!remoterepo.branches.contains(branch)) {
                     remoterepo.branch(branch);
                 }
-                remoterepo.checkoutb(branch);
-                for (int i = tobecommited.size(); i > 0; i--) {
-                    remoterepo.addcommit(
-                            tobecommited.get(i), currentbranch, "");
+                if (!remoterepo.currentbranch.equals(branch)) {
+                    remoterepo.checkoutb(branch);
                 }
+                for (int i = tobecommited.size(); i > 0; i--) {
+                    remoterepo.addcommit2(
+                            tobecommited.get(i - 1), branch, remoterepos.get(
+                                    name));
+                }
+                remoterepo.reset(remoterepo.branchHeads.get(branch));
             } else {
                 throw Utils.error(""
                         + "Please pull down remote changes before pushing.");
