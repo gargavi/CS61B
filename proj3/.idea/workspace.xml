@@ -28,11 +28,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/testing/samples/fixingtests.in">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="19" column="17" lean-forward="true" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
+            <state relative-caret-position="266">
+              <caret line="88" column="14" lean-forward="true" selection-start-line="88" selection-start-column="14" selection-end-line="88" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -59,16 +59,16 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25">
-              <caret line="871" column="33" selection-start-line="871" selection-start-column="33" selection-end-line="871" selection-end-column="33" />
+            <state relative-caret-position="161">
+              <caret line="885" column="5" selection-start-line="885" selection-start-column="5" selection-end-line="885" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#18729#18730#0" expanded="true" />
                 <element signature="e#29162#29178#0" expanded="true" />
-                <element signature="e#31086#31087#0" expanded="true" />
+                <element signature="e#31079#31080#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -192,8 +192,8 @@
         <option value="$PROJECT_DIR$/gitlet/Blob.java" />
         <option value="$PROJECT_DIR$/gitlet/Stage.java" />
         <option value="$PROJECT_DIR$/gitlet/Commit.java" />
-        <option value="$PROJECT_DIR$/testing/samples/fixingtests.in" />
         <option value="$PROJECT_DIR$/gitlet/Gitlet.java" />
+        <option value="$PROJECT_DIR$/testing/samples/fixingtests.in" />
       </list>
     </option>
   </component>
@@ -765,23 +765,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testing/samples/fixingtests.in">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="19" column="17" lean-forward="true" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="871" column="33" selection-start-line="871" selection-start-column="33" selection-end-line="871" selection-end-column="33" />
+        <state relative-caret-position="161">
+          <caret line="885" column="5" selection-start-line="885" selection-start-column="5" selection-end-line="885" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#18729#18730#0" expanded="true" />
             <element signature="e#29162#29178#0" expanded="true" />
-            <element signature="e#31086#31087#0" expanded="true" />
+            <element signature="e#31079#31080#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testing/samples/fixingtests.in">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="88" column="14" lean-forward="true" selection-start-line="88" selection-start-column="14" selection-end-line="88" selection-end-column="14" />
         </state>
       </provider>
     </entry>

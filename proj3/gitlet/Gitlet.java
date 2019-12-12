@@ -884,10 +884,8 @@ public class Gitlet implements Serializable {
         Utils.writeObject(loc, merged);
         untracked.clear();
     }
-
     /**
      * Gets the head.
-     *
      * @return head
      */
     public String gethead() {
