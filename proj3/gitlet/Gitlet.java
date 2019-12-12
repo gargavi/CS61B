@@ -761,7 +761,7 @@ public class Gitlet implements Serializable {
                     Blob sec = Utils.readObject(
                             Utils.join(rootdir, givenval.get(c)),
                             Blob.class);
-                    String concat = "<<<<<<< HEAD \n"
+                    String concat = "<<<<<<< HEAD\n"
                             + fir.getSContents()
                             + "=======\n" + sec.getSContents()
                             + ">>>>>>>\n";
@@ -773,7 +773,7 @@ public class Gitlet implements Serializable {
                     Blob sec = Utils.readObject(
                             Utils.join(rootdir, givenval.get(c)),
                             Blob.class);
-                    String concat = "<<<<<<< HEAD \n"
+                    String concat = "<<<<<<< HEAD\n"
                             + "=======\n" + sec.getSContents()
                             + ">>>>>>>\n";
                     Utils.writeContents(new File(c), concat);
@@ -812,7 +812,7 @@ public class Gitlet implements Serializable {
         Blob fir = Utils.readObject(
                 Utils.join(rootdir, currentval.get(c)),
                 Blob.class);
-        String concat = "<<<<<<< HEAD \n"
+        String concat = "<<<<<<< HEAD\n"
                 + fir.getSContents()
                 + "=======\n"
                 + ">>>>>>>\n";
@@ -865,9 +865,11 @@ public class Gitlet implements Serializable {
         HashMap<String, String> curr = new HashMap<String, String>();
         for (String name : allfiles) {
             if (staging.containsKey(name)) {
+                tracked.add(name);
                 curr.put(name, staging.get(name));
             } else if (!untracked.contains(name)
                     && currentval.containsKey(name)) {
+                tracked.add(name);
                 curr.put(name, currentval.get(name));
             }
         }
