@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d5c1202-9927-43ef-9407-035ad6f7b182" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/samples/fixingtests.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/fixingtests.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/fixingtests.in" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,15 +26,6 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/testing/samples/fixingtests.in">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="88" column="14" lean-forward="true" selection-start-line="88" selection-start-column="14" selection-end-line="88" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -59,16 +52,16 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="885" column="5" selection-start-line="885" selection-start-column="5" selection-end-line="885" selection-end-column="5" />
+            <state relative-caret-position="195">
+              <caret line="946" column="42" lean-forward="true" selection-start-line="946" selection-start-column="42" selection-end-line="946" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#18729#18730#0" expanded="true" />
                 <element signature="e#29162#29178#0" expanded="true" />
-                <element signature="e#31079#31080#0" expanded="true" />
+                <element signature="e#31126#31127#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -192,8 +185,8 @@
         <option value="$PROJECT_DIR$/gitlet/Blob.java" />
         <option value="$PROJECT_DIR$/gitlet/Stage.java" />
         <option value="$PROJECT_DIR$/gitlet/Commit.java" />
-        <option value="$PROJECT_DIR$/gitlet/Gitlet.java" />
         <option value="$PROJECT_DIR$/testing/samples/fixingtests.in" />
+        <option value="$PROJECT_DIR$/gitlet/Gitlet.java" />
       </list>
     </option>
   </component>
@@ -765,23 +758,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/testing/samples/fixingtests.in">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6">
+          <caret line="16" column="4" lean-forward="true" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/gitlet/Gitlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="885" column="5" selection-start-line="885" selection-start-column="5" selection-end-line="885" selection-end-column="5" />
+        <state relative-caret-position="195">
+          <caret line="946" column="42" lean-forward="true" selection-start-line="946" selection-start-column="42" selection-end-line="946" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#18729#18730#0" expanded="true" />
             <element signature="e#29162#29178#0" expanded="true" />
-            <element signature="e#31079#31080#0" expanded="true" />
+            <element signature="e#31126#31127#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testing/samples/fixingtests.in">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="88" column="14" lean-forward="true" selection-start-line="88" selection-start-column="14" selection-end-line="88" selection-end-column="14" />
         </state>
       </provider>
     </entry>

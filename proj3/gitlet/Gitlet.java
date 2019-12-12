@@ -838,8 +838,9 @@ public class Gitlet implements Serializable {
         if (ancestor.gethash().equals(givenhash)) {
             throw Utils.error(
                     "Given branch is an ancestor of the current branch");
-        } else if (ancestor.gethash() == currenthash) {
+        } else if (ancestor.gethash().equals(currenthash)) {
             branchHeads.put(currentbranch, givenhash);
+            throw Utils.error("Current branch fast-forwarded.");
         }
         lowest = Integer.MAX_VALUE;
         globalances = head;
@@ -880,8 +881,7 @@ public class Gitlet implements Serializable {
         branchHeads.put(currentbranch, name);
         commits.add(name);
         head = name;
-        File loc = new File(rootdir + name);
-        Utils.writeObject(loc, merged);
+        Utils.writeObject(Utils.join(rootdir, name), merged);
         untracked.clear();
     }
     /**
@@ -910,7 +910,6 @@ public class Gitlet implements Serializable {
         String name = temp.gethash();
         branchHeads.put(branch, name);
         commits.add(name);
-        head = name;
         File loc = new File(rootdir + name);
         Utils.writeObject(loc, temp);
     }
@@ -937,6 +936,8 @@ public class Gitlet implements Serializable {
         remote.head = name;
         File loc = new File(location + File.separator + name);
         Utils.writeObject(loc, temp);
+        Utils.writeObject(Utils.join(
+                location + File.separator, "gitlet"), remote);
     }
 
     /**
@@ -990,11 +991,11 @@ public class Gitlet implements Serializable {
             while (tempo != null) {
                 Commit header = Utils.readObject(
                         Utils.join(rootdir, tempo), Commit.class);
-                tobecommited.add(header);
                 if (tempo.equals(remotehead)) {
                     found = true;
                     break;
                 }
+                tobecommited.add(header);
                 tempo = header.getParent();
             }
             if (found) {
@@ -1048,12 +1049,9 @@ public class Gitlet implements Serializable {
                     allcomits.push(remotecommit);
                     remotehead = remotecommit.getParent();
                 }
-                String temphead = head;
-                head = branchHeads.get(name);
                 while (!allcomits.isEmpty()) {
                     addcommit(allcomits.pop(), name, remoterepos.get(remote));
                 }
-                head = temphead;
             } else {
                 throw Utils.error(" That remote does not have that branch.");
             }
@@ -1070,6 +1068,6 @@ public class Gitlet implements Serializable {
      */
     public void pull(String remote, String branch) {
         fetch(remote, branch);
-        merge(remote + "/" + branch);
+        merge(remote + File.separator + branch);
     }
 }
