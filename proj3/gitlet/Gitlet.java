@@ -942,7 +942,6 @@ public class Gitlet implements Serializable {
 
     /**
      * Adds a remote branch.
-     *
      * @param name     the name of branch
      * @param location th name of location
      */
